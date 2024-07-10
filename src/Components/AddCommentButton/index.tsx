@@ -10,6 +10,7 @@ import Animated, {
 import {TextInput} from 'react-native-paper';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './Style';
 
 const AddCommentButton = ({handleAddComment}) => {

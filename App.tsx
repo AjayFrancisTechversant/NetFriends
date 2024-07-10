@@ -1,12 +1,14 @@
-import {StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {StyleSheet, PermissionsAndroid} from 'react-native';
+import {NavigationContainer, LinkingOptions} from '@react-navigation/native';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from '@react-navigation/native-stack';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import auth from '@react-native-firebase/auth';
-import {PermissionsAndroid} from 'react-native';
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
 import {PaperProvider} from 'react-native-paper';
 import FlashMessage from 'react-native-flash-message';
@@ -14,30 +16,29 @@ import AuthNativeStack from './src/Services/Navigation/Stacks/AuthNativeStack';
 import {persistor, store} from './src/Redux/Store/Store';
 import HomeTabStack from './src/Services/Navigation/Stacks/HomeTabStack';
 import {ScreenContextProvider} from './src/Contexts/ScreenContext';
-import CommentsScreen from './src/modules/CommentsScreen';
 
-
+// Request permissions for notifications
 PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
 
-const Stack = createNativeStackNavigator();
+type RootStackParamList = {
+  AuthNativeStack: undefined;
+  HomeTabStack: undefined;
+};
 
-const App = () => {
-  // Set an initializing state whilst Firebase connects
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
-  const linking = {
+const App: React.FC = () => {
+  const [initializing, setInitializing] = useState<boolean>(true);
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+
+  const linking: LinkingOptions<RootStackParamList> = {
     prefixes: ['myapp://'],
     config: {
       screens: {
         HomeTabStack: {
           screens: {
-            Me: {
-              path: 'Me',
-            },
-            Listing: {
-              path: 'Listing',
-            },
+            Me: 'Me',
+            Listing: 'Listing',
           },
         },
       },
@@ -45,20 +46,24 @@ const App = () => {
   };
 
   // Handle user state changes
-  function onAuthStateChanged(user) {
+  function onAuthStateChanged(user: FirebaseAuthTypes.User | null) {
     setUser(user);
     if (initializing) setInitializing(false);
   }
 
   const handleGetFCMToken = async () => {
-    const FCMToken = await messaging().getToken();
-    console.log('FCMToken:', FCMToken);
+    try {
+      const FCMToken = await messaging().getToken();
+      console.log('FCMToken:', FCMToken);
+    } catch (error) {
+      console.error('Error getting FCM token:', error);
+    }
   };
 
   useEffect(() => {
-    // handleGetFCMToken()
+    // handleGetFCMToken();
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
+    return () => subscriber(); // Unsubscribe on unmount
   }, []);
 
   if (initializing) return null;
@@ -70,7 +75,7 @@ const App = () => {
           <Stack.Screen
             name="AuthNativeStack"
             component={AuthNativeStack}
-            options={{headerShown: false}}
+            options={{headerShown: false} as NativeStackNavigationOptions}
           />
         </Stack.Navigator>
       ) : (
@@ -78,9 +83,7 @@ const App = () => {
           <Stack.Screen
             name="HomeTabStack"
             component={HomeTabStack}
-            options={{
-              headerShown: false,
-            }}
+            options={{headerShown: false} as NativeStackNavigationOptions}
           />
         </Stack.Navigator>
       )}
@@ -89,12 +92,12 @@ const App = () => {
   );
 };
 
-export default function Main() {
+const Main: React.FC = () => {
   return (
     <ScreenContextProvider>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <GestureHandlerRootView>
+          <GestureHandlerRootView style={{flex: 1}}>
             <PaperProvider>
               <App />
             </PaperProvider>
@@ -103,6 +106,10 @@ export default function Main() {
       </Provider>
     </ScreenContextProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({});
+export default Main;
+
+const styles = StyleSheet.create({
+  // Add styles if needed
+});

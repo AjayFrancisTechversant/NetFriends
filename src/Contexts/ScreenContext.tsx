@@ -1,12 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useContext, useEffect, ReactNode} from 'react';
 import {Dimensions as dim, useWindowDimensions} from 'react-native';
 import {isTablet} from 'react-native-device-info';
+import {ScreenContextType} from '../Types/Types';
 
-const ScreenContext = React.createContext();
+const ScreenContext = React.createContext<ScreenContextType | undefined>(
+  undefined,
+);
 
-export const useScreenContext = () => useContext(ScreenContext);
-export const ScreenContextProvider = ({children}) => {
+export const useScreenContext = (): ScreenContextType => {
+  const context = useContext(ScreenContext);
+  if (!context) {
+    throw new Error(
+      'useScreenContext must be used within a ScreenContextProvider',
+    );
+  }
+  return context;
+};
+
+type ScreenContextProviderProps = {
+  children: ReactNode;
+};
+export const ScreenContextProvider: React.FC<ScreenContextProviderProps> = ({
+  children,
+}) => {
   const dimensions = useWindowDimensions();
   // Get device dimensions
   const initHeight = dim.get('window').height;

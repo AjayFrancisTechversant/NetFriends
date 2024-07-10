@@ -16,7 +16,6 @@ import Notes from '../../../../modules/Notes';
 import ImageUploader from '../../../../modules/ImageUploader';
 import RNElements from '../../../../modules/RNElements';
 import Locator from '../../../../modules/Locator';
-import VL from '../../../../modules/CommentsScreen';
 import DatePicker from '../../../../modules/DatePickerScreen';
 import Calender from '../../../../modules/Calender';
 import i18njs from '../../../../modules/I18njs';

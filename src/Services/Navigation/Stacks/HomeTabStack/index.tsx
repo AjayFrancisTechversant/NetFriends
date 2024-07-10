@@ -10,6 +10,7 @@ import Booking from '../../../../modules/Booking';
 import Gallery from '../../../../modules/Gallery';
 import Me from '../../../../modules/Me';
 import ParallaxCarousel from '../../../../modules/ParallaxCarousel';
+import ColorPalette from '../../../../Assets/Themes/ColorPalette';
 
 const HomeTabStack = () => {
   const HomeTabStack = createBottomTabNavigator();

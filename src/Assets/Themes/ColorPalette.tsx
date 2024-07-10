@@ -1,5 +1,4 @@
-
-export default ColorPalette = {
+const  ColorPalette = {
   green: '#5ead97',
   red: '#bd2424',
   blue: '#2ba0e3',
@@ -20,3 +19,5 @@ export default ColorPalette = {
   transBlack:'rgba(0,0,0,0.7)',
   transparent:'transparent'
 };
+
+export default ColorPalette

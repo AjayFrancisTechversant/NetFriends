@@ -1,4 +1,5 @@
 import {
+  DrawerContentComponentProps,
   DrawerContentScrollView,
   DrawerItem,
   DrawerItemList,
@@ -8,9 +9,10 @@ import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useScreenContext} from '../../Contexts/ScreenContext';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './Style';
 
-const DrawerContents = props => {
+const DrawerContents:React.FC<DrawerContentComponentProps> = props => {
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
