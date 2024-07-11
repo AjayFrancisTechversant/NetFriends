@@ -9,12 +9,12 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import {setStateType} from '../../Types/Types';
 import WeekndAlbumCover from '../../Assets/Images/WeekndAlbumCover.png';
+import {SetStateType} from '../../Types/Types';
 import styles from './Style';
 
 type SpotifyPlayerPropsType = {
-  setPlayerModalVisible: setStateType<boolean>;
+  setPlayerModalVisible: SetStateType<boolean>;
 };
 
 const SpotifyPlayer: React.FC<SpotifyPlayerPropsType> = ({

@@ -6,10 +6,10 @@ import RNFS from 'react-native-fs';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './Style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import {setStateType} from '../../Types/Types';
+import { SetStateType } from '../../Types/Types';
 
 type VideoPlayerComponentPropsType = {
-  setShowVideoPlayerComponent: setStateType<boolean>;
+  setShowVideoPlayerComponent: SetStateType<boolean>;
 };
 
 const VideoPlayerComponent: React.FC<VideoPlayerComponentPropsType> = ({

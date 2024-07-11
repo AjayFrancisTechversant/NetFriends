@@ -2,7 +2,7 @@ import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,7 +11,6 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import OfflineDBFetch from '../../../../modules/OfflineDBFetch';
 import BooksFirestore from '../../../../modules/BooksFirestore';
 import BooksRealtimeDatabase from '../../../../modules/BooksRealtimeDatabase';
-import Listing from '../../../../modules/Listing';
 import Notes from '../../../../modules/Notes';
 import ImageUploader from '../../../../modules/ImageUploader';
 import RNElements from '../../../../modules/RNElements';
@@ -54,7 +53,7 @@ const HomeDrawerStack = () => {
         name="HomeScreen"
         component={HomeScreen}
       />
-       <Drawer.Screen
+      <Drawer.Screen
         options={{
           drawerIcon: () => (
             <Entypo name="video" color={ColorPalette.green} size={20} />
@@ -90,7 +89,7 @@ const HomeDrawerStack = () => {
         name="RN Paper"
         component={RNPaper}
       />
-        <Drawer.Screen
+      <Drawer.Screen
         options={{
           drawerIcon: () => (
             <Entypo name="clipboard" color={ColorPalette.green} size={20} />
@@ -279,7 +278,7 @@ const HomeDrawerStack = () => {
         name="Locator"
         component={Locator}
       />
-      
+
       <Drawer.Screen
         options={{
           drawerIcon: () => (
@@ -292,15 +291,6 @@ const HomeDrawerStack = () => {
         }}
         name="ReanimatedCarousel"
         component={ReanimatedCarousel}
-      />
-      <Drawer.Screen
-        options={{
-          drawerIcon: () => (
-            <Feather name="list" color={ColorPalette.green} size={20} />
-          ),
-        }}
-        name="Listing"
-        component={Listing}
       />
     </Drawer.Navigator>
   );

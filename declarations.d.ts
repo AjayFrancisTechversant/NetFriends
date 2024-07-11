@@ -1,10 +1,19 @@
-// Declaration for PNG files
 declare module '*.png' {
   const value: any;
   export default value;
 }
-
-// Declaration for SVG files
+declare module '*.webp' {
+  const value: any;
+  export default value;
+}
+declare module '*.jpeg' {
+  const value: any;
+  export default value;
+}
+declare module '*.jpg' {
+  const value: any;
+  export default value;
+}
 declare module '*.svg' {
   import {SvgProps} from 'react-native-svg';
   const content: React.FC<SvgProps>;
