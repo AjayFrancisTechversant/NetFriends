@@ -14,11 +14,11 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import { NewCommentDetailsType} from '../../Types/Types';
 import styles from './Style';
 
-type AddCommentButtonProps = {
+type AddCommentButtonPropsType = {
   handleAddComment: (newCommentDetails: NewCommentDetailsType) => void;
 };
 
-const AddCommentButton: React.FC<AddCommentButtonProps> = ({
+const AddCommentButton: React.FC<AddCommentButtonPropsType> = ({
   handleAddComment,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);

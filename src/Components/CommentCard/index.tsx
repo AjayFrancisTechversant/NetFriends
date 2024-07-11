@@ -9,15 +9,30 @@ import Animated, {
 import {TextInput} from 'react-native-paper';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
+import {CommentItemType, updatingMessageDetailsType} from '../../Types/Types';
 import styles from './Style';
 
-const CommentCard = ({item, handleDeleteComment, handleUpdateComment}) => {
+type CommentCardPropsType = {
+  item: CommentItemType;
+  handleDeleteComment: (id: number) => void;
+  handleUpdateComment: (
+    updatingMessageDetails: updatingMessageDetailsType,
+  ) => void;
+};
+
+const CommentCard: React.FC<CommentCardPropsType> = ({
+  item,
+  handleDeleteComment,
+  handleUpdateComment,
+}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [updatingMessageDetails, setUpdatingMessageDetails] = useState({
-    id: null,
-    editedBody: StaticVariables.EMPTY_STRING,
-  });
+  const [updatingMessageDetails, setUpdatingMessageDetails] =
+    useState<updatingMessageDetailsType>({
+      id: undefined,
+      editedBody: StaticVariables.EMPTY_STRING,
+    });
   const modalOpacity = useSharedValue(0);
   const modalScale = useSharedValue(0);
   const openModal = () => {
@@ -45,7 +60,7 @@ const CommentCard = ({item, handleDeleteComment, handleUpdateComment}) => {
       setIsEditing(false);
     }, 300);
   };
-  const handleEditbutton = async id => {
+  const handleEditbutton = async (id: number) => {
     setUpdatingMessageDetails({id, editedBody: item.body});
     setIsEditing(true);
   };
@@ -60,7 +75,9 @@ const CommentCard = ({item, handleDeleteComment, handleUpdateComment}) => {
     });
     setIsEditing(false);
   };
-  const handleDelete = async id => {
+  const handleDelete = async (id: number) => {
+    console.log(typeof id);
+
     await handleDeleteComment(id);
     closeModal();
   };
@@ -94,7 +111,6 @@ const CommentCard = ({item, handleDeleteComment, handleUpdateComment}) => {
               <Text>{item.body}</Text>
             ) : (
               <TextInput
-                style={screenStyles.textInput}
                 value={updatingMessageDetails.editedBody}
                 onChangeText={e =>
                   setUpdatingMessageDetails({

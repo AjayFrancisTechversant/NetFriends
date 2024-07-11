@@ -4,8 +4,18 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import CommentCard from '../CommentCard';
 import styles from './Style';
+import {CommentItemType, updatingMessageDetailsType} from '../../Types/Types';
 
-const CommentsContainer = ({
+type CommentsContainerPropsType = {
+  loading: boolean;
+  comments: CommentItemType[];
+  handleDeleteComment: (id: number) => void;
+  handleUpdateComment: (
+    updatingMessageDetails: updatingMessageDetailsType,
+  ) => void;
+};
+
+const CommentsContainer: React.FC<CommentsContainerPropsType> = ({
   loading,
   comments,
   handleDeleteComment,
@@ -58,7 +68,10 @@ const CommentsContainer = ({
   );
 };
 
-const areEqual = (prevProps, nextProps) => {
+const areEqual = (
+  prevProps: CommentsContainerPropsType,
+  nextProps: CommentsContainerPropsType,
+) => {
   return prevProps.loading === nextProps.loading;
 };
 

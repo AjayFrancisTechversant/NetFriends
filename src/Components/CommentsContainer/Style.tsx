@@ -1,18 +1,23 @@
 import {StyleSheet} from 'react-native';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import {ScreenContextType} from '../../Types/Types';
 
-const styles = (screenContext, width, height) =>
+const styles = (
+  screenContext: ScreenContextType,
+  width: number,
+  height: number,
+) =>
   StyleSheet.create({
     commentsContainer: {
       backgroundColor: ColorPalette.lightOrange,
       height: screenContext.isPortrait ? height * 0.75 : width * 0.55,
       elevation: 5,
       borderRadius: 20,
-      margin: height*0.0250,
+      margin: height * 0.025,
       overflow: 'hidden',
     },
     emptyComponentContainer: {
-      margin: height*0.0376,
+      margin: height * 0.0376,
       alignSelf: 'center',
     },
     emptyComponentText: {
@@ -21,10 +26,10 @@ const styles = (screenContext, width, height) =>
       fontWeight: 'bold',
     },
     loadingContainer: {
-      margin: height*0.0376,
+      margin: height * 0.0376,
       alignSelf: 'center',
     },
-  
+
     separator: {
       height: 5,
     },

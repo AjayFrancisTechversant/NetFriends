@@ -1,9 +1,14 @@
 import {StyleSheet} from 'react-native';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import {ScreenContextType} from '../../Types/Types';
 
-const styles = (screenContext, width, height) =>
+const styles = (
+  screenContext: ScreenContextType,
+  width: number,
+  height: number,
+) =>
   StyleSheet.create({
-    videoPlayerContainer: {flex: 1,backgroundColor:ColorPalette.black},
+    videoPlayerContainer: {flex: 1, backgroundColor: ColorPalette.black},
     VideoPlayer: {
       flex: 1,
     },

@@ -5,8 +5,16 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import RNFS from 'react-native-fs';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './Style';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
+import {setStateType} from '../../Types/Types';
 
-const VideoPlayerComponent = ({setShowVideoPlayerComponent}) => {
+type VideoPlayerComponentPropsType = {
+  setShowVideoPlayerComponent: setStateType<boolean>;
+};
+
+const VideoPlayerComponent: React.FC<VideoPlayerComponentPropsType> = ({
+  setShowVideoPlayerComponent,
+}) => {
   const videoRef = useRef(null);
   const videoLocal = require('../../Assets/Videos/sampleVideo1.mp4');
 

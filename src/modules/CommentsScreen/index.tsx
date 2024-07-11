@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import React, {useEffect} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
-import ColorPalette from '../../Assets/Themes/ColorPalette';
 import ChatIcon from '../../Assets/SVGs/chatIcon.svg';
 import CommentsContainer from '../../Components/CommentsContainer';
 import {
@@ -13,9 +12,11 @@ import {
   updateAComment,
 } from '../../Redux/Slices/CommentsSlice';
 import AddCommentButton from '../../Components/AddCommentButton';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
+import {NewCommentDetailsType} from '../../Types/Types';
 import styles from './Style';
 
-const CommentsScreen = ({navigation}) => {
+const CommentsScreen: React.FC = ({navigation}) => {
   const dispatch = useDispatch();
   const {comments, loading, error} = useSelector(state => state.Comments);
   useEffect(() => {
@@ -29,7 +30,7 @@ const CommentsScreen = ({navigation}) => {
       console.log(error);
     }
   };
-  const handleAddComment = async newCommentDetails => {
+  const handleAddComment = async (newCommentDetails: NewCommentDetailsType) => {
     try {
       await dispatch(addComment(newCommentDetails));
     } catch (error) {
@@ -37,7 +38,7 @@ const CommentsScreen = ({navigation}) => {
     }
   };
 
-  const handleDeleteComment = async id => {
+  const handleDeleteComment = async (id: number) => {
     //newly added comments wont be deleted because those comments are not reflected in the server,delete api is done asynchrounously in the api
     try {
       await dispatch(deleteAComment(id));
@@ -46,6 +47,8 @@ const CommentsScreen = ({navigation}) => {
     }
   };
   const handleUpdateComment = async updatingCommentDetails => {
+    console.log(updatingCommentDetails);
+
     //cannot update a newly added comment bcos its not updated in the server
     try {
       await dispatch(updateAComment(updatingCommentDetails));

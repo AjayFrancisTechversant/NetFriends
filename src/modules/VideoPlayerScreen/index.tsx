@@ -5,7 +5,6 @@ import {
   BackHandler,
   Alert,
   ActivityIndicator,
-  Image,
   ImageBackground,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
@@ -16,13 +15,16 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import VideoPlayerComponent from '../../Components/VideoPlayerComponent';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './Style';
 
 const VideoPlayerScreen = ({navigation}) => {
   const [showVideoPlayerComponent, setShowVideoPlayerComponent] =
     useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
-  const [thumbnailPath, setThumbnailPath] = useState('');
+  const [thumbnailPath, setThumbnailPath] = useState(
+    StaticVariables.EMPTY_STRING,
+  );
 
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -64,7 +66,7 @@ const VideoPlayerScreen = ({navigation}) => {
         await RNFS.downloadFile(options).promise;
         setIsDownloading(false);
       } catch (error) {
-        Alert.alert('Download failed', error.message);
+        Alert.alert('Download failed', (error as Error).message);
         console.log(error);
       }
     }
@@ -72,7 +74,7 @@ const VideoPlayerScreen = ({navigation}) => {
 
   const makeThumbnailFn = async () => {
     try {
-      thumbnail = await createThumbnail({
+      const thumbnail = await createThumbnail({
         url: `file://${RNFS.DocumentDirectoryPath}/sampleVideo.pdf`,
         timeStamp: 4000,
       });
@@ -102,7 +104,6 @@ const VideoPlayerScreen = ({navigation}) => {
                   style={screenStyles.backgroundImageStyle}
                   resizeMode="cover">
                   <TouchableOpacity
-                    style={screenStyles.playIcon}
                     onPress={() => setShowVideoPlayerComponent(true)}>
                     <Ionicons
                       name="play-circle"

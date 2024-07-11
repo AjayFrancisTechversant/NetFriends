@@ -1,7 +1,8 @@
 import {StyleSheet} from 'react-native';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import { ScreenContextType } from '../../Types/Types';
 
-const styles = (screenContext, width, height) =>
+const styles = (screenContext:ScreenContextType, width:number, height:number) =>
   StyleSheet.create({
     canvas: {flex: 1, backgroundColor: ColorPalette.white},
     menuButton: {position: 'absolute', top: height * 0.01, left: height * 0.01},
