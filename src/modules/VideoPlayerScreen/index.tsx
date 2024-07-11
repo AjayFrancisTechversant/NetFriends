@@ -18,7 +18,7 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './Style';
 
-const VideoPlayerScreen = ({navigation}) => {
+const VideoPlayerScreen: React.FC = ({navigation}) => {
   const [showVideoPlayerComponent, setShowVideoPlayerComponent] =
     useState(false);
   const [isDownloading, setIsDownloading] = useState(false);

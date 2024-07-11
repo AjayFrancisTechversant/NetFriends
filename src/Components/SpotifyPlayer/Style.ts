@@ -1,7 +1,12 @@
 import {StyleSheet} from 'react-native';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import {ScreenContextType} from '../../Types/Types';
 
-const styles = (screenContext, width, height) =>
+const styles = (
+  screenContext: ScreenContextType,
+  width: number,
+  height: number,
+) =>
   StyleSheet.create({
     canvas: {backgroundColor: ColorPalette.white},
     linearGradientStyle: {height},
@@ -51,27 +56,31 @@ const styles = (screenContext, width, height) =>
       padding: width * 0.1,
     },
     skel1: {
-      width:screenContext.isPortrait? width * 0.7:height*0.7,
+      width: screenContext.isPortrait ? width * 0.7 : height * 0.7,
       backgroundColor: ColorPalette.green,
-      borderRadius: 10,height:height*0.02
+      borderRadius: 10,
+      height: height * 0.02,
     },
     skel2: {
-      width:screenContext.isPortrait? width * 0.6:height*0.6,
+      width: screenContext.isPortrait ? width * 0.6 : height * 0.6,
       backgroundColor: ColorPalette.green,
       marginTop: width * 0.03,
-      borderRadius: 10,height:height*0.02
+      borderRadius: 10,
+      height: height * 0.02,
     },
     skel3: {
       marginTop: width * 0.03,
-      width:screenContext.isPortrait? width * 0.5:height*0.5,
+      width: screenContext.isPortrait ? width * 0.5 : height * 0.5,
       backgroundColor: ColorPalette.green,
-      borderRadius: 10,height:height*0.02
+      borderRadius: 10,
+      height: height * 0.02,
     },
     skel4: {
       marginTop: width * 0.03,
-      width:screenContext.isPortrait? width * 0.4:height*0.4,      backgroundColor: ColorPalette.green,
+      width: screenContext.isPortrait ? width * 0.4 : height * 0.4,
+      backgroundColor: ColorPalette.green,
       borderRadius: 10,
-      height:height*0.02
+      height: height * 0.02,
     },
   });
 export default styles;

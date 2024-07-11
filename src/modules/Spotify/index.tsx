@@ -2,11 +2,11 @@ import {View, Text, Modal, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import SpotifyPlayer from '../../Components/SpotifyPlayer';
-import styles from './Style';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import styles from './Style';
 
-const Spotify = ({navigation}) => {
+const Spotify:React.FC = ({navigation}) => {
   const [playermodalVisible, setPlayerModalVisible] = useState(false);
   const screenContext = useScreenContext();
   const screenStyles = styles(
