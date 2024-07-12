@@ -21,6 +21,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
 
 import TwoGreenCups from '../../Assets/Images/2GreenCups.jpg';
+import { useNavigation } from '@react-navigation/native';
 
 function clamp(val:number, min:number, max:number) {
   return Math.min(Math.max(val, min), max);
@@ -28,13 +29,15 @@ function clamp(val:number, min:number, max:number) {
 const AnimatedImageBackground =
   Animated.createAnimatedComponent(ImageBackground);
 
-const Booking = ({navigation}) => {
+const Booking:React.FC = () => {
+  const navigation=useNavigation()
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
     screenContext[screenContext.isPortrait ? 'windowWidth' : 'windowHeight'],
     screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
   );
+console.log(navigation);
 
   const handleSliderSubmit = () => {
     navigation.navigate(HomeScreen);

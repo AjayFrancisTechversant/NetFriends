@@ -16,8 +16,10 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './style';
+import { useNavigation } from '@react-navigation/native';
 
-const LoginPage: React.FC = ({navigation}) => {
+const LoginPage: React.FC = () => {
+  const navigation=useNavigation()
   const [userData, setUserData] = useState({
     email: StaticVariables.EMPTY_STRING,
     password: StaticVariables.EMPTY_STRING,

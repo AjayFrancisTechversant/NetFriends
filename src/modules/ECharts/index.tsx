@@ -24,7 +24,7 @@ echarts.use([
   ToolboxComponent,
 ]);
 
-const Echarts: React.FC = ({navigation}) => {
+const Echarts: React.FC = () => {
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -40,7 +40,7 @@ const Echarts: React.FC = ({navigation}) => {
         <EChartLineComponent />
       </View>
       <View style={screenStyles.menuButton}>
-        <MenuDrawerButton navigation={navigation} color={ColorPalette.green} />
+        <MenuDrawerButton color={ColorPalette.green} />
       </View>
     </View>
   );

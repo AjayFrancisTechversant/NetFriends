@@ -4,11 +4,11 @@ import {Canvas, Group, Circle} from '@shopify/react-native-skia';
 import {useSharedValue, withDecay} from 'react-native-reanimated';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './style';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import styles from './style';
 
-const SkiaDrag: React.FC = ({navigation}) => {
+const SkiaDrag: React.FC = () => {
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -42,7 +42,7 @@ const SkiaDrag: React.FC = ({navigation}) => {
   return (
     <View style={screenStyles.canvas}>
       <View style={screenStyles.MenuButton}>
-        <MenuDrawerButton color={ColorPalette.green} navigation={navigation} />
+        <MenuDrawerButton color={ColorPalette.green}/>
       </View>
       <View style={screenStyles.canvasSkiaContainer}>
         <GestureDetector gesture={gestureDrag}>

@@ -14,7 +14,7 @@ import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './style';
 
-const PDFReader: React.FC = ({navigation}) => {
+const PDFReader: React.FC = () => {
   const [isPDFOpen, setIsPDFOpen] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadPercentage, setDownloadPercentage] = useState(0);
@@ -66,10 +66,7 @@ const PDFReader: React.FC = ({navigation}) => {
       {!isPDFOpen ? (
         <View>
           <View style={screenStyles.menuButton}>
-            <MenuDrawerButton
-              navigation={navigation}
-              color={ColorPalette.green}
-            />
+            <MenuDrawerButton color={ColorPalette.green} />
           </View>
           <TouchableOpacity
             style={screenStyles.OpenPdfButton}

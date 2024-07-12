@@ -9,7 +9,7 @@ import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 
-const OfflineDBFetch: React.FC = ({navigation}) => {
+const OfflineDBFetch: React.FC = () => {
   const [fetchedUsersArray, setFetchedUsersArray] = useState(
     StaticVariables.EMPTY_ARRAY,
   );
@@ -58,7 +58,7 @@ const OfflineDBFetch: React.FC = ({navigation}) => {
   );
   return (
     <View>
-      <MenuDrawerButton navigation={navigation} color={ColorPalette.green} />
+      <MenuDrawerButton color={ColorPalette.green} />
       <FlatList
         ListEmptyComponent={<Text>No Data</Text>}
         data={fetchedUsersArray}

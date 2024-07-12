@@ -7,7 +7,7 @@ import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './style';
 
-const ClipBoard: React.FC = ({navigation}) => {
+const ClipBoard: React.FC = () => {
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -30,7 +30,7 @@ const ClipBoard: React.FC = ({navigation}) => {
   return (
     <ScrollView style={{flex: 1}}>
       <View style={screenStyles.menuButton}>
-        <MenuDrawerButton navigation={navigation} color={ColorPalette.green} />
+        <MenuDrawerButton color={ColorPalette.green} />
       </View>
       <View style={screenStyles.container}>
         <TextInput

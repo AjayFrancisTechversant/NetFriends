@@ -11,8 +11,8 @@ import {
   SkiaChart,
   SkiaChartProps,
 } from '@wuba/react-native-echarts';
-import styles from './style';
 import {useScreenContext} from '../../Contexts/ScreenContext';
+import styles from './style';
 
 echarts.use([
   SVGRenderer,

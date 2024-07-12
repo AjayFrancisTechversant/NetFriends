@@ -6,7 +6,7 @@ import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './style';
 
-const Spotify:React.FC = ({navigation}) => {
+const Spotify: React.FC = () => {
   const [playermodalVisible, setPlayerModalVisible] = useState(false);
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -16,11 +16,13 @@ const Spotify:React.FC = ({navigation}) => {
   );
   return (
     <View style={screenStyles.canvas}>
-      <MenuDrawerButton navigation={navigation} color={ColorPalette.green} />
-      <TouchableOpacity onPress={()=>setPlayerModalVisible(true)} style={screenStyles.openPlayerButton}>
+      <MenuDrawerButton color={ColorPalette.green} />
+      <TouchableOpacity
+        onPress={() => setPlayerModalVisible(true)}
+        style={screenStyles.openPlayerButton}>
         <Text>Open Player</Text>
       </TouchableOpacity>
-      <Modal animationType='slide' visible={playermodalVisible}>
+      <Modal animationType="slide" visible={playermodalVisible}>
         <SpotifyPlayer setPlayerModalVisible={setPlayerModalVisible} />
       </Modal>
     </View>

@@ -19,7 +19,7 @@ const config = {
   },
 };
 
-const GithubAuthButton = () => {
+const GithubAuthButton:React.FC = () => {
   const loginWithGitHub = async () => {
     try {
       const {accessToken} = await authorize(config);

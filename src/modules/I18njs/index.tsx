@@ -8,7 +8,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import {translations} from '../../Assets/Translations/Translations';
 import styles from './style';
 
-const I18njs = () => {
+const I18njs:React.FC = () => {
   const i18n = new I18n(translations);
   const [languageMenuVisible, setLanguageMenuVisible] = useState(false);
   const openLanguageMenu = () => setLanguageMenuVisible(true);

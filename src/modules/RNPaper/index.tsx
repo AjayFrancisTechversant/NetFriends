@@ -27,8 +27,8 @@ import {ToggleButton} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './style';
 import {NativeEventType} from '../../Types/Types';
+import styles from './style';
 
 const RNPaper: React.FC = () => {
   const [segmentedButtonValue, setSegmentedButtonValue] = useState('Walk'); //segmentedButton

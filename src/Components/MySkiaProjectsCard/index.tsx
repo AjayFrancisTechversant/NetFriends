@@ -2,8 +2,8 @@ import {View, Image, Modal, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import styles from './style';
 
 type MySkiaProjectsCardPropsType = {
   item: string;

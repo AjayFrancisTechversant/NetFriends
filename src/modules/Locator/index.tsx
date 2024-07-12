@@ -21,7 +21,7 @@ import StaticVariables from '../../Preferences/StaticVariables';
 import map_bg1 from '../../Assets/Images/map-bg1.jpg';
 import styles from './style';
 
-const Locator: React.FC = ({navigation}) => {
+const Locator: React.FC = () => {
   const [isLocationFetched, setIsLocationFetched] = useState(false);
   const [location, setLocation] = useState<Location | null>(null);
   const [isLocationFetchingLoading, setIsLocationFetchingLoading] =
@@ -84,10 +84,7 @@ const Locator: React.FC = ({navigation}) => {
         style={screenStyles.bgImage}>
         <Text style={screenStyles.mainHeading}>Locator</Text>
         <View style={screenStyles.MenuDrawerButton}>
-          <MenuDrawerButton
-            navigation={navigation}
-            color={ColorPalette.white}
-          />
+          <MenuDrawerButton color={ColorPalette.white} />
         </View>
         {isLocationFetched && location ? (
           <View style={[screenStyles.BlurViewContainer]}>

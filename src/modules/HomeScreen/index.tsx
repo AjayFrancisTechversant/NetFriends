@@ -22,7 +22,7 @@ import {NativeEventType, UserType} from '../../Types/Types';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import styles from './style';
 
-const HomeScreen: React.FC = ({navigation}) => {
+const HomeScreen: React.FC = () => {
   const [searchText, setSearchText] = useState(StaticVariables.EMPTY_STRING);
   const [searchResults, setSearchResults] = useState(
     StaticVariables.EMPTY_ARRAY,
@@ -129,10 +129,7 @@ const HomeScreen: React.FC = ({navigation}) => {
                 style={screenStyles.headerContainer}>
                 <View style={screenStyles.headerContents}>
                   <View style={screenStyles.menuDrawerButtonContainer}>
-                    <MenuDrawerButton
-                      navigation={navigation}
-                      color={ColorPalette.white}
-                    />
+                    <MenuDrawerButton color={ColorPalette.white} />
                   </View>
                   <View style={screenStyles.logoContainer}>
                     <TouchableOpacity>

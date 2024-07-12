@@ -5,8 +5,10 @@ import {PieChart, BarChart} from 'react-native-gifted-charts';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './style';
+import {useNavigation} from '@react-navigation/native';
 
-const GiftedCharts = ({navigation}) => {
+const GiftedCharts = () => {
+  const navigation = useNavigation();
   const pieData = [
     {value: 37, label: 'ETH', color: ColorPalette.pink},
     {value: 44, label: 'BTC', color: ColorPalette.violet},

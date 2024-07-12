@@ -5,10 +5,12 @@ import {TextInput} from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
-import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import styles from './style';
+import { useNavigation } from '@react-navigation/native';
 
-const RegisterPage: React.FC = ({navigation}) => {
+const RegisterPage: React.FC = () => {
+  const navigation=useNavigation()
   const [userData, setUserData] = useState({
     email: StaticVariables.EMPTY_STRING,
     password: StaticVariables.EMPTY_STRING,

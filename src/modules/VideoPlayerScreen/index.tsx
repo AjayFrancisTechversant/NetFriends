@@ -18,7 +18,7 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './style';
 
-const VideoPlayerScreen: React.FC = ({navigation}) => {
+const VideoPlayerScreen: React.FC = () => {
   const [showVideoPlayerComponent, setShowVideoPlayerComponent] =
     useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -88,10 +88,7 @@ const VideoPlayerScreen: React.FC = ({navigation}) => {
       {!showVideoPlayerComponent ? (
         <View>
           <View style={screenStyles.menuButton}>
-            <MenuDrawerButton
-              navigation={navigation}
-              color={ColorPalette.green}
-            />
+            <MenuDrawerButton color={ColorPalette.green} />
           </View>
           <Text style={screenStyles.heading}>VideoPlayer</Text>
           <View style={screenStyles.thumbnailButtonContainer}>

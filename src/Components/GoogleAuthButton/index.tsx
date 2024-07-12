@@ -6,7 +6,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import googleIcon from '../../Assets/Images/google-icon.png'
 import styles from './style';
 
-const GoogleAuthButton = () => {
+const GoogleAuthButton:React.FC = () => {
   GoogleSignin.configure({
     webClientId:
       '300284315367-ugvrjt2k4dkppuce83etsibl6cpkc4ul.apps.googleusercontent.com',

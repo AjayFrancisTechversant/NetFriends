@@ -6,7 +6,7 @@ import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './style';
 
-const WebViewScreen = ({navigation}) => {
+const WebViewScreen = () => {
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -15,8 +15,8 @@ const WebViewScreen = ({navigation}) => {
   );
   return (
     <View style={screenStyles.canvas}>
-      <MenuDrawerButton navigation={navigation} color={ColorPalette.green} />
-      <WebView source={{ uri: 'https://www.google.co.in' }} style={{ flex: 1 }} />
+      <MenuDrawerButton color={ColorPalette.green} />
+      <WebView source={{uri: 'https://www.google.co.in'}} style={{flex: 1}} />
     </View>
   );
 };

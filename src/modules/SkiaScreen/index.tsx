@@ -2,9 +2,7 @@ import {View, Text, Alert} from 'react-native';
 import React, {useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import ImagePicker, {
-  Image,
-} from 'react-native-image-crop-picker';
+import ImagePicker, {Image} from 'react-native-image-crop-picker';
 import {Skia, SkImage} from '@shopify/react-native-skia';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
@@ -13,7 +11,7 @@ import SkiaEditor from '../../Components/SkiaEditor';
 import MySkiaProjects from '../../Components/MySkiaProjects';
 import styles from './style';
 
-const SkiaScreen: React.FC = ({navigation}) => {
+const SkiaScreen: React.FC = () => {
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -60,10 +58,7 @@ const SkiaScreen: React.FC = ({navigation}) => {
         <View>
           <Text style={screenStyles.heading}>Skia Editor</Text>
           <View style={screenStyles.menuButton}>
-            <MenuDrawerButton
-              navigation={navigation}
-              color={ColorPalette.green}
-            />
+            <MenuDrawerButton color={ColorPalette.green} />
           </View>
           <View style={screenStyles.plusButtonAndMyProjectsButtonContainer}>
             <View style={screenStyles.plusButtonImageContainer}>

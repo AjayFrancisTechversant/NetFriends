@@ -19,7 +19,7 @@ import {
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import styles from './style';
 
-const CommentsScreen: React.FC = ({navigation}) => {
+const CommentsScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const {comments, loading, error} = useAppSelector(state => state.Comments);
   useEffect(() => {
@@ -69,10 +69,7 @@ const CommentsScreen: React.FC = ({navigation}) => {
   return (
     <View style={screenStyles.canvas}>
       <View style={screenStyles.MenuDrawerButton}>
-        <MenuDrawerButton
-          navigation={navigation}
-          color={ColorPalette.lightOrange}
-        />
+        <MenuDrawerButton color={ColorPalette.lightOrange} />
       </View>
       <View style={screenStyles.plusButtonContainer}>
         <AddCommentButton handleAddComment={handleAddComment} />
