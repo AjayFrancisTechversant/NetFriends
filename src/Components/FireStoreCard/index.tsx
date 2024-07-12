@@ -7,8 +7,23 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './Style';
+import {Booktype} from '../../modules/BooksFirestore';
+import {SetStateType} from '../../Types/Types';
 
-const FireStoreCard = ({
+interface FireStoreCardPropsType {
+  item: {desc: string; key: string; title: string};
+  handleDelete: (id: string) => void;
+  handleEditButton: (book: Booktype) => void;
+  setModalVisible: SetStateType<boolean>;
+  modalVisible: boolean;
+  handleUpdate: () => void;
+  setTitle: SetStateType<string>;
+  setDesc: SetStateType<string>;
+  title: string;
+  desc: string;
+}
+
+const FireStoreCard: React.FC<FireStoreCardPropsType> = ({
   item,
   handleDelete,
   handleEditButton,
@@ -56,7 +71,6 @@ const FireStoreCard = ({
             <Text style={screenStyles.modalTitle}>Edit Book</Text>
             <TextInput
               value={title}
-              style={screenStyles.textInput}
               onChangeText={setTitle}
               mode="outlined"
               label="Title"
@@ -68,7 +82,6 @@ const FireStoreCard = ({
             />
             <TextInput
               value={desc}
-              style={screenStyles.textInput}
               onChangeText={setDesc}
               mode="outlined"
               label="Description"
@@ -79,7 +92,7 @@ const FireStoreCard = ({
               activeOutlineColor={ColorPalette.green}
             />
             <View style={screenStyles.flexRow}>
-              <TouchableOpacity onPress={() => handleUpdate(item.key)}>
+              <TouchableOpacity onPress={() => handleUpdate()}>
                 <AntDesign size={30} color={ColorPalette.green} name="check" />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleClose()}>

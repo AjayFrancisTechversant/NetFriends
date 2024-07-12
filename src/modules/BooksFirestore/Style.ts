@@ -1,7 +1,8 @@
 import {StyleSheet} from 'react-native';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import { ScreenContextType } from '../../Types/Types';
 
-const styles = (screenContext, width, height) =>
+const styles = (screenContext:ScreenContextType, width:number, height:number) =>
   StyleSheet.create({
     canvas: {
       backgroundColor: 'white',
@@ -51,7 +52,7 @@ const styles = (screenContext, width, height) =>
       borderColor: ColorPalette.green,
       borderWidth: 0.4,
     },
-    cardTitle: {
+    cardTittle: {
       fontSize: 30,
     },
     modalContainer: {
@@ -67,15 +68,6 @@ const styles = (screenContext, width, height) =>
       padding: height*0.0125,
       backgroundColor: 'white',
       elevation: 30,
-    },
-    modalTitle: {
-      fontSize: 20,
-      alignSelf: 'center',
-    },
-    flexRow: {
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
-      marginTop: height*0.0125,
     },
   });
 export default styles;

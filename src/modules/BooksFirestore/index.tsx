@@ -5,13 +5,22 @@ import firestore from '@react-native-firebase/firestore';
 import FireStoreCard from '../../Components/FireStoreCard';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './Style';
 
-const BooksFirestore = () => {
-  const [title, setTitle] = useState(StaticVariables.EMPTY_STRING);
-  const [desc, setDesc] = useState(StaticVariables.EMPTY_STRING);
-  const [allBooks, setAllBooks] = useState(StaticVariables.EMPTY_ARRAY);
-  const [editId, setEditId] = useState(null);
+export type Booktype = {
+  title: string;
+  desc: string;
+  key: string;
+};
+
+const BooksFirestore: React.FC = () => {
+  const [title, setTitle] = useState<string>(StaticVariables.EMPTY_STRING);
+  const [desc, setDesc] = useState<string>(StaticVariables.EMPTY_STRING);
+  const [allBooks, setAllBooks] = useState<Booktype[]>(
+    StaticVariables.EMPTY_ARRAY,
+  );
+  const [editId, setEditId] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -41,11 +50,13 @@ const BooksFirestore = () => {
     const subscriber = firestore()
       .collection('Books')
       .onSnapshot(querySnapshot => {
-        const books = StaticVariables.EMPTY_ARRAY;
+        const books: Booktype[] = [];
         querySnapshot.forEach(documentSnapshot => {
+          const data = documentSnapshot.data();
           books.push({
-            ...documentSnapshot.data(),
             key: documentSnapshot.id,
+            title: data.title,
+            desc: data.desc,
           });
         });
         setAllBooks(books);
@@ -53,11 +64,11 @@ const BooksFirestore = () => {
     return () => subscriber();
   }, []);
 
-  const handleDelete = id => {
+  const handleDelete = (id: string) => {
     firestore().collection('Books').doc(id).delete();
   };
 
-  const handleEditButton = book => {
+  const handleEditButton = (book: Booktype) => {
     setTitle(book.title);
     setDesc(book.desc);
     setEditId(book.key);

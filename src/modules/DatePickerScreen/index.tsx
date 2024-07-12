@@ -7,13 +7,12 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {TextInput} from 'react-native-paper';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './Style';
 
-const DatePickerScreen = () => {
+const DatePickerScreen: React.FC = () => {
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState(StaticVariables.EMPTY_STRING);
+  const [mode, setMode] = useState<'date' | 'time' | 'datetime' | undefined>();
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,

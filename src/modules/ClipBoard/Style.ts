@@ -1,11 +1,16 @@
 import {StyleSheet} from 'react-native';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import {ScreenContextType} from '../../Types/Types';
 
-const styles = (screenContext, width, height) =>
+const styles = (
+  screenContext: ScreenContextType,
+  width: number,
+  height: number,
+) =>
   StyleSheet.create({
     container: {
       flex: 1,
-   alignSelf:'center'
+      alignSelf: 'center',
     },
     menuButton: {
       position: 'absolute',
@@ -16,7 +21,12 @@ const styles = (screenContext, width, height) =>
       marginTop: 10,
       color: 'red',
     },
-    button:{backgroundColor:ColorPalette.green,borderRadius:10,padding:10,margin:10},
-    textInput:{width:width*0.5}
+    button: {
+      backgroundColor: ColorPalette.green,
+      borderRadius: 10,
+      padding: 10,
+      margin: 10,
+    },
+    textInput: {width: width * 0.5},
   });
 export default styles;

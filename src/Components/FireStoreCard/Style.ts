@@ -1,7 +1,8 @@
 import {StyleSheet} from 'react-native';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import { ScreenContextType } from '../../Types/Types';
 
-const styles = (screenContext, width, height) =>
+const styles = (screenContext:ScreenContextType, width:number, height:number) =>
   StyleSheet.create({
     card: {
       flexDirection: 'row',
@@ -22,14 +23,14 @@ const styles = (screenContext, width, height) =>
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: 'rgb(0,0,0,0.7',
+      backgroundColor: ColorPalette.transBlack,
     },
     modal: {
       height: 200,
       width: 300,
       borderRadius: 20,
       padding: height*0.0125,
-      backgroundColor: 'white',
+      backgroundColor: ColorPalette.white,
       elevation: 30,
     },
     modalTitle: {

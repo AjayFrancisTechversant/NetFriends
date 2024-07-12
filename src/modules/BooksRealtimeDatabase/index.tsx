@@ -16,12 +16,18 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './Style';
 
-const BooksRealtimeDatabase = () => {
-  const [title, setTitle] = useState(StaticVariables.EMPTY_STRING);
-  const [desc, setDesc] = useState(StaticVariables.EMPTY_STRING);
-  const [books, setBooks] = useState(StaticVariables.EMPTY_ARRAY);
+type BookType = {
+  key: string;
+  title: string;
+  desc: string;
+};
+
+const BooksRealtimeDatabase: React.FC = () => {
+  const [title, setTitle] = useState<string>(StaticVariables.EMPTY_STRING);
+  const [desc, setDesc] = useState<string>(StaticVariables.EMPTY_STRING);
+  const [books, setBooks] = useState<BookType[]>(StaticVariables.EMPTY_ARRAY);
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedBook, setSelectedBook] = useState(null);
+  const [selectedBook, setSelectedBook] = useState<BookType | null>(null);
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -59,7 +65,7 @@ const BooksRealtimeDatabase = () => {
     }
   };
 
-  const handleDelete = async key => {
+  const handleDelete = async (key: string) => {
     try {
       await database()
         .ref('/todo/' + key)
@@ -69,13 +75,13 @@ const BooksRealtimeDatabase = () => {
     }
   };
 
-  const openEditModal = book => {
+  const openEditModal = (book: BookType) => {
     setSelectedBook(book);
     setModalVisible(true);
   };
 
   const handleEdit = async () => {
-    if (selectedBook.title) {
+    if (selectedBook?.title) {
       try {
         await database()
           .ref('/todo/' + selectedBook.key)
@@ -138,10 +144,10 @@ const BooksRealtimeDatabase = () => {
           renderItem={({item}) => (
             <View style={screenStyles.card}>
               <View>
-                <Text style={screenStyles.itemTitle}>{item.title}</Text>
-                <Text style={screenStyles.itemDesc}>{item.desc}</Text>
+                <Text>{item.title}</Text>
+                <Text>{item.desc}</Text>
               </View>
-              <View style={screenStyles.iconContainer}>
+              <View>
                 <TouchableOpacity onPress={() => handleDelete(item.key)}>
                   <MaterialIcons
                     name="delete"

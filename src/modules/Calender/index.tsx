@@ -1,15 +1,17 @@
 import {View, Text, ScrollView} from 'react-native';
 import React, {useCallback, useMemo, useState} from 'react';
-import {Calendar, CalendarUtils} from 'react-native-calendars';
+import {Calendar, CalendarUtils, DateData} from 'react-native-calendars';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './Style';
 
 const CURRENT_DATE = CalendarUtils.getCalendarDateString(Date());
 
-const Calender = () => {
-  const [selected, setSelected] = useState();
+const Calender: React.FC = () => {
+  const [selected, setSelected] = useState(CURRENT_DATE);
 
-  const onDayPress = useCallback(day => {
+  const onDayPress = useCallback((day: DateData) => {
+    console.log(day);
+
     setSelected(day.dateString);
   }, []);
 

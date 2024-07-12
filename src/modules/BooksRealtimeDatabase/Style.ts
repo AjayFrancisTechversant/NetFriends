@@ -1,7 +1,12 @@
 import {StyleSheet} from 'react-native';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import {ScreenContextType} from '../../Types/Types';
 
-const styles = (screenContext, width, height) =>
+const styles = (
+  screenContext: ScreenContextType,
+  width: number,
+  height: number,
+) =>
   StyleSheet.create({
     canvas: {
       backgroundColor: 'white',
@@ -9,7 +14,7 @@ const styles = (screenContext, width, height) =>
     },
     container: {
       flex: 1,
-      marginTop: height*0.025,
+      marginTop: height * 0.025,
     },
     title: {
       fontSize: 50,
@@ -21,7 +26,7 @@ const styles = (screenContext, width, height) =>
       width: width * 0.6,
     },
     button: {
-      marginTop: height*0.0125,
+      marginTop: height * 0.0125,
       alignSelf: 'center',
       width: 50,
       height: 'auto',
@@ -30,28 +35,28 @@ const styles = (screenContext, width, height) =>
       borderRadius: 10,
     },
     buttonText: {
-      padding: height*0.0125,
+      padding: height * 0.0125,
       color: ColorPalette.white,
       fontSize: 18,
     },
     noItemsToDisplay: {
       color: ColorPalette.orange,
       alignSelf: 'center',
-      marginTop: height*0.025,
+      marginTop: height * 0.025,
     },
     card: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      padding: height*0.0125,
+      padding: height * 0.0125,
       borderRadius: 10,
-      margin: height*0.0062,
-      marginHorizontal: width*0.0486,
+      margin: height * 0.0062,
+      marginHorizontal: width * 0.0486,
       backgroundColor: 'white',
       elevation: 10,
       borderColor: ColorPalette.green,
       borderWidth: 0.4,
     },
-    cardTittle: {
+    cardTitle: {
       fontSize: 30,
     },
     modalContainer: {
@@ -64,9 +69,18 @@ const styles = (screenContext, width, height) =>
       height: 200,
       width: 300,
       borderRadius: 20,
-      padding: height*0.0125,
+      padding: height * 0.0125,
       backgroundColor: 'white',
       elevation: 30,
+    },
+    modalTitle: {
+      fontSize: 20,
+      alignSelf: 'center',
+    },
+    flexRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
+      marginTop: height * 0.0125,
     },
   });
 export default styles;
