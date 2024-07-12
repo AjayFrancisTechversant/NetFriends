@@ -18,10 +18,9 @@ import SearchBar from '../../Components/SearchBar';
 import HomeScreenCard from '../../Components/HomeScreenCard';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import StaticVariables from '../../Preferences/StaticVariables';
-import styles from './Style';
-
 import NetFriends_logo_with_sidelabel from '../../Assets/Images/Logo/NetFriends_logo_with_sidelabel.png';
 import {NativeEventType} from '../../Types/Types';
+import styles from './Style';
 
 const HomeScreen: React.FC = ({navigation}) => {
   const [searchText, setSearchText] = useState(StaticVariables.EMPTY_STRING);
