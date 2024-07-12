@@ -3,9 +3,8 @@ import {Image, TouchableOpacity} from 'react-native';
 import {authorize} from 'react-native-app-auth';
 import auth from '@react-native-firebase/auth';
 import {useScreenContext} from '../../Contexts/ScreenContext';
+import githubLogo from '../../Assets/Images/Github-Logo.png';
 import styles from './Style';
-
-const githubLogo = require('../../Assets/Images/Github-Logo.png');
 
 const config = {
   clientId: 'Ov23licj09plIWkEvmpM',
