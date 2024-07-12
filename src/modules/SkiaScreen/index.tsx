@@ -2,8 +2,10 @@ import {View, Text, Alert} from 'react-native';
 import React, {useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import ImagePicker from 'react-native-image-crop-picker';
-import {Skia} from '@shopify/react-native-skia';
+import ImagePicker, {
+  Image,
+} from 'react-native-image-crop-picker';
+import {Skia, SkImage} from '@shopify/react-native-skia';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -11,7 +13,7 @@ import SkiaEditor from '../../Components/SkiaEditor';
 import MySkiaProjects from '../../Components/MySkiaProjects';
 import styles from './Style';
 
-const SkiaScreen = ({navigation}) => {
+const SkiaScreen: React.FC = ({navigation}) => {
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -20,24 +22,32 @@ const SkiaScreen = ({navigation}) => {
   );
   const [isEditing, setIsEditing] = useState(false);
   const [isMyProjectsOpen, setIsMyProjectsOpen] = useState(false);
-  const [image, setImage] = useState(undefined);
+  const [image, setImage] = useState<SkImage | null>(null);
 
   const handleOpenButton = async () => {
     await openImageFromGallery();
   };
   const openImageFromGallery = async () => {
     try {
-      const selectedimage = await ImagePicker.openPicker({
-        cropping:true,
-        freeStyleCropEnabled:true,
+      const selectedimage: Image = await ImagePicker.openPicker({
+        cropping: true,
+        freeStyleCropEnabled: true,
         includeBase64: true,
       });
-      const imageData = Skia.Data.fromBase64(selectedimage.data);
-      const decodedImage = Skia.Image.MakeImageFromEncoded(imageData);
-      setImage(decodedImage);
-      setIsEditing(true);
+      if (selectedimage.data) {
+        const imageData = Skia.Data.fromBase64(selectedimage.data);
+        const decodedImage = Skia.Image.MakeImageFromEncoded(imageData);
+        if (decodedImage) {
+          setImage(decodedImage);
+          setIsEditing(true);
+        } else {
+          Alert.alert('Error', 'Failed to decode image.');
+        }
+      } else {
+        Alert.alert('Error', 'No image data found.');
+      }
     } catch (error) {
-      Alert.alert(error.message)
+      Alert.alert((error as Error).message);
     }
   };
   return (

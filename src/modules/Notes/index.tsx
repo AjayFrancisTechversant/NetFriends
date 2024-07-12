@@ -17,8 +17,7 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './Style';
 
-
-const Notes:React.FC = () => {
+const Notes: React.FC = () => {
   const [refresh, setRefresh] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -52,7 +51,7 @@ const Notes:React.FC = () => {
     if (title || desc) {
       setIsAddLoading(true);
       await database.write(async () => {
-        await database.get('notes').create(note => {
+        await database.get('notes').create((note: any) => {
           note.title = title;
           note.desc = desc;
         });
@@ -66,7 +65,7 @@ const Notes:React.FC = () => {
     }
   };
   //delete
-  const handleDeleteNote = async id => {
+  const handleDeleteNote = async (id: string) => {
     setIsDeleteLoading(true);
     await database.write(async () => {
       (await database.get('notes').find(id)).destroyPermanently();
@@ -77,7 +76,7 @@ const Notes:React.FC = () => {
   const handleEditNote = async () => {
     setIsEditLoading(true);
     await database.write(async () => {
-      (await database.get('notes').find(editNoteId)).update(i => {
+      (await database.get('notes').find(editNoteId)).update((i: any) => {
         i.title = title;
         i.desc = desc;
       });
@@ -96,11 +95,19 @@ const Notes:React.FC = () => {
   const handleCheckButton = () => {
     isAdding ? addNewNote() : handleEditNote();
   };
-  const handleEditButton = async id => {
+  const handleEditButton = async (id: string) => {
     setEditNoteId(id);
     setIsEditing(true);
-    setTitle((await database.get('notes').find(id))._raw.title);
-    setDesc((await database.get('notes').find(id))._raw.desc);
+    try {
+      const note: any = await database.get('notes').find(id);
+      if (note) {
+        setTitle(note._raw.title);
+        setDesc(note._raw.desc);
+      }
+    } catch (error) {
+      console.error('Error fetching note for edit:', error);
+      Alert.alert('Failed to fetch note for editing. Please try again.');
+    }
   };
   const handleCrossButton = () => {
     setTitle(StaticVariables.EMPTY_STRING);
@@ -189,7 +196,6 @@ const Notes:React.FC = () => {
               item={item}
               isDeleteLoading={isDeleteLoading}
               handleDeleteNote={handleDeleteNote}
-              setIsEditing={setIsEditing}
               handleEditButton={handleEditButton}
             />
           )}

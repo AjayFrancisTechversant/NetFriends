@@ -6,6 +6,7 @@ import {
   FlatList,
   ActivityIndicator,
   Text,
+  Alert,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {FAB} from 'react-native-paper';
@@ -19,21 +20,22 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import StaticVariables from '../../Preferences/StaticVariables';
 import styles from './Style';
 
-const NetFriends_logo_with_sidelabel = require('../../Assets/Images/Logo/NetFriends_logo_with_sidelabel.png');
+import NetFriends_logo_with_sidelabel from '../../Assets/Images/Logo/NetFriends_logo_with_sidelabel.png';
+import {NativeEventType} from '../../Types/Types';
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen: React.FC = ({navigation}) => {
   const [searchText, setSearchText] = useState(StaticVariables.EMPTY_STRING);
   const [searchResults, setSearchResults] = useState(
     StaticVariables.EMPTY_ARRAY,
   );
   const [currentPage, setCurrentPage] = useState(1);
-  const flatListRef = useRef(null);
+  const flatListRef = useRef<FlatList | null>(null);
   const [isFabVisible, setIsFabVisible] = useState(false);
   const dispatch = useDispatch();
   const {users, loading, error} = useSelector(state => state.Users);
 
   const search = useCallback(
-    text => {
+    (text: string) => {
       setSearchResults(
         users.filter(i =>
           (i.name.first + ' ' + i.name.last)
@@ -61,8 +63,8 @@ const HomeScreen = ({navigation}) => {
   const fetchInitialUsers = useCallback(async () => {
     try {
       await dispatch(fetchUsers(currentPage));
-    } catch (err) {
-      console.log(err.message);
+    } catch (error) {
+      console.log((error as Error).message);
     }
   }, [dispatch, currentPage]);
 
@@ -71,18 +73,20 @@ const HomeScreen = ({navigation}) => {
     try {
       await dispatch(fetchUsers(currentPage + 1));
       setCurrentPage(prevPage => prevPage + 1);
-    } catch (err) {
-      console.log(err.message);
+    } catch (error) {
+      console.log((error as Error).message);
     }
   }, [dispatch, currentPage, loading]);
 
   const scrollToTop = () => {
-    flatListRef.current.scrollToIndex({animated: true, index: 0});
+    flatListRef.current?.scrollToIndex({animated: true, index: 0});
   };
 
-  const onScroll = ({nativeEvent}) => {
+  const onScroll = ({nativeEvent}: NativeEventType) => {
     const currentScrollPosition =
-      Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
+      nativeEvent.contentOffset?.y !== undefined
+        ? Math.floor(nativeEvent.contentOffset.y)
+        : 0;
     setIsFabVisible(currentScrollPosition > 50);
   };
 
@@ -114,7 +118,7 @@ const HomeScreen = ({navigation}) => {
           onScroll={onScroll}
           ref={flatListRef}
           showsVerticalScrollIndicator={false}
-          ListEmptyComponent={!loading && ListEmptyComponent}
+          ListEmptyComponent={() => !loading && ListEmptyComponent()}
           ListHeaderComponent={
             <>
               <LinearGradient

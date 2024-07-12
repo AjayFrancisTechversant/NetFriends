@@ -4,11 +4,18 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import storage from '@react-native-firebase/storage';
-import styles from './Style';
-import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MySkiaProjectsCard from '../MySkiaProjectsCard';
+import StaticVariables from '../../Preferences/StaticVariables';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
+import {SetStateType} from '../../Types/Types';
+import styles from './Style';
 
-const MySkiaProjects = ({setIsMyProjectsOpen}) => {
+type MySkiaProjectsPropsType = {
+  setIsMyProjectsOpen: SetStateType<boolean>;
+};
+const MySkiaProjects: React.FC<MySkiaProjectsPropsType> = ({
+  setIsMyProjectsOpen,
+}) => {
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -16,7 +23,9 @@ const MySkiaProjects = ({setIsMyProjectsOpen}) => {
     screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
   );
 
-  const [imageUrls, setImageUrls] = useState([]);
+  const [imageUrls, setImageUrls] = useState<string[]>(
+    StaticVariables.EMPTY_ARRAY as string[],
+  );
   const [loading, setLoading] = useState(true);
 
   const fetchImages = useCallback(async () => {
@@ -28,7 +37,6 @@ const MySkiaProjects = ({setIsMyProjectsOpen}) => {
       setImageUrls(urls);
     } catch (error) {
       console.error(error);
-      setError('Failed to load images.');
     } finally {
       setLoading(false);
     }
@@ -38,12 +46,10 @@ const MySkiaProjects = ({setIsMyProjectsOpen}) => {
     fetchImages();
   }, [fetchImages]);
 
-
-
   const renderItem = useCallback(
-    ({item}) => (
-      <MySkiaProjectsCard item={item} />
-    ),
+    ({item}: {item: string}) => {
+      return <MySkiaProjectsCard item={item} />;
+    },
     [screenStyles],
   );
   const numberOfColumns = screenContext.isPortrait ? 2 : 4;

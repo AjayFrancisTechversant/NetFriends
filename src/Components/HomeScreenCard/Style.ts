@@ -1,8 +1,8 @@
 import {StyleSheet} from 'react-native';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { ScreenContextType } from '../../Types/Types';
 
-const styles = (screenContext, width, height) =>
+const styles = (screenContext:ScreenContextType, width:number, height:number) =>
   StyleSheet.create({
     cardContainer: {
       flexDirection: 'row',

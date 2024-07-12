@@ -4,8 +4,17 @@ import {Searchbar} from 'react-native-paper';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './Style';
+import {SetStateType} from '../../Types/Types';
 
-const SearchBar = ({searchText, setSearchText}) => {
+type SearchBarPropsType = {
+  searchText: string;
+  setSearchText: SetStateType<string>;
+};
+
+const SearchBar: React.FC<SearchBarPropsType> = ({
+  searchText,
+  setSearchText,
+}) => {
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,

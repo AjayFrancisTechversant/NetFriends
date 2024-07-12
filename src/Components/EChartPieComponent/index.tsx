@@ -6,10 +6,13 @@ import {
   LegendComponent,
   ToolboxComponent,
 } from 'echarts/components';
-import {SVGRenderer, SkiaChart} from '@wuba/react-native-echarts';
+import {
+  SVGRenderer,
+  SkiaChart,
+  SkiaChartProps,
+} from '@wuba/react-native-echarts';
 import styles from './Style';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-
 
 echarts.use([
   SVGRenderer,
@@ -20,8 +23,8 @@ echarts.use([
   ToolboxComponent,
 ]);
 
-const EChartPieComponent = () => {
-  const skiaRef = useRef(null);
+const EChartPieComponent: React.FC = () => {
+  const skiaRef = useRef<any>(null);
   const option = {
     series: [
       {
@@ -50,12 +53,12 @@ const EChartPieComponent = () => {
     ],
   };
   useEffect(() => {
-    let chart;
+    let chart: any;
     if (skiaRef.current) {
       chart = echarts.init(skiaRef.current, 'light', {
         renderer: 'svg',
         width: screenContext.windowWidth,
-        height: screenContext.windowHeight/2,
+        height: screenContext.windowHeight / 2,
       });
       chart.setOption(option);
     }
@@ -68,9 +71,7 @@ const EChartPieComponent = () => {
     screenContext[screenContext.isPortrait ? 'windowWidth' : 'windowHeight'],
     screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
   );
-  return (
-      <SkiaChart ref={skiaRef} />
-)
+  return <SkiaChart ref={skiaRef} />;
 };
 
 export default EChartPieComponent;

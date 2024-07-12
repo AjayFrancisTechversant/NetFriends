@@ -1,7 +1,6 @@
 import {
   ActivityIndicator,
   Alert,
-  Button,
   Modal,
   Text,
   TouchableOpacity,
@@ -13,8 +12,8 @@ import {
   Group,
   Image,
   Path,
+  SkImage,
   useCanvasRef,
-  useImage,
 } from '@shopify/react-native-skia';
 import {runOnJS} from 'react-native-reanimated';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
@@ -28,13 +27,20 @@ import ColorPicker, {
   Preview,
   HueSlider,
   Swatches,
+  returnedResults,
 } from 'reanimated-color-picker';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './Style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import StaticVariables from '../../Preferences/StaticVariables';
+import styles from './Style';
+import {SetStateType} from '../../Types/Types';
 
-const SkiaEditor = ({setIsEditing, image}) => {
+type SkiaEditorPropsType = {
+  setIsEditing: SetStateType<boolean>;
+  image: SkImage | null;
+};
+
+const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -60,12 +66,12 @@ const SkiaEditor = ({setIsEditing, image}) => {
     ColorPalette.gray,
   ];
 
-  const onSelectColor = ({hex}) => {
+  const onSelectColor = ({hex}: returnedResults) => {
     setPenColor(hex);
   };
 
   const addNewPath = useCallback(
-    (x, y) => {
+    (x: number, y: number) => {
       setPaths(prevPaths => {
         const newPath = {segments: [`M ${x} ${y}`], color: penColor};
         pathsRef.current = [...prevPaths, newPath];
@@ -75,7 +81,7 @@ const SkiaEditor = ({setIsEditing, image}) => {
     [penColor],
   );
 
-  const updatePath = useCallback((x, y) => {
+  const updatePath = useCallback((x: number, y: number) => {
     setPaths(prevPaths => {
       const newPaths = [...prevPaths];
       const index = newPaths.length - 1;

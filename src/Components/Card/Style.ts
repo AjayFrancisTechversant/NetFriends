@@ -1,7 +1,12 @@
 import {StyleSheet} from 'react-native';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import {ScreenContextType} from '../../Types/Types';
 
-const styles = (screenContext, width, height) =>
+const styles = (
+  screenContext: ScreenContextType,
+  width: number,
+  height: number,
+) =>
   StyleSheet.create({
     card: {
       borderRadius: 10,
@@ -9,10 +14,10 @@ const styles = (screenContext, width, height) =>
       borderWidth: 0.5,
       width: '80%',
       alignSelf: 'center',
-      marginVertical: height*0.0062,
+      marginVertical: height * 0.0062,
       flexDirection: 'row',
       justifyContent: 'space-between',
-      padding: height*0.0125,
+      padding: height * 0.0125,
       elevation: 10,
       backgroundColor: 'white',
     },
@@ -20,7 +25,7 @@ const styles = (screenContext, width, height) =>
       fontSize: 25,
     },
     button: {
-      margin: height*0.0025,
+      margin: height * 0.0025,
     },
   });
 export default styles;

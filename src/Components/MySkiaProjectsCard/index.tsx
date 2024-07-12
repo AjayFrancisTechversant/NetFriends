@@ -3,8 +3,13 @@ import React, {useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './Style';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
 
-function MySkiaProjectsCard({item}) {
+type MySkiaProjectsCardPropsType = {
+  item: string;
+};
+
+const MySkiaProjectsCard: React.FC<MySkiaProjectsCardPropsType> = ({item}) => {
   const [isImageModalVisible, setIsImageModalVisible] = useState(false);
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -40,5 +45,5 @@ function MySkiaProjectsCard({item}) {
       </Modal>
     </View>
   );
-}
+};
 export default React.memo(MySkiaProjectsCard);

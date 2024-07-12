@@ -5,7 +5,14 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './Style';
 
-const Card = React.memo(
+type CardPropsType = {
+  item: any;
+  handleDeleteNote: (id: any) => Promise<void>;
+  handleEditButton: (id: any) => Promise<void>;
+  isDeleteLoading: boolean;
+};
+
+const Card:React.FC<CardPropsType> = React.memo(
   ({item, handleDeleteNote, handleEditButton, isDeleteLoading}) => {
     const screenContext = useScreenContext();
     const screenStyles = styles(
@@ -16,11 +23,11 @@ const Card = React.memo(
 
     return (
       <View style={screenStyles.card}>
-        <View style={screenStyles.titleAndDescContainer}>
+        <View>
           <Text style={screenStyles.title}>{item.title}</Text>
-          <Text style={screenStyles.desc}>{item.desc}</Text>
+          <Text>{item.desc}</Text>
         </View>
-        <View style={screenStyles.buttonsContainer}>
+        <View>
           <TouchableOpacity
             style={screenStyles.button}
             onPress={() => handleDeleteNote(item.id)}>

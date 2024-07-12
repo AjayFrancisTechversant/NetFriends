@@ -11,7 +11,66 @@ import LikeDislikeButton from '../LikeDislikeButton';
 import AddFriendButton from '../AddFriendButton';
 import styles from './Style';
 
-const HomeScreenCard = ({item}) => {
+type HomeScreenCardPropsType = {
+  item: {
+    cell: string;
+    dob: {
+      age: number;
+      date: string;
+    };
+    email: string;
+    gender: string;
+    id: {
+      name: string;
+      value: string;
+    };
+    location: {
+      city: string;
+      coordinates: {
+        latitude: string;
+        longitude: string;
+      };
+      country: string;
+      postcode: string;
+      state: string;
+      street: {
+        name: string;
+        number: number;
+      };
+      timezone: {
+        description: string;
+        offset: string;
+      };
+    };
+    login: {
+      md5: string;
+      password: string;
+      salt: string;
+      sha1: string;
+      sha256: string;
+      username: string;
+      uuid: string;
+    };
+    name: {
+      first: string;
+      last: string;
+      title: string;
+    };
+    nat: string;
+    phone: string;
+    picture: {
+      large: string;
+      medium: string;
+      thumbnail: string;
+    };
+    registered: {
+      age: number;
+      date: string;
+    };
+  };
+};
+
+const HomeScreenCard: React.FC<HomeScreenCardPropsType> = ({item}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const name = item.name.first + ' ' + item.name.last;
   const {email, phone} = item;
