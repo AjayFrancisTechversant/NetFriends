@@ -6,7 +6,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
-import styles from './Style';
+import styles from './style';
 import {Booktype} from '../../modules/BooksFirestore';
 import {SetStateType} from '../../Types/Types';
 

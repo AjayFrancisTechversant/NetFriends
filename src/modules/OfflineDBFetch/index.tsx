@@ -6,7 +6,7 @@ import {AllUsersData} from '../../Data/Data';
 import {database} from '../../DB/Database';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import StaticVariables from '../../Preferences/StaticVariables';
-import styles from './Style';
+import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 
 const OfflineDBFetch: React.FC = ({navigation}) => {

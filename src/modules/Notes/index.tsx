@@ -15,7 +15,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import Card from '../../Components/Card';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import StaticVariables from '../../Preferences/StaticVariables';
-import styles from './Style';
+import styles from './style';
 
 const Notes: React.FC = () => {
   const [refresh, setRefresh] = useState(false);

@@ -3,7 +3,7 @@ import React from 'react';
 import {Searchbar} from 'react-native-paper';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import styles from './Style';
+import styles from './style';
 import {SetStateType} from '../../Types/Types';
 
 type SearchBarPropsType = {

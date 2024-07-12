@@ -5,7 +5,7 @@ import {TextInput} from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
-import styles from './Style';
+import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 
 const RegisterPage: React.FC = ({navigation}) => {

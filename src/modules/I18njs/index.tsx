@@ -6,7 +6,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {translations} from '../../Assets/Translations/Translations';
-import styles from './Style';
+import styles from './style';
 
 const I18njs = () => {
   const i18n = new I18n(translations);

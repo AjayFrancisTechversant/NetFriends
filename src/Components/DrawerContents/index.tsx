@@ -10,7 +10,7 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import styles from './Style';
+import styles from './style';
 
 const DrawerContents:React.FC<DrawerContentComponentProps> = props => {
   const screenContext = useScreenContext();

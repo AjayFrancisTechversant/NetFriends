@@ -11,7 +11,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {CommentItemType, UpdatingCommentDetailsType} from '../../Types/Types';
-import styles from './Style';
+import styles from './style';
 
 type CommentCardPropsType = {
   item: CommentItemType;

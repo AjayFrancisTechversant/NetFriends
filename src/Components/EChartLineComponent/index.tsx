@@ -4,7 +4,7 @@ import {LineChart} from 'echarts/charts';
 import {GridComponent} from 'echarts/components';
 import {SVGRenderer, SkiaChart} from '@wuba/react-native-echarts';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './Style';
+import styles from './style';
 
 echarts.use([SVGRenderer, LineChart, GridComponent]);
 

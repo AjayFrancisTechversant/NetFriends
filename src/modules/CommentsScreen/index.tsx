@@ -17,7 +17,7 @@ import {
   UpdatingCommentDetailsType,
 } from '../../Types/Types';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
-import styles from './Style';
+import styles from './style';
 
 const CommentsScreen: React.FC = ({navigation}) => {
   const dispatch = useAppDispatch();

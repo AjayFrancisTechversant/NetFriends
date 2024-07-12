@@ -9,7 +9,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {SetStateType} from '../../Types/Types';
-import { styles } from './Style';
+import { styles } from './style';
 
 type CameraScreenPropsType = {
   takenPhotos: string[];

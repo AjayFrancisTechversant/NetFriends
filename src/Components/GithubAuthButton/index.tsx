@@ -4,7 +4,7 @@ import {authorize} from 'react-native-app-auth';
 import auth from '@react-native-firebase/auth';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import githubLogo from '../../Assets/Images/Github-Logo.png';
-import styles from './Style';
+import styles from './style';
 
 const config = {
   clientId: 'Ov23licj09plIWkEvmpM',

@@ -8,7 +8,7 @@ import MySkiaProjectsCard from '../MySkiaProjectsCard';
 import StaticVariables from '../../Preferences/StaticVariables';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {SetStateType} from '../../Types/Types';
-import styles from './Style';
+import styles from './style';
 
 type MySkiaProjectsPropsType = {
   setIsMyProjectsOpen: SetStateType<boolean>;

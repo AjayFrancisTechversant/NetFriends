@@ -4,7 +4,7 @@ import Video from 'react-native-video';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import RNFS from 'react-native-fs';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './Style';
+import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import { SetStateType } from '../../Types/Types';
 

@@ -15,7 +15,7 @@ import GithubAuthButton from '../../Components/GithubAuthButton';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import styles from './Style';
+import styles from './style';
 
 const LoginPage: React.FC = ({navigation}) => {
   const [userData, setUserData] = useState({

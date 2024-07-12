@@ -4,7 +4,7 @@ import {Canvas, Group, Circle} from '@shopify/react-native-skia';
 import {useSharedValue, withDecay} from 'react-native-reanimated';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './Style';
+import styles from './style';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 

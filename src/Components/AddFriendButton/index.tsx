@@ -7,7 +7,7 @@ import {updateFriends} from '../../Redux/Slices/AddFriendSlice';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {UserType} from '../../Types/Types';
-import styles from './Style';
+import styles from './style';
 
 type AddFriendButtonPropsType = {
   item: UserType;

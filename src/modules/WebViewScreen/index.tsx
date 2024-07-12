@@ -4,7 +4,7 @@ import {WebView} from 'react-native-webview';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import styles from './Style';
+import styles from './style';
 
 const WebViewScreen = ({navigation}) => {
   const screenContext = useScreenContext();

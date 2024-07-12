@@ -2,7 +2,7 @@ import {View, Text} from 'react-native';
 import React, {useState} from 'react';
 import {AirbnbRating, Skeleton} from '@rneui/themed';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './Style';
+import styles from './style';
 
 const RNElements: React.FC = () => {
   const [Rating, setRating] = useState(0);

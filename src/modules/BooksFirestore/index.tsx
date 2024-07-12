@@ -6,7 +6,7 @@ import FireStoreCard from '../../Components/FireStoreCard';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import styles from './Style';
+import styles from './style';
 
 export type Booktype = {
   title: string;

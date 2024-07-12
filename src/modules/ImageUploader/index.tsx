@@ -24,7 +24,7 @@ import CardA from '../../Components/CardA';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import StaticVariables from '../../Preferences/StaticVariables';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './Style';
+import styles from './style';
 
 const ImageUploader: React.FC = () => {
   const [isCameraOpen, setIsCameraOpen] = useState(false);

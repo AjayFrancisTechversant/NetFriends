@@ -4,7 +4,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import CommentCard from '../CommentCard';
 import {CommentItemType, UpdatingCommentDetailsType} from '../../Types/Types';
-import styles from './Style';
+import styles from './style';
 
 type CommentsContainerPropsType = {
   loading: boolean;

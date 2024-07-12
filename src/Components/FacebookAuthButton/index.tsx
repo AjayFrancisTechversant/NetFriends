@@ -4,7 +4,7 @@ import auth from '@react-native-firebase/auth';
 import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import FacebookLogo from '../../Assets/Images/Facebook-Logo.png';
-import styles from './Style';
+import styles from './style';
 
 const FacebookAuthButton = () => {
   async function onFacebookButtonPress() {

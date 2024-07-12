@@ -11,7 +11,7 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import SkiaEditor from '../../Components/SkiaEditor';
 import MySkiaProjects from '../../Components/MySkiaProjects';
-import styles from './Style';
+import styles from './style';
 
 const SkiaScreen: React.FC = ({navigation}) => {
   const screenContext = useScreenContext();

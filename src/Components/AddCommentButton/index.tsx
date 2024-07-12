@@ -12,7 +12,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import { NewCommentDetailsType} from '../../Types/Types';
-import styles from './Style';
+import styles from './style';
 
 type AddCommentButtonPropsType = {
   handleAddComment: (newCommentDetails: NewCommentDetailsType) => void;

@@ -13,7 +13,7 @@ import {PEXELS_API_KEY} from '../../Services/API/PexelsAPI';
 import StaticVariables from '../../Preferences/StaticVariables';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import styles from './Style';
+import styles from './style';
 
 const ApiUrl =
   'https://api.pexels.com/v1/search?query=nature&orientation=portrait&size=small&per_page=20';

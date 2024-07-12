@@ -13,7 +13,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import EChartLineComponent from '../../Components/EChartLineComponent';
-import styles from './Style';
+import styles from './style';
 
 echarts.use([
   SVGRenderer,

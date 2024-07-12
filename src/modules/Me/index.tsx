@@ -22,7 +22,7 @@ import StaticVariables from '../../Preferences/StaticVariables';
 import profilePageBG from '../../Assets/Images/profilePageBG.jpg';
 import profilePicDummy from '../../Assets/Images/profilePicDummy.webp';
 import {useAppSelector} from '../../hooks/hooks';
-import styles from './Style';
+import styles from './style';
 
 const Me: React.FC = () => {
   const likeCount = useAppSelector(state => state.Likes.likedUsers.length);

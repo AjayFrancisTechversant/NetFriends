@@ -32,7 +32,7 @@ import ColorPicker, {
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import StaticVariables from '../../Preferences/StaticVariables';
-import styles from './Style';
+import styles from './style';
 import {SetStateType} from '../../Types/Types';
 
 type SkiaEditorPropsType = {

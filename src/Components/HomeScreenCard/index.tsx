@@ -9,7 +9,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import LikeDislikeButton from '../LikeDislikeButton';
 import AddFriendButton from '../AddFriendButton';
-import styles from './Style';
+import styles from './style';
 import { UserType } from '../../Types/Types';
 
 type HomeScreenCardPropsType = {

@@ -20,7 +20,7 @@ import StaticVariables from '../../Preferences/StaticVariables';
 import NetFriends_logo_with_sidelabel from '../../Assets/Images/Logo/NetFriends_logo_with_sidelabel.png';
 import {NativeEventType, UserType} from '../../Types/Types';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
-import styles from './Style';
+import styles from './style';
 
 const HomeScreen: React.FC = ({navigation}) => {
   const [searchText, setSearchText] = useState(StaticVariables.EMPTY_STRING);

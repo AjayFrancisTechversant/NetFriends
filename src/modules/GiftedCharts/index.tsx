@@ -4,7 +4,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {PieChart, BarChart} from 'react-native-gifted-charts';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import styles from './Style';
+import styles from './style';
 
 const GiftedCharts = ({navigation}) => {
   const pieData = [

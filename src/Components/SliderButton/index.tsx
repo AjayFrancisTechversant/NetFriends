@@ -14,7 +14,7 @@ import {
 } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import styles from './Style';
+import styles from './style';
 
 function clamp(val: number, min: number, max: number) {
   return Math.min(Math.max(val, min), max);

@@ -19,7 +19,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import StaticVariables from '../../Preferences/StaticVariables';
 import map_bg1 from '../../Assets/Images/map-bg1.jpg';
-import styles from './Style';
+import styles from './style';
 
 const Locator: React.FC = ({navigation}) => {
   const [isLocationFetched, setIsLocationFetched] = useState(false);

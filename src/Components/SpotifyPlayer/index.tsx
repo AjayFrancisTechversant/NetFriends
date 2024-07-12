@@ -11,7 +11,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import WeekndAlbumCover from '../../Assets/Images/WeekndAlbumCover.png';
 import {SetStateType} from '../../Types/Types';
-import styles from './Style';
+import styles from './style';
 
 type SpotifyPlayerPropsType = {
   setPlayerModalVisible: SetStateType<boolean>;

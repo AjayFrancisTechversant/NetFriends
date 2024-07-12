@@ -16,7 +16,7 @@ import VideoPlayerComponent from '../../Components/VideoPlayerComponent';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import StaticVariables from '../../Preferences/StaticVariables';
-import styles from './Style';
+import styles from './style';
 
 const VideoPlayerScreen: React.FC = ({navigation}) => {
   const [showVideoPlayerComponent, setShowVideoPlayerComponent] =

@@ -1,7 +1,7 @@
 import {View, Image, Animated} from 'react-native';
 import React, {useRef} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './Style';
+import styles from './style';
 
 import pic1 from '../../Assets/Images/parallaxCarousalPics/pic1.webp';
 import pic2 from '../../Assets/Images/parallaxCarousalPics/pic2.jpeg';

@@ -4,7 +4,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import SpotifyPlayer from '../../Components/SpotifyPlayer';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import styles from './Style';
+import styles from './style';
 
 const Spotify:React.FC = ({navigation}) => {
   const [playermodalVisible, setPlayerModalVisible] = useState(false);

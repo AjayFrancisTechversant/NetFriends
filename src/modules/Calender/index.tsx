@@ -2,7 +2,7 @@ import {View, Text, ScrollView} from 'react-native';
 import React, {useCallback, useMemo, useState} from 'react';
 import {Calendar, CalendarUtils, DateData} from 'react-native-calendars';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './Style';
+import styles from './style';
 
 const CURRENT_DATE = CalendarUtils.getCalendarDateString(Date());
 

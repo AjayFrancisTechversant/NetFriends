@@ -5,7 +5,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import styles from './Style';
+import styles from './style';
 
 const ClipBoard: React.FC = ({navigation}) => {
   const screenContext = useScreenContext();

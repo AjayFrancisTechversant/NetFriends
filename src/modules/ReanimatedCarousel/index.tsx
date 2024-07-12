@@ -3,7 +3,7 @@ import React, {useRef} from 'react';
 import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
 import {images} from '../../Assets/Images/CarouselImages';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './Style';
+import styles from './style';
 
 const ReanimatedCarousel: React.FC = () => {
   const ref = useRef<ICarouselInstance>(null);

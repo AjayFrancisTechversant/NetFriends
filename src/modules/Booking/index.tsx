@@ -18,7 +18,7 @@ import HomeScreen from '../HomeScreen';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import SliderButton from '../../Components/SliderButton';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './Style';
+import styles from './style';
 
 import TwoGreenCups from '../../Assets/Images/2GreenCups.jpg';
 
