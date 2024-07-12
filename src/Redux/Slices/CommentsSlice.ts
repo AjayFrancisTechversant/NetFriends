@@ -6,8 +6,18 @@ import {
   getAllComments,
   updateComment,
 } from '../../Services/API/CommentsAPIs';
+import {
+  NewCommentDetailsType,
+  UpdatingCommentDetailsType,
+} from '../../Types/Types';
 
-const initialState = {
+type CommentsReduxStateType = {
+  comments: any[];
+  loading: boolean;
+  error: null | string;
+};
+
+const initialState: CommentsReduxStateType = {
   comments: StaticVariables.EMPTY_ARRAY,
   loading: false,
   error: null,
@@ -23,7 +33,7 @@ export const fetchAllComments = createAsyncThunk(
 
 export const addComment = createAsyncThunk(
   'comments/addComment',
-  async newCommentDetails => {
+  async (newCommentDetails: NewCommentDetailsType) => {
     const response = await addNewComment(newCommentDetails);
     return response;
   },
@@ -31,7 +41,7 @@ export const addComment = createAsyncThunk(
 
 export const deleteAComment = createAsyncThunk(
   'comments/deleteAComment',
-  async id => {
+  async (id: number) => {
     const response = await deleteComment(id);
     return response;
   },
@@ -39,7 +49,7 @@ export const deleteAComment = createAsyncThunk(
 
 export const updateAComment = createAsyncThunk(
   'comments/updateAComment',
-  async updatingCommentDetails => {
+  async (updatingCommentDetails: UpdatingCommentDetailsType) => {
     const response = await updateComment(updatingCommentDetails);
     return response;
   },

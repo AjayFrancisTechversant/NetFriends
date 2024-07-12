@@ -10,14 +10,14 @@ import {TextInput} from 'react-native-paper';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import {CommentItemType, updatingMessageDetailsType} from '../../Types/Types';
+import {CommentItemType, UpdatingCommentDetailsType} from '../../Types/Types';
 import styles from './Style';
 
 type CommentCardPropsType = {
   item: CommentItemType;
   handleDeleteComment: (id: number) => void;
   handleUpdateComment: (
-    updatingMessageDetails: updatingMessageDetailsType,
+    updatingMessageDetails: UpdatingCommentDetailsType,
   ) => void;
 };
 
@@ -28,8 +28,8 @@ const CommentCard: React.FC<CommentCardPropsType> = ({
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [updatingMessageDetails, setUpdatingMessageDetails] =
-    useState<updatingMessageDetailsType>({
+  const [updatingCommentDetails, setUpdatingCommentDetails] =
+    useState<UpdatingCommentDetailsType>({
       id: undefined,
       editedBody: StaticVariables.EMPTY_STRING,
     });
@@ -61,15 +61,15 @@ const CommentCard: React.FC<CommentCardPropsType> = ({
     }, 300);
   };
   const handleEditbutton = async (id: number) => {
-    setUpdatingMessageDetails({id, editedBody: item.body});
+    setUpdatingCommentDetails({id, editedBody: item.body});
     setIsEditing(true);
   };
   const handelSaveEditing = async () => {
-    await handleUpdateComment(updatingMessageDetails);
+    await handleUpdateComment(updatingCommentDetails);
     closeModal();
   };
   const handleCancelEditing = () => {
-    setUpdatingMessageDetails({
+    setUpdatingCommentDetails({
       id: 0,
       editedBody: StaticVariables.EMPTY_STRING,
     });
@@ -111,10 +111,10 @@ const CommentCard: React.FC<CommentCardPropsType> = ({
               <Text>{item.body}</Text>
             ) : (
               <TextInput
-                value={updatingMessageDetails.editedBody}
+                value={updatingCommentDetails.editedBody}
                 onChangeText={e =>
-                  setUpdatingMessageDetails({
-                    ...updatingMessageDetails,
+                  setUpdatingCommentDetails({
+                    ...updatingCommentDetails,
                     editedBody: e,
                   })
                 }

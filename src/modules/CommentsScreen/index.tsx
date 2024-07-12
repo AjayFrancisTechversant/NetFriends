@@ -1,5 +1,4 @@
 import {View, Text} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
 import React, {useEffect} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
@@ -13,12 +12,16 @@ import {
 } from '../../Redux/Slices/CommentsSlice';
 import AddCommentButton from '../../Components/AddCommentButton';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import {NewCommentDetailsType} from '../../Types/Types';
+import {
+  NewCommentDetailsType,
+  UpdatingCommentDetailsType,
+} from '../../Types/Types';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import styles from './Style';
 
 const CommentsScreen: React.FC = ({navigation}) => {
-  const dispatch = useDispatch();
-  const {comments, loading, error} = useSelector(state => state.Comments);
+  const dispatch = useAppDispatch();
+  const {comments, loading, error} = useAppSelector(state => state.Comments);
   useEffect(() => {
     fetchInitialComments();
   }, []);
@@ -46,9 +49,9 @@ const CommentsScreen: React.FC = ({navigation}) => {
       console.log(error);
     }
   };
-  const handleUpdateComment = async updatingCommentDetails => {
-    console.log(updatingCommentDetails);
-
+  const handleUpdateComment = async (
+    updatingCommentDetails: UpdatingCommentDetailsType,
+  ) => {
     //cannot update a newly added comment bcos its not updated in the server
     try {
       await dispatch(updateAComment(updatingCommentDetails));

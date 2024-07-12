@@ -12,7 +12,6 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {TextInput} from 'react-native-paper';
-import {useSelector} from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import Tooltip from 'react-native-walkthrough-tooltip';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
@@ -22,11 +21,12 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
 import profilePageBG from '../../Assets/Images/profilePageBG.jpg';
 import profilePicDummy from '../../Assets/Images/profilePicDummy.webp';
+import {useAppSelector} from '../../hooks/hooks';
 import styles from './Style';
 
 const Me: React.FC = () => {
-  const likeCount = useSelector(state => state.Likes.likedUsers.length);
-  const friendsCount = useSelector(
+  const likeCount = useAppSelector(state => state.Likes.likedUsers.length);
+  const friendsCount = useAppSelector(
     state => state.AddFriend.addedFriends.length,
   );
   const [mobileNumber, setMobileNumber] = useState<string>();

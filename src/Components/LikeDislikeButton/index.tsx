@@ -1,16 +1,21 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {View, TouchableOpacity, Animated} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
 import {showMessage} from 'react-native-flash-message';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {updateLikes} from '../../Redux/Slices/LikeSlice';
 import {useScreenContext} from '../../Contexts/ScreenContext';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
+import {UserType} from '../../Types/Types';
 import styles from './Style';
 
-const LikeDislikeButton = ({item}) => {
-  const dispatch = useDispatch();
-  const likedUsers = useSelector(state => state.Likes.likedUsers);
+type LikeDislikeButtonPropsType = {
+  item: UserType;
+};
+
+const LikeDislikeButton: React.FC<LikeDislikeButtonPropsType> = ({item}) => {
+  const dispatch = useAppDispatch();
+  const likedUsers = useAppSelector(state => state.Likes.likedUsers);
   const liked = likedUsers.some(i => i.id.value === item.id.value);
   const scaleValue = useRef(new Animated.Value(1)).current;
 

@@ -1,4 +1,8 @@
 import axios from 'axios';
+import {
+  NewCommentDetailsType,
+  UpdatingCommentDetailsType,
+} from '../../Types/Types';
 
 //get all comments
 export const getAllComments = async () => {
@@ -11,7 +15,9 @@ export const getAllComments = async () => {
 };
 
 //add a new comment
-export const addNewComment = async newCommentDetails => {
+export const addNewComment = async (
+  newCommentDetails: NewCommentDetailsType,
+) => {
   try {
     const {body, postId, userId} = newCommentDetails;
     let response = await axios.post(
@@ -31,7 +37,7 @@ export const addNewComment = async newCommentDetails => {
   }
 };
 //delete a comment
-export const deleteComment = async id => {
+export const deleteComment = async (id: number) => {
   try {
     let response = await axios.delete(`https://dummyjson.com/comments/${id}`);
     return response.data.id;
@@ -39,8 +45,13 @@ export const deleteComment = async id => {
     console.log(error);
   }
 };
+
 //update a comment
-export const updateComment = async updatingCommentDetails => {
+export const updateComment = async (
+  updatingCommentDetails: UpdatingCommentDetailsType,
+) => {
+  console.log(updatingCommentDetails);
+
   try {
     const {id, editedBody} = updatingCommentDetails;
     let response = await axios.put(

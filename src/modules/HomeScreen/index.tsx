@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {FAB} from 'react-native-paper';
-import {useDispatch, useSelector} from 'react-redux';
 import {fetchUsers} from '../../Redux/Slices/UsersSlice';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
@@ -19,7 +18,8 @@ import HomeScreenCard from '../../Components/HomeScreenCard';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import StaticVariables from '../../Preferences/StaticVariables';
 import NetFriends_logo_with_sidelabel from '../../Assets/Images/Logo/NetFriends_logo_with_sidelabel.png';
-import {NativeEventType} from '../../Types/Types';
+import {NativeEventType, UserType} from '../../Types/Types';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import styles from './Style';
 
 const HomeScreen: React.FC = ({navigation}) => {
@@ -30,8 +30,8 @@ const HomeScreen: React.FC = ({navigation}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const flatListRef = useRef<FlatList | null>(null);
   const [isFabVisible, setIsFabVisible] = useState(false);
-  const dispatch = useDispatch();
-  const {users, loading, error} = useSelector(state => state.Users);
+  const dispatch = useAppDispatch();
+  const {users, loading, error} = useAppSelector(state => state.Users);
 
   const search = useCallback(
     (text: string) => {
@@ -97,11 +97,13 @@ const HomeScreen: React.FC = ({navigation}) => {
   );
 
   const renderItem = useCallback(
-    ({item}) => (
-      <View style={screenStyles.homeScreenCardContainer}>
-        <HomeScreenCard item={item} />
-      </View>
-    ),
+    ({item}: {item: UserType}) => {
+      return (
+        <View style={screenStyles.homeScreenCardContainer}>
+          <HomeScreenCard item={item} />
+        </View>
+      );
+    },
     [screenStyles],
   );
 

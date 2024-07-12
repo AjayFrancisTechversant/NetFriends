@@ -3,15 +3,15 @@ import React from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import CommentCard from '../CommentCard';
+import {CommentItemType, UpdatingCommentDetailsType} from '../../Types/Types';
 import styles from './Style';
-import {CommentItemType, updatingMessageDetailsType} from '../../Types/Types';
 
 type CommentsContainerPropsType = {
   loading: boolean;
   comments: CommentItemType[];
   handleDeleteComment: (id: number) => void;
   handleUpdateComment: (
-    updatingMessageDetails: updatingMessageDetailsType,
+    updatingCommentDetails: UpdatingCommentDetailsType,
   ) => void;
 };
 

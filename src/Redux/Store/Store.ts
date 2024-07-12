@@ -4,23 +4,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import LikesReducer from '../Slices/LikeSlice';
 import AddFriendReducer from '../Slices/AddFriendSlice';
 import UsersReducer from '../Slices/UsersSlice';
-import CommentsReducer from '../Slices/CommentsSlice'
+import CommentsReducer from '../Slices/CommentsSlice';
 
 // Configure persist options
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   // Optionally, you can blacklist certain reducers or whitelist only specific ones
-  whitelist: ['Likes','AddFriend',],
-  blacklist: ['Users','Comments']
+  whitelist: ['Likes', 'AddFriend'],
+  blacklist: ['Users', 'Comments'],
 };
 
 //combine all reducers into rootreducers
 const rootReducer = combineReducers({
   Likes: LikesReducer,
   AddFriend: AddFriendReducer,
-  Users:UsersReducer,
-  Comments:CommentsReducer,
+  Users: UsersReducer,
+  Comments: CommentsReducer,
 });
 
 // Create a persisted reducer
@@ -35,7 +35,8 @@ const store = configureStore({
       serializableCheck: false,
     }),
 });
-
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppDispatch = typeof store.dispatch;
 // Create a persisted store using persistStore
 const persistor = persistStore(store);
 

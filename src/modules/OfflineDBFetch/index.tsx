@@ -23,7 +23,7 @@ const OfflineDBFetch: React.FC = ({navigation}) => {
     AllUsersData.map(async i => {
       try {
         await database.write(async () => {
-          await database.get('users').create(j => {
+          await database.get('users').create((j: any) => {
             j.name = i.name.first + ' ' + i.name.last;
             j.age = i.dob.age;
             j.gender = i.gender;

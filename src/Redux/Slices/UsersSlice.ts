@@ -2,16 +2,25 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {getUsers} from '../../Services/API/getUsers';
 import StaticVariables from '../../Preferences/StaticVariables';
 
-const initialState = {
+type UsersReduxStateType = {
+  users: any[];
+  loading: boolean;
+  error: null | string;
+};
+
+const initialState: UsersReduxStateType = {
   users: StaticVariables.EMPTY_ARRAY,
   loading: false,
   error: null,
 };
 
-export const fetchUsers = createAsyncThunk('users/fetchUsers', async page => {
-  const response = await getUsers(page);
-  return response;
-});
+export const fetchUsers = createAsyncThunk(
+  'users/fetchUsers',
+  async (page: number) => {
+    const response = await getUsers(page);
+    return response;
+  },
+);
 
 const UsersSlice = createSlice({
   name: 'Users',
