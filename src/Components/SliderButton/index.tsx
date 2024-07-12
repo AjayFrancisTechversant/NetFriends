@@ -16,11 +16,25 @@ import LinearGradient from 'react-native-linear-gradient';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './Style';
 
-function clamp(val, min, max) {
+function clamp(val: number, min: number, max: number) {
   return Math.min(Math.max(val, min), max);
 }
 
-const SliderButton = ({height, width, sliderWidth, sliderText, onPressFn}) => {
+interface SliderButtonPropsType {
+  height: number;
+  width: number;
+  sliderWidth: number;
+  sliderText: string;
+  onPressFn: () => void;
+}
+
+const SliderButton: React.FC<SliderButtonPropsType> = ({
+  height,
+  width,
+  sliderWidth,
+  sliderText,
+  onPressFn,
+}) => {
   const translationX = useSharedValue(0);
   const prevTranslationX = useSharedValue(0);
   const screenStyles = styles(height, width, sliderWidth);

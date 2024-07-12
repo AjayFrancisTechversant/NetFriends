@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 
-const styles = (height, width, sliderWidth) =>
+const styles = (height: number, width: number, sliderWidth: number) =>
   StyleSheet.create({
     container: {
       height: height,

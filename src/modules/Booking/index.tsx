@@ -20,9 +20,9 @@ import SliderButton from '../../Components/SliderButton';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './Style';
 
-const TwoGreenCups = require('../../Assets/Images/2GreenCups.jpg');
+import TwoGreenCups from '../../Assets/Images/2GreenCups.jpg';
 
-function clamp(val, min, max) {
+function clamp(val:number, min:number, max:number) {
   return Math.min(Math.max(val, min), max);
 }
 const AnimatedImageBackground =
