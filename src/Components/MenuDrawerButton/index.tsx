@@ -1,3 +1,4 @@
+import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
@@ -8,7 +9,7 @@ type MenuDrawerButtonPropsType = {
 };
 
 const MenuDrawerButton: React.FC<MenuDrawerButtonPropsType> = ({color}) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   return (
     <TouchableOpacity onPress={() => navigation.openDrawer()}>
       <Feather name="menu" size={30} color={color} />

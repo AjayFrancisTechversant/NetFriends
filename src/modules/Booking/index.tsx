@@ -1,4 +1,4 @@
-import {View, ImageBackground, TouchableOpacity} from 'react-native';
+import {View, ImageBackground, TouchableOpacity, Alert} from 'react-native';
 import React, {useEffect} from 'react';
 import {Text} from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -14,33 +14,30 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import HomeScreen from '../HomeScreen';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import SliderButton from '../../Components/SliderButton';
 import {useScreenContext} from '../../Contexts/ScreenContext';
+import TwoGreenCups from '../../Assets/Images/2GreenCups.jpg';
+import {useNavigation} from '@react-navigation/native';
 import styles from './style';
 
-import TwoGreenCups from '../../Assets/Images/2GreenCups.jpg';
-import { useNavigation } from '@react-navigation/native';
-
-function clamp(val:number, min:number, max:number) {
+function clamp(val: number, min: number, max: number) {
   return Math.min(Math.max(val, min), max);
 }
 const AnimatedImageBackground =
   Animated.createAnimatedComponent(ImageBackground);
 
-const Booking:React.FC = () => {
-  const navigation=useNavigation()
+const Booking: React.FC = () => {
+  const navigation = useNavigation();
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
     screenContext[screenContext.isPortrait ? 'windowWidth' : 'windowHeight'],
     screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
   );
-console.log(navigation);
 
   const handleSliderSubmit = () => {
-    navigation.navigate(HomeScreen);
+    navigation.navigate('HomeScreen' as never);
   };
   const translationY = useSharedValue(0);
   const prevTranslationY = useSharedValue(0);

@@ -33,8 +33,9 @@ import VideoPlayerScreen from '../../../../modules/VideoPlayerScreen';
 import ClipBoard from '../../../../modules/ClipBoard';
 import CommentsScreen from '../../../../modules/CommentsScreen';
 
+const Drawer = createDrawerNavigator();
+
 const HomeDrawerStack = () => {
-  const Drawer = createDrawerNavigator();
   return (
     <Drawer.Navigator
       screenOptions={{

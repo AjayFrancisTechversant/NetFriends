@@ -37,17 +37,17 @@ const HomeTabStack = () => {
           ),
         }}
       />
-          <HomeTabStack.Screen
+      <HomeTabStack.Screen
         name="Parallax"
         component={ParallaxCarousel}
         options={{
           headerShown: false,
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons
-            name="view-carousel"
-            color={color}
-            size={size}
-          />
+              name="view-carousel"
+              color={color}
+              size={size}
+            />
           ),
         }}
       />

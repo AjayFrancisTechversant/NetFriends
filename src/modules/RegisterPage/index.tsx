@@ -7,10 +7,10 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './style';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const RegisterPage: React.FC = () => {
-  const navigation=useNavigation()
+  const navigation = useNavigation();
   const [userData, setUserData] = useState({
     email: StaticVariables.EMPTY_STRING,
     password: StaticVariables.EMPTY_STRING,
@@ -80,7 +80,8 @@ const RegisterPage: React.FC = () => {
         </TouchableOpacity>
         <View style={screenStyles.lastViewContainer}>
           <Text>Already Registered? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('LoginPage')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('LoginPage' as never)}>
             <Text style={screenStyles.greenUnderlinetext}>Login</Text>
           </TouchableOpacity>
         </View>

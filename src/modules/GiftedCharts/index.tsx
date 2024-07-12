@@ -4,11 +4,12 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {PieChart, BarChart} from 'react-native-gifted-charts';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import styles from './style';
 import {useNavigation} from '@react-navigation/native';
+import {DrawerNavigationProp} from '@react-navigation/drawer';
+import styles from './style';
 
 const GiftedCharts = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const pieData = [
     {value: 37, label: 'ETH', color: ColorPalette.pink},
     {value: 44, label: 'BTC', color: ColorPalette.violet},
