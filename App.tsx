@@ -17,6 +17,8 @@ import {persistor, store} from './src/Redux/Store/Store';
 import HomeTabStack from './src/Services/Navigation/Stacks/HomeTabStack';
 import {ScreenContextProvider} from './src/Contexts/ScreenContext';
 import Loader1 from './src/Components/Loader1'
+import Crashlytics from './src/modules/Crashlytics';
+import LineSlider from './src/Components/LineSlider';
 
 // Request permissions for notifications
 PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
@@ -101,7 +103,8 @@ const Main: React.FC = () => {
           <GestureHandlerRootView style={{flex: 1}}>
             <PaperProvider>
               {/* <App /> */}
-              <Loader1/>
+              <LineSlider/>
+              {/* <Loader1/> */}
             </PaperProvider>
           </GestureHandlerRootView>
         </PersistGate>

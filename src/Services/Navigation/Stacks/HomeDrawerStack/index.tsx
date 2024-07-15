@@ -32,6 +32,7 @@ import PDFReader from '../../../../modules/PDFReader';
 import VideoPlayerScreen from '../../../../modules/VideoPlayerScreen';
 import ClipBoard from '../../../../modules/ClipBoard';
 import CommentsScreen from '../../../../modules/CommentsScreen';
+import Crashlytics from '../../../../modules/Crashlytics';
 
 const Drawer = createDrawerNavigator();
 
@@ -277,6 +278,19 @@ const HomeDrawerStack = () => {
         }}
         name="Locator"
         component={Locator}
+      />
+      <Drawer.Screen
+        options={{
+          drawerIcon: () => (
+            <FontAwesome6
+              name="explosion"
+              color={ColorPalette.green}
+              size={20}
+            />
+          ),
+        }}
+        name="Crash(lytics)"
+        component={Crashlytics}
       />
 
       <Drawer.Screen
