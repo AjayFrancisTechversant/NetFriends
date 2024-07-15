@@ -15,8 +15,8 @@ import GithubAuthButton from '../../Components/GithubAuthButton';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import styles from './style';
 import {useNavigation} from '@react-navigation/native';
+import styles from './style';
 
 const LoginPage: React.FC = () => {
   const navigation = useNavigation();

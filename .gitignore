@@ -3,6 +3,8 @@
 .DS_Store
 .env
 sample.tsx
+sample.ts
+sample.js
 # Xcode
 #
 build/
