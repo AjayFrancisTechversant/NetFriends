@@ -33,6 +33,7 @@ import VideoPlayerScreen from '../../../../modules/VideoPlayerScreen';
 import ClipBoard from '../../../../modules/ClipBoard';
 import CommentsScreen from '../../../../modules/CommentsScreen';
 import Crashlytics from '../../../../modules/Crashlytics';
+import LineSlider from '../../../../Components/LineSlider';
 
 const Drawer = createDrawerNavigator();
 
@@ -98,6 +99,15 @@ const HomeDrawerStack = () => {
         }}
         name="ClipBoard"
         component={ClipBoard}
+      />
+       <Drawer.Screen
+        options={{
+          drawerIcon: () => (
+            <FontAwesome6 name="sliders" color={ColorPalette.green} size={20} />
+          ),
+        }}
+        name="Custom Line Slider"
+        component={LineSlider}
       />
       <Drawer.Screen
         options={{
