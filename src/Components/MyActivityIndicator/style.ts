@@ -19,7 +19,7 @@ const styles = (
       borderLeftColor: ColorPalette.white,
       borderRightColor: ColorPalette.white,
       borderBottomColor: ColorPalette.white,
-      borderWidth: 10,
+      borderWidth: 5,
       position: 'absolute',
     },
   });
