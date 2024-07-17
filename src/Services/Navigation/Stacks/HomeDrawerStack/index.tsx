@@ -34,6 +34,8 @@ import ClipBoard from '../../../../modules/ClipBoard';
 import CommentsScreen from '../../../../modules/CommentsScreen';
 import Crashlytics from '../../../../modules/Crashlytics';
 import LineSlider from '../../../../Components/LineSlider';
+import Loader1 from '../../../../Components/Loader1';
+import LoadersScreen from '../../../../modules/LoadersScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -108,6 +110,15 @@ const HomeDrawerStack = () => {
         }}
         name="Custom Line Slider"
         component={LineSlider}
+      />
+         <Drawer.Screen
+        options={{
+          drawerIcon: () => (
+            <AntDesign name="loading1" color={ColorPalette.green} size={20} />
+          ),
+        }}
+        name="Custom Loader"
+        component={LoadersScreen}
       />
       <Drawer.Screen
         options={{

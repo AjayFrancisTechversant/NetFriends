@@ -1,11 +1,34 @@
-import {View, Text} from 'react-native';
-import React from 'react';
+import {View, Animated, Easing} from 'react-native';
+import React, {useEffect, useRef} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
 
-type Loader1PropsType = {};
+type Loader1PropsType = {
+  radius: number;
+  color?: string;
+  duration?: number;
+};
 
-const Loader1: React.FC<Loader1PropsType> = ({}) => {
+const Loader1: React.FC<Loader1PropsType> = ({radius, color, duration}) => {
+  const rotationDegree = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    startRotationAnimation(duration, rotationDegree);
+  }, [duration]);
+
+  const startRotationAnimation = (
+    duration: number | undefined,
+    rotationDegree: Animated.Value,
+  ): void => {
+    Animated.loop(
+      Animated.timing(rotationDegree, {
+        toValue: 360,
+        duration: duration ? duration : 1000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    ).start();
+  };
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -13,8 +36,22 @@ const Loader1: React.FC<Loader1PropsType> = ({}) => {
     screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
   );
   return (
-    <View>
-      <Text>index</Text>
+    <View style={[screenStyles.container, {height: radius, width: radius}]}>
+      <Animated.View
+        style={[
+          screenStyles.progressCircle,
+          {borderRadius: radius / 2, borderTopColor: color},
+          {
+            transform: [
+              {
+                rotateZ: rotationDegree.interpolate({
+                  inputRange: [0, 360],
+                  outputRange: ['0deg', '360deg'],
+                }),
+              },
+            ],
+          },
+        ]}></Animated.View>
     </View>
   );
 };

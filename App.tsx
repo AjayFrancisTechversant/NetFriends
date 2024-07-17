@@ -16,9 +16,8 @@ import AuthNativeStack from './src/Services/Navigation/Stacks/AuthNativeStack';
 import {persistor, store} from './src/Redux/Store/Store';
 import HomeTabStack from './src/Services/Navigation/Stacks/HomeTabStack';
 import {ScreenContextProvider} from './src/Contexts/ScreenContext';
-import Loader1 from './src/Components/Loader1'
-import Crashlytics from './src/modules/Crashlytics';
-import LineSlider from './src/Components/LineSlider';
+import MyCircularProgressBar from './src/Components/MyCircularProgressBar'
+import LoadersScreen from './src/modules/LoadersScreen';
 
 // Request permissions for notifications
 PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
@@ -102,8 +101,8 @@ const Main: React.FC = () => {
         <PersistGate loading={null} persistor={persistor}>
           <GestureHandlerRootView style={{flex: 1}}>
             <PaperProvider>
-              <App />
-              {/* <Loader1/> */}
+              {/* <App /> */}
+              <LoadersScreen/>
             </PaperProvider>
           </GestureHandlerRootView>
         </PersistGate>

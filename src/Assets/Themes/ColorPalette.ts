@@ -17,7 +17,9 @@ const  ColorPalette = {
   gray:'#808080',
   transWhite:'rgba(255,255,255,0.3)',
   transBlack:'rgba(0,0,0,0.7)',
-  transparent:'transparent'
+  transparent:'transparent',
+  offWhite:'#E6E6E6'
+  
 };
 
 export default ColorPalette
