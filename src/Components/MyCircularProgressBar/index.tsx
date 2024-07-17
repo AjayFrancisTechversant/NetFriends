@@ -4,6 +4,7 @@ import Svg, {Circle} from 'react-native-svg';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './style';
+import Animated, {useSharedValue, withSpring} from 'react-native-reanimated';
 
 interface CircularProgressBarPropsType {
   radius: number;
@@ -18,6 +19,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
 }) => {
   const [progress, setProgress] = useState(0);
   const [timeLeft, setTimeLeft] = useState(duration);
+  const textScaleAnim = useSharedValue(0);
 
   useEffect(() => {
     let animationFrameId: number;
@@ -50,13 +52,21 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
 
   const adjustedRadius = radius + strokeWidth / 2;
   const adjustedSize = adjustedRadius * 2;
-  
+
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
     screenContext[screenContext.isPortrait ? 'windowWidth' : 'windowHeight'],
     screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
   );
+  const onfinish = () => {
+    textScaleAnim.value = withSpring(2);    
+  };
+  const finished=progress >= 1
+  if (finished) {
+    onfinish();
+  }
+
   return (
     <View style={screenStyles.container}>
       <Svg
@@ -84,7 +94,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
           fill="none"
         />
       </Svg>
-      {progress <= 1 ? (
+      {!finished ? (
         <View style={screenStyles.centerView}>
           <Text style={screenStyles.boldBigText}>
             Progress: {Math.floor(progress * 100)}%
@@ -93,7 +103,9 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
         </View>
       ) : (
         <View style={[screenStyles.centerView]}>
-          <Text style={[screenStyles.boldBigText,{transform:[{scale:2.5}]}]}>Finished</Text>
+          <Animated.Text style={[screenStyles.boldBigText, {transform: [{scale: textScaleAnim}]}]}>
+            Finished!
+          </Animated.Text>
         </View>
       )}
     </View>
