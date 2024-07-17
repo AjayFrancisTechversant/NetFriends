@@ -10,7 +10,8 @@ const styles = (
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'relative',borderWidth:1
+        position: 'relative',borderWidth:1,
+       
       },
       text: {
         position: 'absolute',

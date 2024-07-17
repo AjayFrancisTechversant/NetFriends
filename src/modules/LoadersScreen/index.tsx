@@ -17,7 +17,7 @@ const LoadersScreen = () => {
     <View style={screenStyles.container}>
       {/* <Text>Loader 1:</Text>
       <Loader1 radius={200} color={ColorPalette.red} duration={1000}/> */}
-      <MyCircularProgressBar radius={50} duration={100} strokeWidth={10}/>
+      <MyCircularProgressBar radius={150} duration={20} strokeWidth={50}/>
     </View>
   )
 }

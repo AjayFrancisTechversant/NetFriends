@@ -40,6 +40,9 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
     if (progress < 0.66) return ColorPalette.orange;
     return ColorPalette.green;
   };
+  const adjustedRadius = radius + strokeWidth / 2;
+  const adjustedSize = adjustedRadius * 2;
+
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -49,20 +52,21 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
   return (
     <View style={screenStyles.container}>
       <Svg
-        height={radius * 2}
-        width={radius * 2}
-        viewBox={`0 0 ${radius * 2.5} ${radius * 2.5}`}>
+        height={adjustedSize}
+        width={adjustedSize}
+        viewBox={`0 0 ${adjustedSize} ${adjustedSize}`}
+        style={{}}>
         <Circle
-          cx={radius}
-          cy={radius}
+          cx={adjustedRadius}
+          cy={adjustedRadius}
           r={radius}
           stroke={ColorPalette.offWhite}
           strokeWidth={strokeWidth}
           fill="none"
         />
         <Circle
-          cx={radius}
-          cy={radius}
+          cx={adjustedRadius}
+          cy={adjustedRadius}
           r={radius}
           stroke={getColor(progress)}
           strokeWidth={strokeWidth}
