@@ -20,17 +20,33 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
   const [timeLeft, setTimeLeft] = useState(duration);
 
   useEffect(() => {
-    if (progress < 1) {
-      const interval = setInterval(() => {
-        setProgress(prev => {
-          const newProgress = prev + 0.01;
-          setTimeLeft(duration - Math.floor(newProgress * duration));
-          return newProgress;
-        });
-      }, duration * 10);
-      return () => clearInterval(interval);
-    }
-  }, [progress, duration]);
+    let animationFrameId: number;
+
+    const startTime = Date.now();
+    const endTime = startTime + duration * 1000; // Convert duration to milliseconds
+
+    const animate = () => {
+      const now = Date.now();
+      const elapsedTime = now - startTime;
+      const remainingTime = Math.max(0, endTime - now);
+
+      // Calculate progress based on elapsed time
+      const currentProgress = elapsedTime / (duration * 1000);
+
+      setProgress(currentProgress);
+      setTimeLeft(Math.ceil(remainingTime / 1000)); // Convert remaining milliseconds to seconds
+
+      // Continue animation if progress is less than 1
+      if (currentProgress < 1) {
+        animationFrameId = requestAnimationFrame(animate);
+      }
+    };
+
+    animate();
+
+    // Cleanup function
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [duration]);
 
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - circumference * progress;
@@ -40,6 +56,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
     if (progress < 0.66) return ColorPalette.orange;
     return ColorPalette.green;
   };
+
   const adjustedRadius = radius + strokeWidth / 2;
   const adjustedSize = adjustedRadius * 2;
 
@@ -49,6 +66,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
     screenContext[screenContext.isPortrait ? 'windowWidth' : 'windowHeight'],
     screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
   );
+
   return (
     <View style={screenStyles.container}>
       <Svg
@@ -76,10 +94,12 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
           fill="none"
         />
       </Svg>
-     <View style={screenStyles.centerView}>
-          <Text style={screenStyles.text}>Progress: {Math.floor(progress*100)}%</Text>
-          <Text style={screenStyles.text}>Time Left: {timeLeft}s</Text>
-     </View>
+      <View style={screenStyles.centerView}>
+        <Text style={screenStyles.text}>
+          Progress: {Math.floor(progress * 100)}%
+        </Text>
+        <Text style={screenStyles.text}>Time Left: {timeLeft}s</Text>
+      </View>
     </View>
   );
 };
