@@ -21,30 +21,21 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
 
   useEffect(() => {
     let animationFrameId: number;
-
     const startTime = Date.now();
-    const endTime = startTime + duration * 1000; // Convert duration to milliseconds
+    const endTime = startTime + duration * 1000; 
 
     const animate = () => {
       const now = Date.now();
       const elapsedTime = now - startTime;
       const remainingTime = Math.max(0, endTime - now);
-
-      // Calculate progress based on elapsed time
       const currentProgress = elapsedTime / (duration * 1000);
-
       setProgress(currentProgress);
-      setTimeLeft(Math.ceil(remainingTime / 1000)); // Convert remaining milliseconds to seconds
-
-      // Continue animation if progress is less than 1
+      setTimeLeft(Math.ceil(remainingTime / 1000)); 
       if (currentProgress < 1) {
         animationFrameId = requestAnimationFrame(animate);
       }
     };
-
     animate();
-
-    // Cleanup function
     return () => cancelAnimationFrame(animationFrameId);
   }, [duration]);
 

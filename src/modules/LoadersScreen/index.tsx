@@ -19,7 +19,7 @@ const LoadersScreen = () => {
       <Text>My ActivityIndicator:</Text>
       <MyActivityIndicator radius={50} color={ColorPalette.red} duration={1000}/>
       <Text>My Circular ProgressBar</Text>
-      <MyCircularProgressBar radius={150} duration={200} strokeWidth={20}/>
+      <MyCircularProgressBar radius={150} duration={20} strokeWidth={20}/>
     </View>
   )
 }
