@@ -16,10 +16,10 @@ const LoadersScreen = () => {
   return (
     <View style={screenStyles.container}>
         <Text style={screenStyles.heading}>Custom Loaders</Text>
-      <Text>My ActivityIndicator:</Text>
+      <Text>ActivityIndicator:</Text>
       <MyActivityIndicator radius={50} color={ColorPalette.red} duration={1000}/>
-      <Text>My Circular ProgressBar</Text>
-      <MyCircularProgressBar radius={150} duration={20} strokeWidth={20}/>
+      <Text>Circular ProgressBar:</Text>
+      <MyCircularProgressBar radius={150} duration={0} strokeWidth={20}/>
     </View>
   )
 }

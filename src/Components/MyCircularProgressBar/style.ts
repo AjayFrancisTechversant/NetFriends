@@ -17,7 +17,7 @@ const styles = (
       alignItems: 'center',
       justifyContent: 'center',
     },
-    text: {
+    boldBigText: {
       fontSize: 20,
       fontWeight: 'bold',
     },

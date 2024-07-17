@@ -22,7 +22,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
   useEffect(() => {
     let animationFrameId: number;
     const startTime = Date.now();
-    const endTime = startTime + duration * 1000; 
+    const endTime = startTime + duration * 1000;
 
     const animate = () => {
       const now = Date.now();
@@ -30,7 +30,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
       const remainingTime = Math.max(0, endTime - now);
       const currentProgress = elapsedTime / (duration * 1000);
       setProgress(currentProgress);
-      setTimeLeft(Math.ceil(remainingTime / 1000)); 
+      setTimeLeft(Math.ceil(remainingTime / 1000));
       if (currentProgress < 1) {
         animationFrameId = requestAnimationFrame(animate);
       }
@@ -50,14 +50,13 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
 
   const adjustedRadius = radius + strokeWidth / 2;
   const adjustedSize = adjustedRadius * 2;
-
+  
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
     screenContext[screenContext.isPortrait ? 'windowWidth' : 'windowHeight'],
     screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
   );
-
   return (
     <View style={screenStyles.container}>
       <Svg
@@ -85,12 +84,18 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
           fill="none"
         />
       </Svg>
-      <View style={screenStyles.centerView}>
-        <Text style={screenStyles.text}>
-          Progress: {Math.floor(progress * 100)}%
-        </Text>
-        <Text style={screenStyles.text}>Time Left: {timeLeft}s</Text>
-      </View>
+      {progress <= 1 ? (
+        <View style={screenStyles.centerView}>
+          <Text style={screenStyles.boldBigText}>
+            Progress: {Math.floor(progress * 100)}%
+          </Text>
+          <Text style={screenStyles.boldBigText}>Time Left: {timeLeft}s</Text>
+        </View>
+      ) : (
+        <View style={[screenStyles.centerView]}>
+          <Text style={[screenStyles.boldBigText,{transform:[{scale:2.5}]}]}>Finished</Text>
+        </View>
+      )}
     </View>
   );
 };
