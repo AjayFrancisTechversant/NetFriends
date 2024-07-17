@@ -24,6 +24,7 @@ const styles = (
       height: 5,
       backgroundColor: ColorPalette.gray,
     },
+    railFill:{},
     handle: {
       width: 30,
       height: 30,
