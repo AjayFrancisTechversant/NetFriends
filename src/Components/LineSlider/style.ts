@@ -10,13 +10,11 @@ const styles = (
   StyleSheet.create({
     sliderContainer: {
       borderRadius: 10,
-      borderWidth: 1,
       //   alignItems: 'center',
       justifyContent: 'center',
       width: width * 0.9,
       height: height * 0.1,
       alignSelf: 'center',
-      borderColor: ColorPalette.gray,
       position: 'relative',
     },
     rail: {
@@ -24,7 +22,7 @@ const styles = (
       height: 5,
       backgroundColor: ColorPalette.gray,
     },
-    railFill:{},
+    railFill:{backgroundColor:ColorPalette.green,width:'100%',position:'absolute',left:0,height:5},
     handle: {
       width: 30,
       height: 30,

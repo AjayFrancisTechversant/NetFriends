@@ -22,23 +22,19 @@ const LineSlider = () => {
   const handleResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onPanResponderGrant: () => {
-      console.log('start');
-
       handleAnim.setOffset(handleAnim._value);
       railFillAnim.setOffset(railFillAnim._value);
     },
     onPanResponderMove: (evt, {dx, moveX}) => {
       if (
-        moveX > sliderContainerDimensions.right &&
-        moveX < sliderContainerDimensions.left
+        moveX >= (sliderContainerDimensions.right ?? 0) &&
+        moveX <= (sliderContainerDimensions.left ?? 0)
       ) {
         handleAnim.setValue(dx);
-        railFillAnim.setValue(-dx);
+        railFillAnim.setValue(dx);
       }
     },
     onPanResponderRelease: () => {
-      console.log('releasse');
-
       handleAnim.flattenOffset();
       railFillAnim.flattenOffset();
     },
@@ -49,11 +45,15 @@ const LineSlider = () => {
     screenContext[screenContext.isPortrait ? 'windowWidth' : 'windowHeight'],
     screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
   );
+  // console.log(sliderContainerDimensions);
+
   return (
     <View
       style={screenStyles.sliderContainer}
       onLayout={event => {
         const {width, x} = event.nativeEvent.layout;
+        console.log(event.nativeEvent.layout);
+
         setSliderContainerDimensions({
           width,
           left: x + width,
@@ -61,7 +61,7 @@ const LineSlider = () => {
         });
       }}>
       <View style={screenStyles.rail}>
-        <Animated.View style={screenStyles.railFill} />
+        <Animated.View style={[screenStyles.railFill, {width: railFillAnim}]} />
       </View>
       <Animated.View
         {...handleResponder.panHandlers}
