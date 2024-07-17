@@ -30,9 +30,9 @@ const styles = (
       borderRadius: 5,
     },
     handle: {
-      width: 30,
-      height: 30,
-      borderRadius: 30,
+      width: 20,
+      height: 20,
+      borderRadius: 20,
       backgroundColor: ColorPalette.green,
       position: 'absolute',
     },

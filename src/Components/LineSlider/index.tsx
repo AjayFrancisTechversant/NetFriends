@@ -1,4 +1,4 @@
-import {View, Animated, PanResponder} from 'react-native';
+import {View, Animated, PanResponder, Vibration} from 'react-native';
 import React, {useRef, useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
@@ -18,12 +18,17 @@ const LineSlider = () => {
 
   const handleAnim = useRef(new Animated.Value(0)).current;
   const railFillAnim = useRef(new Animated.Value(0)).current;
+  const handleSizeAnim = useRef(new Animated.Value(1)).current;
 
   const handleResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onPanResponderGrant: () => {
-      handleAnim.setOffset(handleAnim._value);
-      railFillAnim.setOffset(railFillAnim._value);
+      Animated.spring(handleSizeAnim, {
+        toValue: 1.3,
+        useNativeDriver: false,
+      }).start();
+      handleAnim.extractOffset();
+      railFillAnim.extractOffset();
     },
     onPanResponderMove: (evt, {dx, moveX}) => {
       if (
@@ -35,6 +40,11 @@ const LineSlider = () => {
       }
     },
     onPanResponderRelease: () => {
+      Animated.spring(handleSizeAnim, {
+        toValue: 1,
+        useNativeDriver: false,
+      }).start();
+
       handleAnim.flattenOffset();
       railFillAnim.flattenOffset();
     },
@@ -64,7 +74,7 @@ const LineSlider = () => {
         style={[
           screenStyles.handle,
           {
-            transform: [{translateX: handleAnim}],
+            transform: [{translateX: handleAnim}, {scale: handleSizeAnim}],
           },
         ]}
       />
