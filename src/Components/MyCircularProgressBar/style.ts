@@ -12,7 +12,11 @@ const styles = (
       alignItems: 'center',
       position: 'relative',
     },
-    centerView: {position: 'absolute'},
+    centerView: {
+      position: 'absolute',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
     text: {
       fontSize: 20,
       fontWeight: 'bold',
