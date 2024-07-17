@@ -27,8 +27,8 @@ const LineSlider = () => {
     },
     onPanResponderMove: (evt, {dx, moveX}) => {
       if (
-        moveX >= (sliderContainerDimensions.right ?? 0) &&
-        moveX <= (sliderContainerDimensions.left ?? 0)
+        moveX > (sliderContainerDimensions.left ?? 0) &&
+        moveX < (sliderContainerDimensions.right ?? 0)
       ) {
         handleAnim.setValue(dx);
         railFillAnim.setValue(dx);
@@ -45,19 +45,15 @@ const LineSlider = () => {
     screenContext[screenContext.isPortrait ? 'windowWidth' : 'windowHeight'],
     screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
   );
-  // console.log(sliderContainerDimensions);
-
   return (
     <View
       style={screenStyles.sliderContainer}
       onLayout={event => {
         const {width, x} = event.nativeEvent.layout;
-        console.log(event.nativeEvent.layout);
-
         setSliderContainerDimensions({
           width,
-          left: x + width,
-          right: x,
+          left: x,
+          right: x + width,
         });
       }}>
       <View style={screenStyles.rail}>
