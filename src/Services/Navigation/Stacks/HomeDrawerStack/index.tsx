@@ -34,7 +34,7 @@ import ClipBoard from '../../../../modules/ClipBoard';
 import CommentsScreen from '../../../../modules/CommentsScreen';
 import Crashlytics from '../../../../modules/Crashlytics';
 import LineSlider from '../../../../Components/LineSlider';
-import Loader1 from '../../../../Components/Loader1';
+import Loader1 from '../../../../Components/MyActivityIndicator';
 import LoadersScreen from '../../../../modules/LoadersScreen';
 
 const Drawer = createDrawerNavigator();

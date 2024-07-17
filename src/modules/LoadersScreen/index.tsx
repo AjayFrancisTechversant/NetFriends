@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { useScreenContext } from '../../Contexts/ScreenContext';
-import Loader1 from '../../Components/Loader1';
+import MyActivityIndicator from '../../Components/MyActivityIndicator';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './style';
 import MyCircularProgressBar from '../../Components/MyCircularProgressBar';
@@ -15,9 +15,11 @@ const LoadersScreen = () => {
     );
   return (
     <View style={screenStyles.container}>
-      {/* <Text>Loader 1:</Text>
-      <Loader1 radius={200} color={ColorPalette.red} duration={1000}/> */}
-      <MyCircularProgressBar radius={150} duration={20} strokeWidth={50}/>
+        <Text style={screenStyles.heading}>Custom Loaders</Text>
+      <Text>My ActivityIndicator:</Text>
+      <MyActivityIndicator radius={50} color={ColorPalette.red} duration={1000}/>
+      <Text>My Circular ProgressBar</Text>
+      <MyCircularProgressBar radius={150} duration={20} strokeWidth={20}/>
     </View>
   )
 }

@@ -3,13 +3,13 @@ import React, {useEffect, useRef} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
 
-type Loader1PropsType = {
+type MyActivityIndicatorPropsType = {
   radius: number;
   color?: string;
   duration?: number;
 };
 
-const Loader1: React.FC<Loader1PropsType> = ({radius, color, duration}) => {
+const MyActivityIndicator: React.FC<MyActivityIndicatorPropsType> = ({radius, color, duration}) => {
   const rotationDegree = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -56,4 +56,4 @@ const Loader1: React.FC<Loader1PropsType> = ({radius, color, duration}) => {
   );
 };
 
-export default Loader1;
+export default MyActivityIndicator;

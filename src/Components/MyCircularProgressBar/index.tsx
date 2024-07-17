@@ -76,7 +76,10 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
           fill="none"
         />
       </Svg>
-      <Text style={screenStyles.text}>{timeLeft}s</Text>
+     <View style={screenStyles.centerView}>
+          <Text style={screenStyles.text}>Progress: {Math.floor(progress*100)}%</Text>
+          <Text style={screenStyles.text}>Time Left: {timeLeft}s</Text>
+     </View>
     </View>
   );
 };

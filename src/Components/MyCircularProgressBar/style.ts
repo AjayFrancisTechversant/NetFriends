@@ -8,15 +8,14 @@ const styles = (
 ) =>
   StyleSheet.create({
     container: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'relative',borderWidth:1,
-       
-      },
-      text: {
-        position: 'absolute',
-        fontSize: 20,
-        fontWeight: 'bold',
-      }
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'relative',
+    },
+    centerView: {position: 'absolute'},
+    text: {
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
   });
 export default styles;
