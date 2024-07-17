@@ -36,9 +36,9 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
   const strokeDashoffset = circumference - circumference * progress;
 
   const getColor = (progress: number): string => {
-    if (progress < 0.33) return '#FF0000'; 
-    if (progress < 0.66) return '#FFA500'; 
-    return '#008000'; // Green
+    if (progress < 0.33) return ColorPalette.red;
+    if (progress < 0.66) return ColorPalette.orange;
+    return ColorPalette.green;
   };
   const screenContext = useScreenContext();
   const screenStyles = styles(
@@ -68,7 +68,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
           strokeWidth={strokeWidth}
           strokeDasharray={circumference}
           strokeDashoffset={strokeDashoffset}
-          strokeLinecap="square"
+          strokeLinecap="round"
           fill="none"
         />
       </Svg>
