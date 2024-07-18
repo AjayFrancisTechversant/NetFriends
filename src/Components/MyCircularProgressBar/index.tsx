@@ -1,7 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, Vibration, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  Vibration,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import Svg, {Circle} from 'react-native-svg';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './style';
@@ -86,67 +92,66 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
   };
 
   return (
-   
-      <View style={screenStyles.container}>
-        <Svg
-          height={adjustedSize}
-          width={adjustedSize}
-          viewBox={`0 0 ${adjustedSize} ${adjustedSize}`}
-          style={{}}>
-          <Circle
-            cx={adjustedRadius}
-            cy={adjustedRadius}
-            r={radius}
-            stroke={ColorPalette.offWhite}
-            strokeWidth={strokeWidth}
-            fill="none"
-          />
-          <Circle
-            cx={adjustedRadius}
-            cy={adjustedRadius}
-            r={radius}
-            stroke={getColor(progress)}
-            strokeWidth={strokeWidth}
-            strokeDasharray={circumference}
-            strokeDashoffset={strokeDashoffset}
-            strokeLinecap="round"
-            fill="none"
-          />
-        </Svg>
-        {timerStatus == 'off' ? (
-          <View style={screenStyles.centerView}>
-            <TouchableOpacity style={screenStyles.startButton} onPress={handleStartTimer}>
-              <Text style={screenStyles.boldBigText}>
-                Start 
-              </Text>
-                <MaterialCommunityIcons name='timer-outline' size={30} />
-              <Text>
-              {duration}s</Text>
-            </TouchableOpacity>
-          </View>
-        ) : timerStatus == 'inProgress' ? (
-          <View style={screenStyles.centerView}>
-            <Text style={screenStyles.boldBigText}>
-              Progress: {Math.floor(progress * 100)}%
-            </Text>
-            <Text style={screenStyles.boldBigText}>Time Left: {timeLeft}s</Text>
-          </View>
-        ) : timerStatus == 'finished' ? (
-          <View style={[screenStyles.centerView]}>
-            <Animated.Text
-              style={[
-                screenStyles.boldBigText,
-                {transform: [{scale: textScaleAnim}]},
-              ]}>
-              Finished!
-            </Animated.Text>
-            <TouchableOpacity onPress={handleStartTimer}>
-              <Text>Start Again</Text>
-            </TouchableOpacity>
-          </View>
-        ) : null}
-      </View>
-   
+    <View style={screenStyles.container}>
+      <Svg
+        height={adjustedSize}
+        width={adjustedSize}
+        viewBox={`0 0 ${adjustedSize} ${adjustedSize}`}
+        style={{}}>
+        <Circle
+          cx={adjustedRadius}
+          cy={adjustedRadius}
+          r={radius}
+          stroke={ColorPalette.offWhite}
+          strokeWidth={strokeWidth}
+          fill="none"
+        />
+        <Circle
+          cx={adjustedRadius}
+          cy={adjustedRadius}
+          r={radius}
+          stroke={getColor(progress)}
+          strokeWidth={strokeWidth}
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          strokeLinecap="round"
+          fill="none"
+        />
+      </Svg>
+      {timerStatus == 'off' ? (
+        <View style={screenStyles.centerView}>
+          <TouchableOpacity
+            style={screenStyles.startButton}
+            onPress={handleStartTimer}>
+            <Text style={[screenStyles.boldBigText,screenStyles.whiteText]}>Start</Text>
+            <MaterialCommunityIcons color={ColorPalette.white} name="timer-outline" size={30} />
+            <Text style={screenStyles.whiteText}>{duration}s</Text>
+          </TouchableOpacity>
+        </View>
+      ) : timerStatus == 'inProgress' ? (
+        <View style={screenStyles.centerView}>
+          <Text style={screenStyles.boldBigText}>
+            Progress: {Math.floor(progress * 100)}%
+          </Text>
+          <Text style={screenStyles.boldBigText}>Time Left: {timeLeft}s</Text>
+        </View>
+      ) : timerStatus == 'finished' ? (
+        <Animated.View
+          style={[
+            screenStyles.centerView,
+            {transform: [{scale: textScaleAnim}]},
+          ]}>
+          <Text style={[screenStyles.boldBigText]}>Finished!</Text>
+          <TouchableOpacity onPress={handleStartTimer}>
+            <MaterialCommunityIcons
+              name="reload"
+              color={ColorPalette.green}
+              size={30}
+            />
+          </TouchableOpacity>
+        </Animated.View>
+      ) : null}
+    </View>
   );
 };
 

@@ -22,6 +22,7 @@ const styles = (
       fontSize: 20,
       fontWeight: 'bold',
     },
+    whiteText:{color:ColorPalette.white},
     startButton:{
       justifyContent:'center',
       alignItems:'center',
