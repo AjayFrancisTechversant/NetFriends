@@ -3,8 +3,8 @@ import React from 'react'
 import { useScreenContext } from '../../Contexts/ScreenContext';
 import MyActivityIndicator from '../../Components/MyActivityIndicator';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import styles from './style';
 import MyCircularProgressBar from '../../Components/MyCircularProgressBar';
+import styles from './style';
 
 const LoadersScreen = () => {
     const screenContext = useScreenContext();
@@ -20,7 +20,7 @@ const LoadersScreen = () => {
         <Text>ActivityIndicator:</Text>
         <MyActivityIndicator radius={50} color={ColorPalette.red} duration={1000}/>
         <Text>Circular ProgressBar:</Text>
-        <MyCircularProgressBar radius={150} duration={200} strokeWidth={20}/>
+        <MyCircularProgressBar radius={150} duration={10} strokeWidth={20}/>
       </View>
    </ScrollView>
   )
