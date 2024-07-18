@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
 import { useScreenContext } from '../../Contexts/ScreenContext';
 import MyActivityIndicator from '../../Components/MyActivityIndicator';
@@ -14,13 +14,15 @@ const LoadersScreen = () => {
       screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
     );
   return (
-    <View style={screenStyles.container}>
-        <Text style={screenStyles.heading}>Custom Loaders</Text>
-      <Text>ActivityIndicator:</Text>
-      <MyActivityIndicator radius={50} color={ColorPalette.red} duration={1000}/>
-      <Text>Circular ProgressBar:</Text>
-      <MyCircularProgressBar radius={150} duration={5} strokeWidth={20}/>
-    </View>
+   <ScrollView>
+      <View style={screenStyles.container}>
+          <Text style={screenStyles.heading}>Custom Loaders</Text>
+        <Text>ActivityIndicator:</Text>
+        <MyActivityIndicator radius={50} color={ColorPalette.red} duration={1000}/>
+        <Text>Circular ProgressBar:</Text>
+        <MyCircularProgressBar radius={150} duration={5} strokeWidth={20}/>
+      </View>
+   </ScrollView>
   )
 }
 

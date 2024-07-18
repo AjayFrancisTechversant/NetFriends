@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, Vibration} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {View, Text, Vibration, TouchableOpacity, ScrollView} from 'react-native';
 import Svg, {Circle} from 'react-native-svg';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './style';
@@ -12,16 +13,27 @@ interface CircularProgressBarPropsType {
   duration: number;
 }
 
+type TimerStatusType = 'off' | 'inProgress' | 'finished';
+
 const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
   radius,
   strokeWidth,
   duration,
 }) => {
+  const [timerStatus, setTimerStatus] = useState<TimerStatusType>('off');
   const [progress, setProgress] = useState(0);
   const [timeLeft, setTimeLeft] = useState(duration);
   const textScaleAnim = useSharedValue(0);
+  const animationFrameId = useRef<number>();
 
   useEffect(() => {
+    return () => {
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+    };
+  }, []);
+  const startTimer = () => {
     let animationFrameId: number;
     const startTime = Date.now();
     const endTime = startTime + duration * 1000;
@@ -35,11 +47,12 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
       setTimeLeft(Math.ceil(remainingTime / 1000));
       if (currentProgress < 1) {
         animationFrameId = requestAnimationFrame(animate);
+      } else {
+        onFinish();
       }
     };
     animate();
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [duration]);
+  };
 
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - circumference * progress;
@@ -59,57 +72,81 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
     screenContext[screenContext.isPortrait ? 'windowWidth' : 'windowHeight'],
     screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
   );
-  const onfinish = () => {
-    textScaleAnim.value = withSpring(2);
-    Vibration.vibrate()    
+
+  const handleStartTimer = () => {
+    textScaleAnim.value = 0;
+    setTimerStatus('inProgress');
+    startTimer();
   };
-  const finished=progress >= 1
-  if (finished) {
-    onfinish();
-  }
+
+  const onFinish = () => {
+    textScaleAnim.value = withSpring(2);
+    Vibration.vibrate();
+    setTimerStatus('finished');
+  };
 
   return (
-    <View style={screenStyles.container}>
-      <Svg
-        height={adjustedSize}
-        width={adjustedSize}
-        viewBox={`0 0 ${adjustedSize} ${adjustedSize}`}
-        style={{}}>
-        <Circle
-          cx={adjustedRadius}
-          cy={adjustedRadius}
-          r={radius}
-          stroke={ColorPalette.offWhite}
-          strokeWidth={strokeWidth}
-          fill="none"
-        />
-        <Circle
-          cx={adjustedRadius}
-          cy={adjustedRadius}
-          r={radius}
-          stroke={getColor(progress)}
-          strokeWidth={strokeWidth}
-          strokeDasharray={circumference}
-          strokeDashoffset={strokeDashoffset}
-          strokeLinecap="round"
-          fill="none"
-        />
-      </Svg>
-      {!finished ? (
-        <View style={screenStyles.centerView}>
-          <Text style={screenStyles.boldBigText}>
-            Progress: {Math.floor(progress * 100)}%
-          </Text>
-          <Text style={screenStyles.boldBigText}>Time Left: {timeLeft}s</Text>
-        </View>
-      ) : (
-        <View style={[screenStyles.centerView]}>
-          <Animated.Text style={[screenStyles.boldBigText, {transform: [{scale: textScaleAnim}]}]}>
-            Finished!
-          </Animated.Text>
-        </View>
-      )}
-    </View>
+   
+      <View style={screenStyles.container}>
+        <Svg
+          height={adjustedSize}
+          width={adjustedSize}
+          viewBox={`0 0 ${adjustedSize} ${adjustedSize}`}
+          style={{}}>
+          <Circle
+            cx={adjustedRadius}
+            cy={adjustedRadius}
+            r={radius}
+            stroke={ColorPalette.offWhite}
+            strokeWidth={strokeWidth}
+            fill="none"
+          />
+          <Circle
+            cx={adjustedRadius}
+            cy={adjustedRadius}
+            r={radius}
+            stroke={getColor(progress)}
+            strokeWidth={strokeWidth}
+            strokeDasharray={circumference}
+            strokeDashoffset={strokeDashoffset}
+            strokeLinecap="round"
+            fill="none"
+          />
+        </Svg>
+        {timerStatus == 'off' ? (
+          <View style={screenStyles.centerView}>
+            <TouchableOpacity style={screenStyles.startButton} onPress={handleStartTimer}>
+              <Text style={screenStyles.boldBigText}>
+                Start 
+              </Text>
+                <MaterialCommunityIcons name='timer-outline' size={30} />
+              <Text>
+              {duration}s</Text>
+            </TouchableOpacity>
+          </View>
+        ) : timerStatus == 'inProgress' ? (
+          <View style={screenStyles.centerView}>
+            <Text style={screenStyles.boldBigText}>
+              Progress: {Math.floor(progress * 100)}%
+            </Text>
+            <Text style={screenStyles.boldBigText}>Time Left: {timeLeft}s</Text>
+          </View>
+        ) : timerStatus == 'finished' ? (
+          <View style={[screenStyles.centerView]}>
+            <Animated.Text
+              style={[
+                screenStyles.boldBigText,
+                {transform: [{scale: textScaleAnim}]},
+              ]}>
+              Finished!
+            </Animated.Text>
+            <TouchableOpacity onPress={handleStartTimer}>
+              <Text>Start Again</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+      </View>
+   
   );
 };
 
