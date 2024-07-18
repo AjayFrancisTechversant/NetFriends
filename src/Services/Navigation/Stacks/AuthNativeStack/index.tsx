@@ -9,12 +9,12 @@ const AuthNativeStack = () => {
   return (
     <Stack.Navigator initialRouteName="LoginPage">
       <Stack.Screen
-        name="LoginPage"
+        name="login"
         component={LoginPage}
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="RegisterPage"
+        name="register"
         component={RegisterPage}
         options={{headerShown: false}}
       />

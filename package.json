@@ -48,6 +48,7 @@
     "react-native": "0.74.0",
     "react-native-app-auth": "^7.2.0",
     "react-native-asset": "^2.1.1",
+    "react-native-background-actions": "^4.0.1",
     "react-native-blob-util": "^0.19.9",
     "react-native-calendars": "^1.1305.0",
     "react-native-create-thumbnail": "^2.0.0",

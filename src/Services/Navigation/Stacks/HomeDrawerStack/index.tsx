@@ -34,7 +34,6 @@ import ClipBoard from '../../../../modules/ClipBoard';
 import CommentsScreen from '../../../../modules/CommentsScreen';
 import Crashlytics from '../../../../modules/Crashlytics';
 import LineSlider from '../../../../Components/LineSlider';
-import Loader1 from '../../../../Components/MyActivityIndicator';
 import LoadersScreen from '../../../../modules/LoadersScreen';
 
 const Drawer = createDrawerNavigator();
@@ -49,124 +48,124 @@ const HomeDrawerStack = () => {
       }}
       drawerContent={props => <DrawerContents {...props} />}>
       <Drawer.Screen
-        options={{
+        options={{title:"Home Screen",
           drawerIcon: () => (
             <Entypo name="home" color={ColorPalette.green} size={20} />
           ),
         }}
-        name="HomeScreen"
+        name="homeScreen"
         component={HomeScreen}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"Video Player",
           drawerIcon: () => (
             <Entypo name="video" color={ColorPalette.green} size={20} />
           ),
         }}
-        name="Video Player"
+        name="videoPlayer"
         component={VideoPlayerScreen}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"Comments",
           drawerIcon: () => (
             <FontAwesome name="comment" color={ColorPalette.green} size={20} />
           ),
         }}
-        name="Comments"
+        name="comments"
         component={CommentsScreen}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"Spotify",
           drawerIcon: () => (
             <Entypo name="spotify" color={ColorPalette.green} size={20} />
           ),
         }}
-        name="Spotify"
+        name="spotify"
         component={Spotify}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"RN Paper",
           drawerIcon: () => (
             <Ionicons name="newspaper" color={ColorPalette.green} size={20} />
           ),
         }}
-        name="RN Paper"
+        name="RNPaper"
         component={RNPaper}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"ClipBoard",
           drawerIcon: () => (
             <Entypo name="clipboard" color={ColorPalette.green} size={20} />
           ),
         }}
-        name="ClipBoard"
+        name="clipBoard"
         component={ClipBoard}
       />
        <Drawer.Screen
-        options={{
+        options={{title:"Custom Line Slider",
           drawerIcon: () => (
             <FontAwesome6 name="sliders" color={ColorPalette.green} size={20} />
           ),
         }}
-        name="Custom Line Slider"
+        name="customLineSlider"
         component={LineSlider}
       />
          <Drawer.Screen
-        options={{
+        options={{title:"Custom Loaders",
           drawerIcon: () => (
             <AntDesign name="loading1" color={ColorPalette.green} size={20} />
           ),
         }}
-        name="Custom Loader"
+        name="loadersScreen"
         component={LoadersScreen}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"Date Picker",
           drawerIcon: () => (
             <EvilIcons name="calendar" color={ColorPalette.green} size={20} />
           ),
         }}
-        name="DatePicker"
+        name="datePicker"
         component={DatePicker}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"Calender",
           drawerIcon: () => (
             <EvilIcons name="calendar" color={ColorPalette.green} size={20} />
           ),
         }}
-        name="Calender"
+        name="calender"
         component={Calender}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"i18njs",
           drawerIcon: () => (
             <Ionicons name="language" color={ColorPalette.green} size={20} />
           ),
         }}
-        name="i18n-js"
+        name="i18njs"
         component={i18njs}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"Skia",
           drawerIcon: () => (
             <Ionicons name="logo-react" color={ColorPalette.green} size={20} />
           ),
         }}
-        name="Skia"
+        name="skia"
         component={Skia}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"Skia Drag",
           drawerIcon: () => (
             <Ionicons name="logo-react" color={ColorPalette.green} size={20} />
           ),
         }}
-        name="SkiaDrag"
+        name="skiaDrag"
         component={SkiaDrag}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"Notes (Watermelon DB)",
           drawerIcon: () => (
             <FontAwesome6
               name="note-sticky"
@@ -175,11 +174,11 @@ const HomeDrawerStack = () => {
             />
           ),
         }}
-        name="Notes (Watermelon DB)"
+        name="notes"
         component={Notes}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"Offline DB Fetch",
           drawerIcon: () => (
             <MaterialCommunityIcons
               name="fruit-watermelon"
@@ -188,11 +187,11 @@ const HomeDrawerStack = () => {
             />
           ),
         }}
-        name="OfflineDBFetch"
+        name="offlineDBFetch"
         component={OfflineDBFetch}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"WebView",
           drawerIcon: () => (
             <MaterialCommunityIcons
               name="web"
@@ -201,11 +200,11 @@ const HomeDrawerStack = () => {
             />
           ),
         }}
-        name="WebView"
+        name="webView"
         component={WebViewScreen}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"PDF Reader",
           drawerIcon: () => (
             <FontAwesome6
               name="file-pdf"
@@ -214,11 +213,11 @@ const HomeDrawerStack = () => {
             />
           ),
         }}
-        name="PDF Reader"
+        name="PDFReader"
         component={PDFReader}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"E Charts",
           drawerIcon: () => (
             <MaterialCommunityIcons
               name="chart-arc"
@@ -231,7 +230,7 @@ const HomeDrawerStack = () => {
         component={Echarts}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"Gifted Charts",
           drawerIcon: () => (
             <MaterialCommunityIcons
               name="chart-arc"
@@ -240,11 +239,12 @@ const HomeDrawerStack = () => {
             />
           ),
         }}
-        name="Gifted-Charts"
+        name="giftedCharts"
         component={GiftedCharts}
+        
       />
       <Drawer.Screen
-        options={{
+        options={{title:"Books FireStore",
           drawerIcon: () => (
             <Ionicons
               name="logo-firebase"
@@ -253,11 +253,11 @@ const HomeDrawerStack = () => {
             />
           ),
         }}
-        name="BooksFirestore"
+        name="booksFirestore"
         component={BooksFirestore}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"Books Realtime DB",
           drawerIcon: () => (
             <Ionicons
               name="logo-firebase"
@@ -266,11 +266,11 @@ const HomeDrawerStack = () => {
             />
           ),
         }}
-        name="BooksRealtimeDatabase"
+        name="booksRealtimeDatabase"
         component={BooksRealtimeDatabase}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"Image Uploader",
           drawerIcon: () => (
             <AntDesign
               name="cloudupload"
@@ -279,29 +279,29 @@ const HomeDrawerStack = () => {
             />
           ),
         }}
-        name="Image Upload"
+        name="imageUploader"
         component={ImageUploader}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"RN Elements",
           drawerIcon: () => (
             <Ionicons name="logo-react" color={ColorPalette.green} size={20} />
           ),
         }}
-        name="RN Elements"
+        name="RNElements"
         component={RNElements}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"Locator",
           drawerIcon: () => (
             <Entypo name="location-pin" color={ColorPalette.green} size={20} />
           ),
         }}
-        name="Locator"
+        name="locator"
         component={Locator}
       />
       <Drawer.Screen
-        options={{
+        options={{title:"Crash(lytics)",
           drawerIcon: () => (
             <FontAwesome6
               name="explosion"
@@ -310,12 +310,12 @@ const HomeDrawerStack = () => {
             />
           ),
         }}
-        name="Crash(lytics)"
+        name="crashlytics"
         component={Crashlytics}
       />
 
       <Drawer.Screen
-        options={{
+        options={{title:"Reanimated Carousel",
           drawerIcon: () => (
             <MaterialCommunityIcons
               name="view-carousel"
@@ -324,7 +324,7 @@ const HomeDrawerStack = () => {
             />
           ),
         }}
-        name="ReanimatedCarousel"
+        name="reanimatedCarousel"
         component={ReanimatedCarousel}
       />
     </Drawer.Navigator>

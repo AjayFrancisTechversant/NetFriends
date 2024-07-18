@@ -18,9 +18,9 @@ const HomeTabStack = () => {
     <HomeTabStack.Navigator
       screenOptions={{tabBarActiveTintColor: ColorPalette.green}}>
       <HomeTabStack.Screen
-        name="Home"
+        name="homeDrawerStack"
         component={HomeDrawerStack}
-        options={{
+        options={{title:'Home',
           headerShown: false,
           tabBarIcon: ({color, size}) => (
             <Entypo name="home" color={color} size={size} />
@@ -28,9 +28,9 @@ const HomeTabStack = () => {
         }}
       />
       <HomeTabStack.Screen
-        name="Gallery"
+        name="gallery"
         component={Gallery}
-        options={{
+        options={{title:'Gallery',
           headerShown: false,
           tabBarIcon: ({color, size}) => (
             <Ionicons name="images" color={color} size={size} />
@@ -38,9 +38,9 @@ const HomeTabStack = () => {
         }}
       />
       <HomeTabStack.Screen
-        name="Parallax"
+        name="parallaxCarousel"
         component={ParallaxCarousel}
-        options={{
+        options={{title:'Parallax',
           headerShown: false,
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons
@@ -52,9 +52,9 @@ const HomeTabStack = () => {
         }}
       />
       <HomeTabStack.Screen
-        name="Booking"
+        name="booking"
         component={Booking}
-        options={{
+        options={{title:'Booking',
           headerShown: false,
           tabBarIcon: ({color, size}) => (
             <FontAwesome6 name="book-bookmark" color={color} size={size} />
@@ -62,9 +62,9 @@ const HomeTabStack = () => {
         }}
       />
       <HomeTabStack.Screen
-        name="Me"
+        name="me"
         component={Me}
-        options={{
+        options={{title:'Me',
           tabBarIcon: ({color, size}) => (
             <FontAwesome name="user" color={color} size={size} />
           ),

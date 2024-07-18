@@ -81,7 +81,7 @@ const RegisterPage: React.FC = () => {
         <View style={screenStyles.lastViewContainer}>
           <Text>Already Registered? </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('LoginPage' as never)}>
+            onPress={() => navigation.navigate('login' as never)}>
             <Text style={screenStyles.greenUnderlinetext}>Login</Text>
           </TouchableOpacity>
         </View>

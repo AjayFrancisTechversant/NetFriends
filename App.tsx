@@ -16,8 +16,7 @@ import AuthNativeStack from './src/Services/Navigation/Stacks/AuthNativeStack';
 import {persistor, store} from './src/Redux/Store/Store';
 import HomeTabStack from './src/Services/Navigation/Stacks/HomeTabStack';
 import {ScreenContextProvider} from './src/Contexts/ScreenContext';
-import MyCircularProgressBar from './src/Components/MyCircularProgressBar'
-import LoadersScreen from './src/modules/LoadersScreen';
+
 
 // Request permissions for notifications
 PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
@@ -34,13 +33,51 @@ const App: React.FC = () => {
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
 
   const linking: LinkingOptions<RootStackParamList> = {
-    prefixes: ['myapp://'],
+    prefixes: ['myapp://', 'https://myapp.com'],
     config: {
       screens: {
+        AuthNativeStack: {
+          screens: {
+            login: 'login',
+            register: 'register',
+          },
+        },
         HomeTabStack: {
           screens: {
-            Me: 'Me',
-            Listing: 'Listing',
+            homeDrawerStack: {
+              screens: {
+                homeScreen: 'home',
+                videoPlayer: 'videoplayer',
+                comments: 'comments',
+                spotify: 'spotify',
+                RNPaper: 'rnpaper', 
+                clipBoard: 'clipboard',
+                customLineSlider: 'lineslider',
+                loadersScreen: 'loadersscreen',
+                datePicker: 'datepicker',
+                calender: 'calender',
+                i18njs: 'i18njs',
+                skia: 'skia',
+                skiaDrag: 'skiadrag',
+                notes: 'notes',
+                offlineDBFetch: 'offlinedbfetch',
+                webView: 'webview',
+                PDFReader: 'pdfreader',
+                ECharts: 'echarts',
+                giftedCharts: 'giftedcharts',//
+                booksFirestore: 'booksfirestore',
+                booksRealtimeDatabase: 'booksrealtimedatabase',
+                imageUploader: 'imageuploader',//
+                RNElements: 'rnelements',//
+                locator: 'locator',
+                crashlytics: 'crashlytics',
+                reanimatedCarousel: 'reanimatedcarousel',
+              },
+            },
+            gallery: 'gallery',
+            parallaxCarousel: 'parallaxcarousel',
+            booking: 'booking',
+            me: 'me',
           },
         },
       },
@@ -101,8 +138,8 @@ const Main: React.FC = () => {
         <PersistGate loading={null} persistor={persistor}>
           <GestureHandlerRootView style={{flex: 1}}>
             <PaperProvider>
-              {/* <App /> */}
-              <LoadersScreen/>
+              <App />
+              {/* <LoadersScreen/> */}
             </PaperProvider>
           </GestureHandlerRootView>
         </PersistGate>

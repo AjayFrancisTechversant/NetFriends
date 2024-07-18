@@ -105,7 +105,7 @@ const LoginPage: React.FC = () => {
         <View style={screenStyles.lastViewContainer}>
           <Text>New User? </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('RegisterPage' as never)}>
+            onPress={() => navigation.navigate('register' as never)}>
             <Text style={screenStyles.greenUnderlinetext}>Register</Text>
           </TouchableOpacity>
         </View>
