@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Vibration} from 'react-native';
 import Svg, {Circle} from 'react-native-svg';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
@@ -60,7 +60,8 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
     screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
   );
   const onfinish = () => {
-    textScaleAnim.value = withSpring(2);    
+    textScaleAnim.value = withSpring(2);
+    Vibration.vibrate()    
   };
   const finished=progress >= 1
   if (finished) {
