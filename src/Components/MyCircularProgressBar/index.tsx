@@ -112,6 +112,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
         const remainingTime = parseInt(stringValue, 10);
         if (remainingTime == 0&&asyncFetchInterval) {
           clearInterval(asyncFetchInterval);
+          onFinish()
         }
         setTimeLeft(remainingTime);
       }
