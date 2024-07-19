@@ -5,7 +5,11 @@ import BackgroundService from 'react-native-background-actions';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import Animated, {useSharedValue, withSpring, useAnimatedStyle} from 'react-native-reanimated';
+import Animated, {
+  useSharedValue,
+  withSpring,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 import styles from './style';
 
 interface CircularProgressBarPropsType {
@@ -28,6 +32,10 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
   const animationFrameId = useRef<number>();
 
   useEffect(() => {
+    const isRunning = BackgroundService.isRunning();
+    if (isRunning) {
+      handleResumeTimer();
+    }
     return () => {
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
@@ -40,7 +48,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
       const startTime = Date.now();
       const endTime = startTime + duration * 1000;
 
-      const animate = async() => {
+      const animate = async () => {
         const now = Date.now();
         const elapsedTime = now - startTime;
         const remainingTime = Math.max(0, endTime - now);
@@ -49,7 +57,9 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
         setTimeLeft(Math.ceil(remainingTime / 1000));
         await BackgroundService.updateNotification({
           taskTitle: 'Timer Running',
-          taskDesc: `${Math.floor(currentProgress * 100)}% - Time Left: ${Math.ceil(remainingTime / 1000)}s`,
+          taskDesc: `${Math.floor(
+            currentProgress * 100,
+          )}% - Time Left: ${Math.ceil(remainingTime / 1000)}s`,
         });
         if (currentProgress < 1) {
           animationFrameId.current = requestAnimationFrame(animate);
@@ -61,8 +71,12 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
       animate();
     });
   };
+  const handleResumeTimer = () => {
+    console.log('Resuming timer...');
+  };
 
-  const onFinish = () => {
+  const onFinish = async () => {
+    await BackgroundService.stop();
     viewScaleAnim.value = withSpring(2);
     Vibration.vibrate();
     setTimerStatus('finished');
@@ -84,6 +98,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
     viewScaleAnim.value = 1;
     setTimerStatus('inProgress');
     try {
+      // await BackgroundService.stop();
       await BackgroundService.start(startTimer, backgroundActionOptions);
     } catch (error) {
       console.log(error);
@@ -146,7 +161,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
         <View style={screenStyles.centerView}>
           <TouchableOpacity
             style={screenStyles.startButton}
-            onPress={handleStartTimer}>
+            onPress={()=>handleStartTimer()}>
             <Text style={[screenStyles.boldBigText, screenStyles.whiteText]}>
               Start
             </Text>
@@ -168,7 +183,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
       ) : timerStatus == 'finished' ? (
         <Animated.View style={[screenStyles.centerView, animatedViewStyle]}>
           <Text style={[screenStyles.boldBigText]}>Finished!</Text>
-          <TouchableOpacity onPress={handleStartTimer}>
+          <TouchableOpacity onPress={()=>handleStartTimer()}>
             <MaterialCommunityIcons
               name="reload"
               color={ColorPalette.green}
