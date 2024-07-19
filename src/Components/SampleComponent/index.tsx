@@ -4,7 +4,7 @@ import BackgroundService from 'react-native-background-actions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Sam = () => {
-  const [timeLeft, setTimeLeft] = useState<number | null>(0);
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
 
   useEffect(() => {
     const checkBackgroundService = async () => {
@@ -14,6 +14,9 @@ const Sam = () => {
       }
     };
     checkBackgroundService();
+    // return () => {
+    //   clearInterval(resumeTimerInterval)
+    // }
   }, []);
 
   const sleep = (time: number) =>
@@ -22,8 +25,8 @@ const Sam = () => {
   const veryIntensiveTask = async (taskDataArguments: any) => {
     const {delay} = taskDataArguments;
     await new Promise(async resolve => {
-      for (let i = 120; i >= 0; i--) {
-        setTimeLeft(prev => (prev !== null ? i : 0));
+      for (let i = 20; i >= 0; i--) {
+        setTimeLeft( i );
         saveToAsyncStorage(i);
         await BackgroundService.updateNotification({taskDesc: `${i}`});
         await sleep(delay);
@@ -47,28 +50,19 @@ const Sam = () => {
       delay: 1000,
     },
   };
-  // const resumeForegroundTimer = async () => {
-  //  setInterval(()=>{
-  //   setTimeLeft(prev=>prev-1)
-  //  }
-  //   ,1000)
-  // };
-
+  
   const handlePress = async () => {
     await BackgroundService.stop();
     await BackgroundService.start(veryIntensiveTask, options);
   };
 
   const resumeTimer = async () => {
-    // console.log('Resuming date', Date.now().toString());
-
-    setInterval(async()=>{
+    setInterval(async () => {
       await loadFromAsyncStorage();
-    },100)
-
-    // resumeForegroundTimer();
+    }, 1000);
   };
-
+  console.log(timeLeft);
+  
   const saveToAsyncStorage = async (timeLeft: number) => {
     try {
       await AsyncStorage.setItem('RunTimeBeforeKilling', timeLeft.toString());
@@ -96,7 +90,7 @@ const Sam = () => {
         onPress={handlePress}>
         <Text>Start Background action</Text>
       </TouchableOpacity>
-      <Text>{timeLeft !== null ? timeLeft : 'Loading...'}</Text>
+      <Text>{timeLeft}</Text>
     </View>
   );
 };
