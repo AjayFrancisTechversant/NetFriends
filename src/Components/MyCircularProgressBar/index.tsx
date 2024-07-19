@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, Vibration, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import Svg, {Circle} from 'react-native-svg';
 import BackgroundService from 'react-native-background-actions';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -30,6 +30,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const viewScaleAnim = useSharedValue(1);
   const isRunning = BackgroundService.isRunning();
+  let asyncFetchInterval: NodeJS.Timeout | null = null;
 
   useEffect(() => {
     checkBackgroundService();
@@ -73,8 +74,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
     },
   };
   const repeatedFetchFromAsyncStorage = async () => {
-    const asyncFetchInterval = setInterval(async () => {
-      console.log('repeat'); ///infinite loop
+    asyncFetchInterval = setInterval(async () => {
       await loadFromAsyncStorage();
     }, 1000);
     if (timerStatus == 'finished') {
@@ -84,7 +84,6 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
 
   const onFinish = () => {
     viewScaleAnim.value = withSpring(2);
-    Vibration.vibrate();
     setTimerStatus('finished');
   };
 
@@ -111,6 +110,9 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
       const stringValue = await AsyncStorage.getItem('timerTimeLeft');
       if (stringValue !== null) {
         const remainingTime = parseInt(stringValue, 10);
+        if (remainingTime == 0&&asyncFetchInterval) {
+          clearInterval(asyncFetchInterval);
+        }
         setTimeLeft(remainingTime);
       }
     } catch (error) {
