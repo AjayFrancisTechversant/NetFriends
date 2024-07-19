@@ -47,9 +47,12 @@ const Sam = () => {
       delay: 1000,
     },
   };
-const resumeForegroundTimer=()=>{
-
-}
+  // const resumeForegroundTimer = async () => {
+  //  setInterval(()=>{
+  //   setTimeLeft(prev=>prev-1)
+  //  }
+  //   ,1000)
+  // };
 
   const handlePress = async () => {
     await BackgroundService.stop();
@@ -57,9 +60,13 @@ const resumeForegroundTimer=()=>{
   };
 
   const resumeTimer = async () => {
-    console.log('Resuming date', Date.now().toString());
-    await loadFromAsyncStorage();
-    resumeForegroundTimer()
+    // console.log('Resuming date', Date.now().toString());
+
+    setInterval(async()=>{
+      await loadFromAsyncStorage();
+    },100)
+
+    // resumeForegroundTimer();
   };
 
   const saveToAsyncStorage = async (timeLeft: number) => {
