@@ -10,8 +10,8 @@ import Animated, {
   withSpring,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import styles from './style';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import styles from './style';
 
 interface CircularProgressBarPropsType {
   radius: number;
@@ -29,14 +29,14 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
   const [timerStatus, setTimerStatus] = useState<TimerStatusType>('off');
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const viewScaleAnim = useSharedValue(1);
+  const isRunning = BackgroundService.isRunning();
 
   useEffect(() => {
     checkBackgroundService();
   }, []);
-  const checkBackgroundService = async () => {
-    const isRunning = await BackgroundService.isRunning();
+  const checkBackgroundService = () => {
     if (isRunning) {
-      setTimerStatus('inProgress')
+      setTimerStatus('inProgress');
       repeatedFetchFromAsyncStorage();
     }
   };
@@ -54,9 +54,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
         await sleep(delay);
       }
       await BackgroundService.stop();
-      onFinish()
-      // await sleep(delay);
-      // resolve()
+      onFinish();
     });
   };
 
@@ -75,12 +73,16 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
     },
   };
   const repeatedFetchFromAsyncStorage = async () => {
-    setInterval(async () => {
+    const asyncFetchInterval = setInterval(async () => {
+      console.log('repeat'); ///infinite loop
       await loadFromAsyncStorage();
     }, 1000);
+    if (timerStatus == 'finished') {
+      clearInterval(asyncFetchInterval);
+    }
   };
 
-  const onFinish =  () => {
+  const onFinish = () => {
     viewScaleAnim.value = withSpring(2);
     Vibration.vibrate();
     setTimerStatus('finished');
@@ -117,7 +119,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
   };
 
   const circumference = 2 * Math.PI * radius;
-  const progress=1-((timeLeft?timeLeft:0)/duration)
+  const progress = 1 - (timeLeft ? timeLeft : 0) / duration;
   const strokeDashoffset = circumference - circumference * progress;
 
   const getColor = (progress: number): string => {
@@ -187,7 +189,6 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
         </View>
       ) : timerStatus == 'inProgress' ? (
         <View style={screenStyles.centerView}>
-          
           <Text style={screenStyles.boldBigText}>Time Left: {timeLeft}s</Text>
         </View>
       ) : timerStatus == 'finished' ? (
