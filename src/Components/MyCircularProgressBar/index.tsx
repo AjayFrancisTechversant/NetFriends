@@ -55,7 +55,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
       }
       await BackgroundService.stop();
       onFinish()
-      await sleep(delay);
+      // await sleep(delay);
       // resolve()
     });
   };
@@ -80,8 +80,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
     }, 1000);
   };
 
-  const onFinish = async () => {
-    await BackgroundService.stop();
+  const onFinish =  () => {
     viewScaleAnim.value = withSpring(2);
     Vibration.vibrate();
     setTimerStatus('finished');
@@ -116,7 +115,6 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
       console.error('Error loading data from Async:', error);
     }
   };
-
 
   const circumference = 2 * Math.PI * radius;
   const progress=1-((timeLeft?timeLeft:0)/duration)
