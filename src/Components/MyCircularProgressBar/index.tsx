@@ -11,6 +11,7 @@ import Animated, {
   useAnimatedStyle,
 } from 'react-native-reanimated';
 import styles from './style';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface CircularProgressBarPropsType {
   radius: number;
@@ -26,53 +27,57 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
   duration,
 }) => {
   const [timerStatus, setTimerStatus] = useState<TimerStatusType>('off');
-  const [progress, setProgress] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(duration);
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const viewScaleAnim = useSharedValue(1);
-  const animationFrameId = useRef<number>();
 
   useEffect(() => {
-    const isRunning = BackgroundService.isRunning();
-    if (isRunning) {
-      handleResumeTimer();
-    }
-    return () => {
-      if (animationFrameId.current) {
-        cancelAnimationFrame(animationFrameId.current);
-      }
-    };
+    checkBackgroundService();
   }, []);
+  const checkBackgroundService = async () => {
+    const isRunning = await BackgroundService.isRunning();
+    if (isRunning) {
+      setTimerStatus('inProgress')
+      repeatedFetchFromAsyncStorage();
+    }
+  };
 
-  const startTimer = (): Promise<void> => {
-    return new Promise<void>(resolve => {
-      const startTime = Date.now();
-      const endTime = startTime + duration * 1000;
+  const sleep = (time: number) =>
+    new Promise<void>(resolve => setTimeout(() => resolve(), time));
 
-      const animate = async () => {
-        const now = Date.now();
-        const elapsedTime = now - startTime;
-        const remainingTime = Math.max(0, endTime - now);
-        const currentProgress = elapsedTime / (duration * 1000);
-        setProgress(currentProgress);
-        setTimeLeft(Math.ceil(remainingTime / 1000));
-        await BackgroundService.updateNotification({
-          taskTitle: 'Timer Running',
-          taskDesc: `${Math.floor(
-            currentProgress * 100,
-          )}% - Time Left: ${Math.ceil(remainingTime / 1000)}s`,
-        });
-        if (currentProgress < 1) {
-          animationFrameId.current = requestAnimationFrame(animate);
-        } else {
-          onFinish();
-          resolve();
-        }
-      };
-      animate();
+  const startTimer = async (taskDataArguments: any) => {
+    const {delay} = taskDataArguments;
+    await new Promise(async resolve => {
+      for (let i = duration; i >= 0; i--) {
+        setTimeLeft(i);
+        saveToAsyncStorage(i);
+        await BackgroundService.updateNotification({taskDesc: `${i}s left`});
+        await sleep(delay);
+      }
+      await BackgroundService.stop();
+      onFinish()
+      await sleep(delay);
+      // resolve()
     });
   };
-  const handleResumeTimer = () => {
-    console.log('Resuming timer...');
+
+  const options = {
+    taskName: 'Timer',
+    taskTitle: 'Timer Running',
+    taskDesc: `${duration}s left`,
+    taskIcon: {
+      name: 'ic_launcher',
+      type: 'mipmap',
+    },
+    color: ColorPalette.green,
+    linkingURI: 'myapp://loadersscreen',
+    parameters: {
+      delay: 1000,
+    },
+  };
+  const repeatedFetchFromAsyncStorage = async () => {
+    setInterval(async () => {
+      await loadFromAsyncStorage();
+    }, 1000);
   };
 
   const onFinish = async () => {
@@ -82,30 +87,39 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
     setTimerStatus('finished');
   };
 
-  const backgroundActionOptions = {
-    taskName: 'Timer',
-    taskTitle: 'Timer Running',
-    taskDesc: 'inProgress',
-    taskIcon: {
-      name: 'ic_launcher',
-      type: 'mipmap',
-    },
-    color: ColorPalette.green,
-    linkingURI: 'myapp://loadersscreen',
-  };
-
   const handleStartTimer = async () => {
     viewScaleAnim.value = 1;
     setTimerStatus('inProgress');
     try {
-      // await BackgroundService.stop();
-      await BackgroundService.start(startTimer, backgroundActionOptions);
+      await BackgroundService.stop();
+      await BackgroundService.start(startTimer, options);
     } catch (error) {
       console.log(error);
     }
   };
+  const saveToAsyncStorage = async (timeLeft: number) => {
+    try {
+      await AsyncStorage.setItem('timerTimeLeft', timeLeft.toString());
+    } catch (error) {
+      console.error('Error saving data into Async:', error);
+    }
+  };
+
+  const loadFromAsyncStorage = async () => {
+    try {
+      const stringValue = await AsyncStorage.getItem('timerTimeLeft');
+      if (stringValue !== null) {
+        const remainingTime = parseInt(stringValue, 10);
+        setTimeLeft(remainingTime);
+      }
+    } catch (error) {
+      console.error('Error loading data from Async:', error);
+    }
+  };
+
 
   const circumference = 2 * Math.PI * radius;
+  const progress=1-((timeLeft?timeLeft:0)/duration)
   const strokeDashoffset = circumference - circumference * progress;
 
   const getColor = (progress: number): string => {
@@ -161,7 +175,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
         <View style={screenStyles.centerView}>
           <TouchableOpacity
             style={screenStyles.startButton}
-            onPress={()=>handleStartTimer()}>
+            onPress={() => handleStartTimer()}>
             <Text style={[screenStyles.boldBigText, screenStyles.whiteText]}>
               Start
             </Text>
@@ -175,15 +189,13 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
         </View>
       ) : timerStatus == 'inProgress' ? (
         <View style={screenStyles.centerView}>
-          <Text style={screenStyles.boldBigText}>
-            Progress: {Math.floor(progress * 100)}%
-          </Text>
+          
           <Text style={screenStyles.boldBigText}>Time Left: {timeLeft}s</Text>
         </View>
       ) : timerStatus == 'finished' ? (
         <Animated.View style={[screenStyles.centerView, animatedViewStyle]}>
           <Text style={[screenStyles.boldBigText]}>Finished!</Text>
-          <TouchableOpacity onPress={()=>handleStartTimer()}>
+          <TouchableOpacity onPress={() => handleStartTimer()}>
             <MaterialCommunityIcons
               name="reload"
               color={ColorPalette.green}

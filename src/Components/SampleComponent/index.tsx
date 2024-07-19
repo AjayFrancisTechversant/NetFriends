@@ -7,18 +7,15 @@ const Sam = () => {
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
 
   useEffect(() => {
+    checkBackgroundService();
+    }, []);
     const checkBackgroundService = async () => {
       const isRunning = await BackgroundService.isRunning();
       if (isRunning) {
         resumeTimer();
       }
     };
-    checkBackgroundService();
-    // return () => {
-    //   clearInterval(resumeTimerInterval)
-    // }
-  }, []);
-
+    
   const sleep = (time: number) =>
     new Promise<void>(resolve => setTimeout(() => resolve(), time));
 
@@ -50,7 +47,7 @@ const Sam = () => {
       delay: 1000,
     },
   };
-  
+
   const handlePress = async () => {
     await BackgroundService.stop();
     await BackgroundService.start(veryIntensiveTask, options);
