@@ -87,7 +87,8 @@ const App: React.FC = () => {
 
   // Handle user state changes
   function onAuthStateChanged(user: FirebaseAuthTypes.User | null) {
-    setUser(user);
+    console.log(user);
+    
     if (initializing) setInitializing(false);
   }
 

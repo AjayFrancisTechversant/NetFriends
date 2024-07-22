@@ -37,7 +37,7 @@ const Booking: React.FC = () => {
   );
 
   const handleSliderSubmit = () => {
-    navigation.navigate('HomeScreen' as never);
+    navigation.navigate('homeScreen' as never);
   };
   const translationY = useSharedValue(0);
   const prevTranslationY = useSharedValue(0);
