@@ -1,5 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  AppState,
+  AppStateStatus,
+} from 'react-native';
 import Svg, {Circle} from 'react-native-svg';
 import BackgroundService from 'react-native-background-actions';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -32,10 +38,26 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
   const [isloading, setIsLoading] = useState(false);
   const isRunning = BackgroundService.isRunning();
   let asyncFetchInterval: NodeJS.Timeout | null = null;
+  const appState = useRef<AppStateStatus>(AppState.currentState);
 
   useEffect(() => {
+    const subscription = AppState.addEventListener(
+      'change',
+      handleAppStateChange,
+    );
     checkBackgroundService();
+    return () => {
+      subscription.remove();
+      if (asyncFetchInterval) {
+        clearInterval(asyncFetchInterval);
+      }
+    };
   }, []);
+
+  const handleAppStateChange = (nextAppState: AppStateStatus) => {
+    appState.current = nextAppState;
+  };
+
   const checkBackgroundService = () => {
     if (isRunning) {
       setIsLoading(true);
@@ -52,7 +74,9 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
     await new Promise(async resolve => {
       for (let i = duration; i >= 0; i--) {
         setTimeLeft(i);
-        saveToAsyncStorage(i);
+        if (appState.current !== 'active') {
+          saveToAsyncStorage(i);
+        }
         await BackgroundService.updateNotification({taskDesc: `${i}s left`});
         await sleep(delay);
       }
