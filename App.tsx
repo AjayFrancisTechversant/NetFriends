@@ -6,6 +6,7 @@ import {
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack';
 import {Provider} from 'react-redux';
+import BootSplash from 'react-native-bootsplash';
 import {PersistGate} from 'redux-persist/integration/react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
@@ -16,7 +17,7 @@ import AuthNativeStack from './src/Services/Navigation/Stacks/AuthNativeStack';
 import {persistor, store} from './src/Redux/Store/Store';
 import HomeTabStack from './src/Services/Navigation/Stacks/HomeTabStack';
 import {ScreenContextProvider} from './src/Contexts/ScreenContext';
-import SplashScreen from './src/Components/SplashScreen'
+import SplashScreen from './src/Components/SplashScreen';
 
 // Request permissions for notifications
 PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
@@ -50,7 +51,7 @@ const App: React.FC = () => {
                 videoPlayer: 'videoplayer',
                 comments: 'comments',
                 spotify: 'spotify',
-                RNPaper: 'rnpaper', 
+                RNPaper: 'rnpaper',
                 clipBoard: 'clipboard',
                 customLineSlider: 'lineslider',
                 loadersScreen: 'loadersscreen',
@@ -64,11 +65,11 @@ const App: React.FC = () => {
                 webView: 'webview',
                 PDFReader: 'pdfreader',
                 ECharts: 'echarts',
-                giftedCharts: 'giftedcharts',//
+                giftedCharts: 'giftedcharts', //
                 booksFirestore: 'booksfirestore',
                 booksRealtimeDatabase: 'booksrealtimedatabase',
-                imageUploader: 'imageuploader',//
-                RNElements: 'rnelements',//
+                imageUploader: 'imageuploader', //
+                RNElements: 'rnelements', //
                 locator: 'locator',
                 crashlytics: 'crashlytics',
                 reanimatedCarousel: 'reanimatedcarousel',
@@ -102,10 +103,13 @@ const App: React.FC = () => {
   useEffect(() => {
     // handleGetFCMToken();
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    hideBootSplash()
     return () => subscriber(); // Unsubscribe on unmount
   }, []);
-
-  if (initializing) return <SplashScreen/>;
+  const hideBootSplash = async () => {
+    await BootSplash.hide({fade: true});
+  };
+  if (initializing) return <SplashScreen />;
 
   return (
     <NavigationContainer linking={linking}>
@@ -138,7 +142,7 @@ const Main: React.FC = () => {
         <PersistGate loading={null} persistor={persistor}>
           <GestureHandlerRootView style={{flex: 1}}>
             <PaperProvider>
-              <App/>
+              <App />
             </PaperProvider>
           </GestureHandlerRootView>
         </PersistGate>
