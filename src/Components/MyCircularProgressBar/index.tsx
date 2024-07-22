@@ -29,6 +29,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
   const [timerStatus, setTimerStatus] = useState<TimerStatusType>('off');
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const viewScaleAnim = useSharedValue(1);
+  const [isloading, setIsLoading] = useState(false);
   const isRunning = BackgroundService.isRunning();
   let asyncFetchInterval: NodeJS.Timeout | null = null;
 
@@ -37,6 +38,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
   }, []);
   const checkBackgroundService = () => {
     if (isRunning) {
+      setIsLoading(true);
       setTimerStatus('inProgress');
       repeatedFetchFromAsyncStorage();
     }
@@ -76,6 +78,7 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
   const repeatedFetchFromAsyncStorage = async () => {
     asyncFetchInterval = setInterval(async () => {
       await loadFromAsyncStorage();
+      setIsLoading(false);
     }, 1000);
     if (timerStatus == 'finished') {
       clearInterval(asyncFetchInterval);
@@ -110,9 +113,9 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
       const stringValue = await AsyncStorage.getItem('timerTimeLeft');
       if (stringValue !== null) {
         const remainingTime = parseInt(stringValue, 10);
-        if (remainingTime == 0&&asyncFetchInterval) {
+        if (remainingTime == 0 && asyncFetchInterval) {
           clearInterval(asyncFetchInterval);
-          onFinish()
+          onFinish();
         }
         setTimeLeft(remainingTime);
       }
@@ -174,7 +177,11 @@ const MyCircularProgressBar: React.FC<CircularProgressBarPropsType> = ({
           fill="none"
         />
       </Svg>
-      {timerStatus == 'off' ? (
+      {isloading ? (
+        <View style={screenStyles.centerView}>
+          <Text style={screenStyles.boldBigText}>loading...</Text>
+        </View>
+      ) : timerStatus == 'off' ? (
         <View style={screenStyles.centerView}>
           <TouchableOpacity
             style={screenStyles.startButton}
