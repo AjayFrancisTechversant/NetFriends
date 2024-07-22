@@ -103,12 +103,14 @@ const App: React.FC = () => {
   useEffect(() => {
     // handleGetFCMToken();
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    hideBootSplash()
+    hideBootSplash();
     return () => subscriber(); // Unsubscribe on unmount
   }, []);
+
   const hideBootSplash = async () => {
     await BootSplash.hide({fade: true});
   };
+
   if (initializing) return <SplashScreen />;
 
   return (
