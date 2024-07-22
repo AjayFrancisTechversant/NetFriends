@@ -41,7 +41,7 @@ const VideoPlayerComponent: React.FC<VideoPlayerComponentPropsType> = ({
       </TouchableOpacity>
       <Video
         repeat
-        source={{uri: `file://${RNFS.DocumentDirectoryPath}/sampleVideo.pdf`}}
+        source={{uri: `https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4`}}
         ref={videoRef}
         onBuffer={onBuffer}
         onError={onError}
