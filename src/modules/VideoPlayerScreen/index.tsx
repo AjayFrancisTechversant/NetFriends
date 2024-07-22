@@ -88,7 +88,7 @@ const VideoPlayerScreen: React.FC = () => {
       {!showVideoPlayerComponent ? (
         <View>
           <View style={screenStyles.menuButton}>
-            {/* <MenuDrawerButton color={ColorPalette.green} /> */}
+            <MenuDrawerButton color={ColorPalette.green} />
           </View>
           <Text style={screenStyles.heading}>VideoPlayer</Text>
           <View style={screenStyles.thumbnailButtonContainer}>
