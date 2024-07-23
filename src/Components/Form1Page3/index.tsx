@@ -1,5 +1,6 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useCallback, useState} from 'react';
+import uuid from 'react-native-uuid'; 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {SetStateType} from '../../Types/Types';
@@ -8,7 +9,7 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './style';
 
 type EducationDetailType = {
-  id: number;
+  id: string;
   institution: string | undefined;
   degree: string | undefined;
   fieldOfStudy: string | undefined;
@@ -27,11 +28,11 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
     EducationDetailType[]
   >([
     {
-      id: 1,
-      institution: '',
-      degree: '',
-      fieldOfStudy: '',
-      yearOfCompletion: '',
+      id: uuid.v4() as string,
+      institution: undefined,
+      degree: undefined,
+      fieldOfStudy:undefined,
+      yearOfCompletion: undefined,
     },
   ]);
 
@@ -50,17 +51,17 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
     setEducationDetails(prevDetails => [
       ...prevDetails,
       {
-        id: prevDetails.length + 1,
-        institution: '',
-        degree: '',
-        fieldOfStudy: '',
-        yearOfCompletion: '',
+        id:uuid.v4() as string,
+        institution: undefined,
+        degree: undefined,
+        fieldOfStudy: undefined,
+        yearOfCompletion: undefined,
         isExtra: true,
       },
     ]);
   }, []);
 
-  const removeEducationDetail = useCallback((id: number) => {
+  const removeEducationDetail = useCallback((id: string) => {
     setEducationDetails(prevDetails =>
       prevDetails.filter(detail => detail.id !== id),
     );
