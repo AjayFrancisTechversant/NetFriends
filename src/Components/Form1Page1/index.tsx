@@ -106,7 +106,7 @@ const Form1Page1:React.FC<Form1Page1PropsType> = ({setSegmentedButtonValue}) => 
           value={
             personalDetails.age
               ? personalDetails.age.toString()
-              : '0'
+              : 'Please Pick a valid Date'
           }
           disabled
         />
