@@ -1,8 +1,4 @@
-import {
-  Text,
-  ScrollView,
-  KeyboardAvoidingView,
-} from 'react-native';
+import {Text, ScrollView, KeyboardAvoidingView} from 'react-native';
 import React, {useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
@@ -11,15 +7,16 @@ import Form1Page1 from '../../Components/Form1Page1';
 import Form1Page2 from '../../Components/Form1Page2';
 import Form1Page3 from '../../Components/Form1Page3';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import Form1Page4 from '../../Components/Form1Page4';
 
 const Form1Screen = () => {
-    const [segmentedButtonValue, setSegmentedButtonValue] = useState('1');
-    const screenContext = useScreenContext();
-    const screenStyles = styles(
-      screenContext,
-      screenContext[screenContext.isPortrait ? 'windowWidth' : 'windowHeight'],
-      screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
-    );
+  const [segmentedButtonValue, setSegmentedButtonValue] = useState('1');
+  const screenContext = useScreenContext();
+  const screenStyles = styles(
+    screenContext,
+    screenContext[screenContext.isPortrait ? 'windowWidth' : 'windowHeight'],
+    screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
+  );
   const segmentedButtons = [
     {
       value: '1',
@@ -43,15 +40,19 @@ const Form1Screen = () => {
     <KeyboardAvoidingView
       style={screenStyles.canvas}
       enabled={true}
-      behavior="height"
-      >
+      behavior="height">
       <ScrollView>
         <Text style={[screenStyles.heading, screenStyles.bigBoldText]}>
           Form 1
         </Text>
         <SegmentedButtons
-        density='small'
-        theme={{colors:{secondaryContainer:ColorPalette.lightGreen,outline:ColorPalette.green}}}
+          density="small"
+          theme={{
+            colors: {
+              secondaryContainer: ColorPalette.lightGreen,
+              outline: ColorPalette.green,
+            },
+          }}
           style={screenStyles.segmentedButtonsStyle}
           value={segmentedButtonValue}
           onValueChange={setSegmentedButtonValue}
@@ -63,6 +64,8 @@ const Form1Screen = () => {
           <Form1Page2 setSegmentedButtonValue={setSegmentedButtonValue} />
         ) : segmentedButtonValue == '3' ? (
           <Form1Page3 setSegmentedButtonValue={setSegmentedButtonValue} />
+        ) : segmentedButtonValue == '4' ? (
+          <Form1Page4 setSegmentedButtonValue={setSegmentedButtonValue} />
         ) : null}
       </ScrollView>
     </KeyboardAvoidingView>

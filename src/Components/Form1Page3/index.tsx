@@ -1,6 +1,6 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useCallback, useState} from 'react';
-import uuid from 'react-native-uuid'; 
+import uuid from 'react-native-uuid';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {SetStateType} from '../../Types/Types';
@@ -31,7 +31,7 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
       id: uuid.v4() as string,
       institution: undefined,
       degree: undefined,
-      fieldOfStudy:undefined,
+      fieldOfStudy: undefined,
       yearOfCompletion: undefined,
     },
   ]);
@@ -39,7 +39,7 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
   const handleEducationDetailsChange = useCallback(
     (index: number, name: keyof EducationDetailType, value: string) => {
       setEducationDetails(prevDetails => {
-        const newDetails = [...prevDetails];
+        const newDetails: any = [...prevDetails];
         newDetails[index][name] = value;
         return newDetails;
       });
@@ -51,7 +51,7 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
     setEducationDetails(prevDetails => [
       ...prevDetails,
       {
-        id:uuid.v4() as string,
+        id: uuid.v4() as string,
         institution: undefined,
         degree: undefined,
         fieldOfStudy: undefined,
@@ -70,7 +70,7 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
     setSegmentedButtonValue('2');
   };
   const handleSave = () => {
-    //save to redux logic
+    console.log(educationDetails);
     setSegmentedButtonValue('4');
   };
 
@@ -88,7 +88,7 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
         <View key={education.id} style={screenStyles.educationDetailsCard}>
           {education.isExtra && (
             <View style={screenStyles.AddiEduHeaderContainer}>
-              <Text>Additional Education {index}</Text>
+              <Text style={screenStyles.subHeading}>Additional Education {index}</Text>
               <TouchableOpacity
                 onPress={() => removeEducationDetail(education.id)}
                 style={screenStyles.removeEducationButton}>
