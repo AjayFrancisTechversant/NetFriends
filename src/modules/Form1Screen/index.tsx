@@ -1,4 +1,10 @@
-import {View, Text, SafeAreaView, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
 import React, {useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
@@ -35,27 +41,30 @@ const Form1Screen = () => {
   );
 
   return (
-    <ScrollView style={screenStyles.canvas}>
-      <Text style={[screenStyles.heading, screenStyles.bigBoldText]}>
-        Form 1
-      </Text>
-      <SegmentedButtons
-        style={screenStyles.segmentedButtonsStyle}
-        value={segmentedButtonValue}
-        onValueChange={setSegmentedButtonValue}
-        buttons={segmentedButtons}
-      />
-      {segmentedButtonValue=='1'?
-     <Form1Page1 setSegmentedButtonValue={setSegmentedButtonValue}/> 
-    :
-    segmentedButtonValue=='2'?
-        <Form1Page2 setSegmentedButtonValue={setSegmentedButtonValue}/>
-    : segmentedButtonValue=='3'?
-    <Form1Page3 setSegmentedButtonValue={setSegmentedButtonValue}/>
-    :
-    null
-    }
-    </ScrollView>
+    <KeyboardAvoidingView
+      style={screenStyles.canvas}
+      enabled={true}
+      behavior="height"
+      >
+      <ScrollView>
+        <Text style={[screenStyles.heading, screenStyles.bigBoldText]}>
+          Form 1
+        </Text>
+        <SegmentedButtons
+          style={screenStyles.segmentedButtonsStyle}
+          value={segmentedButtonValue}
+          onValueChange={setSegmentedButtonValue}
+          buttons={segmentedButtons}
+        />
+        {segmentedButtonValue == '1' ? (
+          <Form1Page1 setSegmentedButtonValue={setSegmentedButtonValue} />
+        ) : segmentedButtonValue == '2' ? (
+          <Form1Page2 setSegmentedButtonValue={setSegmentedButtonValue} />
+        ) : segmentedButtonValue == '3' ? (
+          <Form1Page3 setSegmentedButtonValue={setSegmentedButtonValue} />
+        ) : null}
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
