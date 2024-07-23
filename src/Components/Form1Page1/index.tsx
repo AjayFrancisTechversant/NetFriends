@@ -7,42 +7,47 @@ import MyTextInput from '../MyTextInput';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import { SetStateType } from '../../Types/Types';
 
 type PersonalDetailsType = {
   name: string | undefined;
   email: string | undefined;
   phone: string | undefined;
-  dob: Date;
+  dob: Date | undefined;
   age: number | null;
 };
+type Form1Page1PropsType={
+    setSegmentedButtonValue:SetStateType<string>
+}
 
-const Form1Page1 = () => {
+const Form1Page1:React.FC<Form1Page1PropsType> = ({setSegmentedButtonValue}) => {
   const [personalDetails, setPersonalDetails] = useState<PersonalDetailsType>({
     name: undefined,
     email: undefined,
     phone: undefined,
-    dob: new Date(),
+    dob: undefined,
     age: null,
   });
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const handlePersonalDetailsChange = useCallback(
     (name: keyof PersonalDetailsType, value: string | Date) => {
-      setPersonalDetails({...personalDetails, [name]: value});
-      if (name === 'dob') {
-        const age = moment().diff(value as Date, 'years');
-        setPersonalDetails(prevDetails => ({
-          ...prevDetails,
-          dob: value as Date,
-          age,
-        }));
-      }
+      setPersonalDetails(prevDetails => {
+        const updatedDetails = {...prevDetails, [name]: value};
+        if (name === 'dob') {
+          const age = moment().diff(value as Date, 'years');
+          return {...updatedDetails, age};
+        }
+        return updatedDetails;
+      });
     },
     [],
   );
 
   const handleSave = () => {
     console.log(personalDetails);
+    //save to redux logic
+    setSegmentedButtonValue('2')
   };
 
   const screenContext = useScreenContext();
@@ -80,7 +85,11 @@ const Form1Page1 = () => {
         <View style={screenStyles.DOBButtonsContainer}>
           <MyTextInput
             style={[screenStyles.dobTextInput, screenStyles.textInput]}
-            value={personalDetails.dob.toDateString()}
+            value={
+              personalDetails.dob
+                ? personalDetails.dob.toDateString()
+                : 'Please Pick a date'
+            }
             disabled
           />
           <TouchableOpacity
@@ -91,10 +100,14 @@ const Form1Page1 = () => {
             <EvilIcons name="calendar" color={ColorPalette.green} size={45} />
           </TouchableOpacity>
         </View>
-        <Text>Age:</Text>
+        <Text>Age</Text>
         <MyTextInput
           style={screenStyles.textInput}
-          value={personalDetails.age ? personalDetails.age.toString() : ''}
+          value={
+            personalDetails.age
+              ? personalDetails.age.toString()
+              : '0'
+          }
           disabled
         />
       </View>
@@ -104,8 +117,9 @@ const Form1Page1 = () => {
       <DatePicker
         modal
         mode="date"
+        maximumDate={new Date()}
         open={isDatePickerOpen}
-        date={personalDetails.dob}
+        date={personalDetails.dob ? personalDetails.dob : new Date()}
         onConfirm={date => {
           setIsDatePickerOpen(false);
           handlePersonalDetailsChange('dob', date);
