@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
+import {Checkbox} from 'react-native-paper';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import MyTextInput from '../../Components/MyTextInput';
-import StaticVariables from '../../Preferences/StaticVariables';
-import styles from './style';
-import {Checkbox} from 'react-native-paper';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import styles from './style';
 
 type PersonalDetailsType = {
   name: string | undefined;
@@ -23,7 +23,7 @@ type PersonalDetailsType = {
   permanentState: string | undefined;
   permanentCountry: string | undefined;
   permanentPincode: string | undefined;
-  cv: string | null;
+  resume: string | null;
   profilePic?: string;
   signature: string | null;
   skills?: string;
@@ -35,6 +35,7 @@ type EducationDetailType = {
   degree: string;
   fieldOfStudy: string;
   yearOfCompletion: string;
+  isExtra?: boolean;
 };
 
 const Form1: React.FC = () => {
@@ -44,17 +45,17 @@ const Form1: React.FC = () => {
     phone: undefined,
     dob: null,
     age: null,
-    temporaryAddress: undefined,
-    temporaryCity: undefined,
-    temporaryState: undefined,
-    temporaryCountry: undefined,
-    temporaryPincode: undefined,
+    currentAddress: undefined,
+    currentCity: undefined,
+    currentState: undefined,
+    currentCountry: undefined,
+    currentPincode: undefined,
     permanentAddress: undefined,
     permanentCity: undefined,
     permanentState: undefined,
     permanentCountry: undefined,
     permanentPincode: undefined,
-    cv: null,
+    resume: null,
     profilePic: undefined,
     signature: null,
     skills: undefined,
@@ -71,148 +72,217 @@ const Form1: React.FC = () => {
       yearOfCompletion: '',
     },
   ]);
-  const [
-    SACAIsChecked,
-    setSACAIsChecked,
-  ] = React.useState(false);
+
+  const [SACAIsChecked, setSACAIsChecked] = useState(false);
+
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
     screenContext[screenContext.isPortrait ? 'windowWidth' : 'windowHeight'],
     screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
   );
-  const handlePersonalDetailsChange = (
-    name: keyof PersonalDetailsType,
-    value: string,
-  ) => {
-    setPersonalDetails({...personalDetails, [name]: value});
-  };
 
-  const handleEducationDetailsChange = (
-    index: number,
-    name: keyof EducationDetailType,
-    value: string,
-  ) => {
-    const newEducationDetails = [...educationDetails];
-    newEducationDetails[index][name] = value;
-    setEducationDetails(newEducationDetails);
-  };
+  const handlePersonalDetailsChange = useCallback(
+    (name: keyof PersonalDetailsType, value: string) => {
+      setPersonalDetails(prevDetails => {
+        const newDetails = {...prevDetails, [name]: value};
+        if (SACAIsChecked && name.startsWith('current')) {
+          const permanentKey = name.replace(
+            'current',
+            'permanent',
+          ) as keyof PersonalDetailsType;
+          newDetails[permanentKey] = value;
+        }
+        return newDetails;
+      });
+    },
+    [SACAIsChecked],
+  );
 
-  const addEducationDetail = () => {
-    setEducationDetails([
-      ...educationDetails,
+  const handleEducationDetailsChange = useCallback(
+    (index: number, name: keyof EducationDetailType, value: string) => {
+      setEducationDetails(prevDetails => {
+        const newDetails = [...prevDetails];
+        newDetails[index][name] = value;
+        return newDetails;
+      });
+    },
+    [],
+  );
+
+  const addEducationDetail = useCallback(() => {
+    setEducationDetails(prevDetails => [
+      ...prevDetails,
       {
-        id: educationDetails.length + 1,
+        id: prevDetails.length + 1,
         institution: '',
         degree: '',
         fieldOfStudy: '',
         yearOfCompletion: '',
+        isExtra: true,
       },
     ]);
-  };
+  }, []);
+
+  const removeEducationDetail = useCallback((id: number) => {
+    setEducationDetails(prevDetails =>
+      prevDetails.filter(detail => detail.id !== id),
+    );
+  }, []);
+
+  const handleSACA = useCallback(() => {
+    setSACAIsChecked(prevChecked => {
+      const newChecked = !prevChecked;
+      if (newChecked) {
+        setPersonalDetails(prevDetails => ({
+          ...prevDetails,
+          permanentAddress: prevDetails.currentAddress,
+          permanentCity: prevDetails.currentCity,
+          permanentCountry: prevDetails.currentCountry,
+          permanentPincode: prevDetails.currentPincode,
+          permanentState: prevDetails.currentState,
+        }));
+      }
+      return newChecked;
+    });
+  }, []);
 
   return (
     <ScrollView>
       <View style={screenStyles.canvas}>
         <Text style={[screenStyles.heading, screenStyles.bigBoldText]}>
-          Form A
+          Form 1
         </Text>
         <Text style={[screenStyles.subHeading]}>Personal Details:</Text>
-        <MyTextInput
-          label="Name"
-          value={personalDetails.name}
-          onChangeText={text => handlePersonalDetailsChange('name', text)}
-        />
-        <MyTextInput
-          label="Email"
-          value={personalDetails.email}
-          onChangeText={text => handlePersonalDetailsChange('email', text)}
-          keyboardType="email-address"
-        />
-        <MyTextInput
-          label="Phone"
-          value={personalDetails.phone}
-          onChangeText={text => handlePersonalDetailsChange('phone', text)}
-          keyboardType="numeric"
-        />
-
+        <View style={screenStyles.personalDetailsCard}>
+          <MyTextInput
+            label="Name"
+            value={personalDetails.name}
+            onChangeText={text => handlePersonalDetailsChange('name', text)}
+          />
+          <MyTextInput
+            label="Email"
+            value={personalDetails.email}
+            onChangeText={text => handlePersonalDetailsChange('email', text)}
+            keyboardType="email-address"
+          />
+          <MyTextInput
+            label="Phone"
+            value={personalDetails.phone}
+            onChangeText={text => handlePersonalDetailsChange('phone', text)}
+            keyboardType="numeric"
+          />
+        </View>
         <Text style={screenStyles.subHeading}>Current Address:</Text>
-        <MyTextInput
-          label="Address"
-          value={personalDetails.currentAddress}
-          // onChangeText={}
-          multiline
-          numberOfLines={4}
-        />
-        <MyTextInput
-          label="City"
-          value={personalDetails.currentCity}
-          // onChangeText={}
-        />
-        <MyTextInput
-          label="State"
-          value={personalDetails.currentState}
-          // onChangeText={}
-        />
-        <MyTextInput
-          label="Country"
-          value={personalDetails.currentCountry}
-          // onChangeText={}
-        />
-        <MyTextInput
-          label="Pincode"
-          keyboardType="numeric"
-          value={personalDetails.currentPincode}
-          // onChangeText={}
-        />
+        <View style={screenStyles.commonAddressDetailsCard}>
+          <MyTextInput
+            label="Address"
+            value={personalDetails.currentAddress}
+            onChangeText={text =>
+              handlePersonalDetailsChange('currentAddress', text)
+            }
+            multiline
+            numberOfLines={4}
+          />
+          <MyTextInput
+            label="City"
+            value={personalDetails.currentCity}
+            onChangeText={text =>
+              handlePersonalDetailsChange('currentCity', text)
+            }
+          />
+          <MyTextInput
+            label="State"
+            value={personalDetails.currentState}
+            onChangeText={text =>
+              handlePersonalDetailsChange('currentState', text)
+            }
+          />
+          <MyTextInput
+            label="Country"
+            value={personalDetails.currentCountry}
+            onChangeText={text =>
+              handlePersonalDetailsChange('currentCountry', text)
+            }
+          />
+          <MyTextInput
+            label="Pincode"
+            keyboardType="numeric"
+            value={personalDetails.currentPincode}
+            onChangeText={text =>
+              handlePersonalDetailsChange('currentPincode', text)
+            }
+          />
+        </View>
 
-        <Text style={screenStyles.subHeading}> Permanent Address:</Text>
-      <View style={screenStyles.SACAContainer}>
+        <Text style={screenStyles.subHeading}>Permanent Address:</Text>
+        <View style={screenStyles.SACAContainer}>
           <Checkbox
             color={ColorPalette.green}
             uncheckedColor={ColorPalette.green}
-            status={
-              SACAIsChecked ? 'checked' : 'unchecked'
-            }
-            onPress={() => {
-              setSACAIsChecked(
-                !SACAIsChecked,
-              );
-            }}
+            status={SACAIsChecked ? 'checked' : 'unchecked'}
+            onPress={handleSACA}
           />
           <Text>Same as Current Address</Text>
-      </View>
-        <MyTextInput
-          label="Address"
-          value={personalDetails.permanentAddress}
-          // onChangeText={}
-          multiline
-          numberOfLines={4}
-        />
-        <MyTextInput
-          label="City"
-          value={personalDetails.permanentCity}
-          // onChangeText={}
-        />
-        <MyTextInput
-          label="State"
-          value={personalDetails.permanentState}
-          // onChangeText={}
-        />
-        <MyTextInput
-          label="Country"
-          value={personalDetails.permanentCountry}
-          // onChangeText={}
-        />
-        <MyTextInput
-          label="Pincode"
-          keyboardType="numeric"
-          value={personalDetails.permanentPincode}
-          // onChangeText={}
-        />
+        </View>
+        <View style={screenStyles.commonAddressDetailsCard}>
+          <MyTextInput
+            label="Address"
+            disabled={SACAIsChecked}
+            value={personalDetails.permanentAddress}
+            onChangeText={text =>
+              handlePersonalDetailsChange('permanentAddress', text)
+            }
+            multiline
+            numberOfLines={4}
+          />
+          <MyTextInput
+            label="City"
+            disabled={SACAIsChecked}
+            value={personalDetails.permanentCity}
+            onChangeText={text =>
+              handlePersonalDetailsChange('permanentCity', text)
+            }
+          />
+          <MyTextInput
+            label="State"
+            disabled={SACAIsChecked}
+            value={personalDetails.permanentState}
+            onChangeText={text =>
+              handlePersonalDetailsChange('permanentState', text)
+            }
+          />
+          <MyTextInput
+            label="Country"
+            disabled={SACAIsChecked}
+            value={personalDetails.permanentCountry}
+            onChangeText={text =>
+              handlePersonalDetailsChange('permanentCountry', text)
+            }
+          />
+          <MyTextInput
+            label="Pincode"
+            disabled={SACAIsChecked}
+            keyboardType="numeric"
+            value={personalDetails.permanentPincode}
+            onChangeText={text =>
+              handlePersonalDetailsChange('permanentPincode', text)
+            }
+          />
+        </View>
         <Text style={screenStyles.subHeading}>Educational Details:</Text>
         {educationDetails.map((education, index) => (
-          <View key={education.id} style={{marginBottom: 20}}>
+          <View key={education.id} style={screenStyles.educationDetailsCard}>
+            {education.isExtra && (
+            <View style={screenStyles.AddiEduHeaderContainer}>
+                <Text>Additional Education {index}</Text>
+                <TouchableOpacity
+                  onPress={() => removeEducationDetail(education.id)}
+                  style={screenStyles.removeEducationButton}>
+                  <Ionicons name="close" size={20} color={ColorPalette.red} />
+                </TouchableOpacity>
+            </View>
+            )}
             <MyTextInput
               label="Institution"
               value={education.institution}

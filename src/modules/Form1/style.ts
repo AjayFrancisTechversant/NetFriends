@@ -16,6 +16,36 @@ const styles = (
     heading: {alignSelf: 'center'},
     bigBoldText: {fontSize: 20, fontWeight: 'bold'},
     subHeading: {fontWeight: 'bold'},
+    whiteText: {color: ColorPalette.white},
+    personalDetailsCard: {
+      margin: height * 0.01,
+      borderRadius: 10,
+      elevation: 10,
+      backgroundColor: ColorPalette.white,
+    },
+    SACAContainer: {flexDirection: 'row', alignItems: 'center'},
+    commonAddressDetailsCard: {
+      margin: height * 0.01,
+      borderRadius: 10,
+      elevation: 10,
+      backgroundColor: ColorPalette.white,
+    },
+    educationDetailsCard: {
+      margin: height * 0.01,
+      borderRadius: 10,
+      elevation: 10,
+      backgroundColor: ColorPalette.white,
+    },
+    AddiEduHeaderContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      margin: height * 0.02,
+    },
+    removeEducationButton: {
+      borderColor: ColorPalette.gray,
+      borderWidth:0.5,
+      borderRadius: 5,
+    },
     addEducationButton: {
       backgroundColor: ColorPalette.orange,
       alignItems: 'center',
@@ -36,7 +66,5 @@ const styles = (
       width: width * 0.8,
       alignSelf: 'center',
     },
-    whiteText: {color: ColorPalette.white},
-    SACAContainer: {flexDirection: 'row',alignItems:'center'},
   });
 export default styles;
