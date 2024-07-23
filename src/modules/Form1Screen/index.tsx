@@ -5,6 +5,7 @@ import styles from './style';
 import {SegmentedButtons} from 'react-native-paper';
 import Form1Page1 from '../../Components/Form1Page1';
 import Form1Page2 from '../../Components/Form1Page2';
+import Form1Page3 from '../../Components/Form1Page3';
 
 const Form1Screen = () => {
   const [segmentedButtonValue, setSegmentedButtonValue] = useState('1');
@@ -49,6 +50,8 @@ const Form1Screen = () => {
     :
     segmentedButtonValue=='2'?
         <Form1Page2 setSegmentedButtonValue={setSegmentedButtonValue}/>
+    : segmentedButtonValue=='3'?
+    <Form1Page3 setSegmentedButtonValue={setSegmentedButtonValue}/>
     :
     null
     }

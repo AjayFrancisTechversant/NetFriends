@@ -8,9 +8,9 @@ const styles = (
   height: number,
 ) =>
   StyleSheet.create({
-    canvas: {flex: 1, backgroundColor: ColorPalette.white,},
     subHeading: {fontWeight: 'bold'},
-    personalDetailsCard: {
+    textInput: {marginBottom: height * 0.01},
+    educationDetailsCard: {
       padding: height * 0.01,
       margin: height * 0.01,
       borderRadius: 10,
@@ -19,18 +19,37 @@ const styles = (
       borderWidth: 0.4,
       borderColor: ColorPalette.gray,
     },
-    textInput:{marginBottom:height*0.01},
-    DOBButtonsContainer: {
+    AddiEduHeaderContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      margin: height * 0.02,
+    },
+    removeEducationButton: {
+      borderColor: ColorPalette.gray,
+      borderWidth: 0.5,
+      borderRadius: 5,
+    },
+    addEducationButton: {
+      backgroundColor: ColorPalette.orange,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 10,
+      marginTop:height*0.01,
+      marginHorizontal: height * 0.02,
+      alignSelf: 'flex-end',
+      padding:height*0.01
+    },
+    BackSaveButtonContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
     },
-    dobTextInput: {flex: 0.9},
-    calenderButton: {
-      backgroundColor: ColorPalette.lightGreen,
+    goBackButton: {
+      backgroundColor: ColorPalette.red,
       borderRadius: 10,
-      justifyContent: 'center',
+      alignSelf: 'flex-end',
+      padding: height * 0.01,
       alignItems: 'center',
-      
+      margin: height * 0.02,
     },
     saveButton: {
       backgroundColor: ColorPalette.green,
@@ -38,7 +57,7 @@ const styles = (
       alignSelf: 'flex-end',
       padding: height * 0.01,
       alignItems: 'center',
-      margin:height*0.02
+      margin: height * 0.02,
     },
     whiteText: {color: ColorPalette.white},
   });
