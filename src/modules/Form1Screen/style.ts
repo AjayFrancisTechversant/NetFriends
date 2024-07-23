@@ -15,6 +15,6 @@ const styles = (
     },
     heading: {alignSelf: 'center'},
     bigBoldText: {fontSize: 20, fontWeight: 'bold'},
-    segmentedButtonsStyle: {margin: height * 0.01},
+    segmentedButtonsStyle: {margin: height * 0.005,},
   });
 export default styles;

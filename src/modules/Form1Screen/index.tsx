@@ -1,7 +1,5 @@
 import {
-  View,
   Text,
-  SafeAreaView,
   ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -12,13 +10,20 @@ import {SegmentedButtons} from 'react-native-paper';
 import Form1Page1 from '../../Components/Form1Page1';
 import Form1Page2 from '../../Components/Form1Page2';
 import Form1Page3 from '../../Components/Form1Page3';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
 
 const Form1Screen = () => {
-  const [segmentedButtonValue, setSegmentedButtonValue] = useState('1');
+    const [segmentedButtonValue, setSegmentedButtonValue] = useState('1');
+    const screenContext = useScreenContext();
+    const screenStyles = styles(
+      screenContext,
+      screenContext[screenContext.isPortrait ? 'windowWidth' : 'windowHeight'],
+      screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
+    );
   const segmentedButtons = [
     {
       value: '1',
-      label: 'Personal Details',
+      label: 'Personal',
     },
     {
       value: '2',
@@ -33,12 +38,6 @@ const Form1Screen = () => {
       label: 'Documents',
     },
   ];
-  const screenContext = useScreenContext();
-  const screenStyles = styles(
-    screenContext,
-    screenContext[screenContext.isPortrait ? 'windowWidth' : 'windowHeight'],
-    screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
-  );
 
   return (
     <KeyboardAvoidingView
@@ -51,6 +50,8 @@ const Form1Screen = () => {
           Form 1
         </Text>
         <SegmentedButtons
+        density='small'
+        theme={{colors:{secondaryContainer:ColorPalette.lightGreen,outline:ColorPalette.green}}}
           style={screenStyles.segmentedButtonsStyle}
           value={segmentedButtonValue}
           onValueChange={setSegmentedButtonValue}
