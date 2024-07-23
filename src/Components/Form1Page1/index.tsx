@@ -7,7 +7,8 @@ import MyTextInput from '../MyTextInput';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import { SetStateType } from '../../Types/Types';
+import {SetStateType} from '../../Types/Types';
+import { IconButton, TextInput } from 'react-native-paper';
 
 type PersonalDetailsType = {
   name: string | undefined;
@@ -16,11 +17,13 @@ type PersonalDetailsType = {
   dob: Date | undefined;
   age: number | null;
 };
-type Form1Page1PropsType={
-    setSegmentedButtonValue:SetStateType<string>
-}
+type Form1Page1PropsType = {
+  setSegmentedButtonValue: SetStateType<string>;
+};
 
-const Form1Page1:React.FC<Form1Page1PropsType> = ({setSegmentedButtonValue}) => {
+const Form1Page1: React.FC<Form1Page1PropsType> = ({
+  setSegmentedButtonValue,
+}) => {
   const [personalDetails, setPersonalDetails] = useState<PersonalDetailsType>({
     name: undefined,
     email: undefined,
@@ -47,7 +50,7 @@ const Form1Page1:React.FC<Form1Page1PropsType> = ({setSegmentedButtonValue}) => 
   const handleSave = () => {
     console.log(personalDetails);
     //save to redux logic
-    setSegmentedButtonValue('2')
+    setSegmentedButtonValue('2');
   };
 
   const screenContext = useScreenContext();
@@ -82,24 +85,32 @@ const Form1Page1:React.FC<Form1Page1PropsType> = ({setSegmentedButtonValue}) => 
           keyboardType="numeric"
         />
         <Text>DOB</Text>
-        <View style={screenStyles.DOBButtonsContainer}>
-          <MyTextInput
-            style={[screenStyles.dobTextInput, screenStyles.textInput]}
-            value={
-              personalDetails.dob
-                ? personalDetails.dob.toDateString()
-                : 'Please Pick a date'
-            }
-            disabled
+
+        <MyTextInput
+          style={[screenStyles.textInput]}
+          value={
+            personalDetails.dob
+              ? personalDetails.dob.toDateString()
+              : 'Please Pick a date'
+          }
+          disabled
+          right={
+            <TextInput.Icon
+            icon='calendar'
+            color={ColorPalette.green}
+            size={30}
+            onPress={()=>{setIsDatePickerOpen(true)}}
           />
-          <TouchableOpacity
+          }
+        />
+        {/* <TouchableOpacity
             onPress={() => {
               setIsDatePickerOpen(true);
             }}
             style={screenStyles.calenderButton}>
             <EvilIcons name="calendar" color={ColorPalette.green} size={45} />
-          </TouchableOpacity>
-        </View>
+          </TouchableOpacity> */}
+
         <Text>Age</Text>
         <MyTextInput
           style={screenStyles.textInput}
