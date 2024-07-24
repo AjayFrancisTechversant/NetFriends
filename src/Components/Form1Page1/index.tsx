@@ -134,26 +134,25 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
           }
           disabled
           right={
-            <TextInput.Icon
-              icon="calendar"
-              color={ColorPalette.green}
-              size={30}
-              onPress={() => {
-                setIsDatePickerOpen(true);
-              }}
-            />
-          }
-          left={
-            personalDetails.dob ? (
+            !personalDetails.dob ? (
+              <TextInput.Icon
+                icon="calendar"
+                color={ColorPalette.green}
+                size={30}
+                onPress={() => {
+                  setIsDatePickerOpen(true);
+                }}
+              />
+            ) : (
               <TextInput.Icon
                 icon="close"
                 color={ColorPalette.red}
-                size={20}
+                size={30}
                 onPress={() => {
                   handlePersonalDetailsChange('dob', undefined);
                 }}
               />
-            ) : null
+            )
           }
         />
         {personalDetails.dob && (
