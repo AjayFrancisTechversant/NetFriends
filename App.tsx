@@ -49,6 +49,7 @@ const App: React.FC = () => {
             homeDrawerStack: {
               screens: {
                 homeScreen: 'home',
+                form1:'form1',
                 videoPlayer: 'videoplayer',
                 comments: 'comments',
                 spotify: 'spotify',
@@ -145,8 +146,8 @@ const Main: React.FC = () => {
         <PersistGate loading={null} persistor={persistor}>
           <GestureHandlerRootView style={{flex: 1}}>
             <PaperProvider>
-              {/* <App /> */}
-              <Form1Screen/>
+              <App />
+              {/* <Form1Screen/> */}
             </PaperProvider>
           </GestureHandlerRootView>
         </PersistGate>

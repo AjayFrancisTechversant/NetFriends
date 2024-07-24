@@ -8,7 +8,7 @@ import MyTextInput from '../MyTextInput';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './style';
 
-type EducationDetailType = {
+export type EducationDetailsType = {
   id: string;
   institution: string | undefined;
   degree: string | undefined;
@@ -25,7 +25,7 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
   setSegmentedButtonValue,
 }) => {
   const [educationDetails, setEducationDetails] = useState<
-    EducationDetailType[]
+  EducationDetailsType[]
   >([
     {
       id: uuid.v4() as string,
@@ -37,11 +37,11 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
     },
   ]);
   const [errors, setErrors] = useState<{
-    [id: string]: Partial<EducationDetailType>;
+    [id: string]: Partial<EducationDetailsType>;
   }>({});
 
   const handleEducationDetailsChange = useCallback(
-    (index: number, name: keyof EducationDetailType, value: string) => {
+    (index: number, name: keyof EducationDetailsType, value: string) => {
       setEducationDetails(prevDetails => {
         const newDetails: any = [...prevDetails];
         newDetails[index][name] = value;
@@ -86,10 +86,10 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
 
   const validateForm = () => {
     let isValid = true;
-    const newErrors: {[id: string]: Partial<EducationDetailType>} = {};
+    const newErrors: {[id: string]: Partial<EducationDetailsType>} = {};
 
     educationDetails.forEach(detail => {
-      const detailErrors: Partial<EducationDetailType> = {};
+      const detailErrors: Partial<EducationDetailsType> = {};
       if (!detail.institution)
         detailErrors.institution = 'Institution is required';
       if (!detail.degree) detailErrors.degree = 'Degree is required';

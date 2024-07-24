@@ -7,7 +7,7 @@ import {Checkbox} from 'react-native-paper';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import styles from './style';
 
-type AddressDetailsType = {
+export type AddressDetailsType = {
   currentAddress: string | undefined;
   currentCity: string | undefined;
   currentState: string | undefined;

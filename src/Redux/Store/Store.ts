@@ -5,13 +5,13 @@ import LikesReducer from '../Slices/LikeSlice';
 import AddFriendReducer from '../Slices/AddFriendSlice';
 import UsersReducer from '../Slices/UsersSlice';
 import CommentsReducer from '../Slices/CommentsSlice';
+import Form1DataReducer from '../Slices/Form1DataSlice';
 
 // Configure persist options
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  // Optionally, you can blacklist certain reducers or whitelist only specific ones
-  whitelist: ['Likes', 'AddFriend'],
+  whitelist: ['Likes', 'AddFriend','Form1Data'],
   blacklist: ['Users', 'Comments'],
 };
 
@@ -21,6 +21,7 @@ const rootReducer = combineReducers({
   AddFriend: AddFriendReducer,
   Users: UsersReducer,
   Comments: CommentsReducer,
+  Form1Data:Form1DataReducer
 });
 
 // Create a persisted reducer

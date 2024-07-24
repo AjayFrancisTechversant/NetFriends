@@ -9,8 +9,10 @@ import {SetStateType} from '../../Types/Types';
 import {TextInput} from 'react-native-paper';
 import {validEmail} from '../../RegExp/RegExp';
 import styles from './style';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
+import {updatePersonalDetails} from '../../Redux/Slices/Form1DataSlice';
 
-type PersonalDetailsType = {
+export type PersonalDetailsType = {
   name: string | undefined;
   email: string | undefined;
   phone: string | undefined;
@@ -24,13 +26,13 @@ type Form1Page1PropsType = {
 const Form1Page1: React.FC<Form1Page1PropsType> = ({
   setSegmentedButtonValue,
 }) => {
-  const [personalDetails, setPersonalDetails] = useState<PersonalDetailsType>({
-    name: undefined,
-    email: undefined,
-    phone: undefined,
-    dob: undefined,
-    age: undefined,
-  });
+  const dispatch = useAppDispatch();
+  const personalDetailsFromRedux = useAppSelector(
+    state => state.Form1Data.personalDetails,
+  );
+  const [personalDetails, setPersonalDetails] = useState<PersonalDetailsType>(
+    personalDetailsFromRedux,
+  );
   const [errors, setErrors] = useState<Partial<PersonalDetailsType>>({});
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
@@ -38,7 +40,7 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
     (name: keyof PersonalDetailsType, value: string | Date | undefined) => {
       setPersonalDetails(prevDetails => {
         const updatedDetails = {...prevDetails, [name]: value};
-        if (name === 'dob') {
+        if (name === 'dob' ) {
           const age = moment().diff(value as Date, 'years');
           return {...updatedDetails, age};
         }
@@ -47,11 +49,14 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
     },
     [],
   );
-
+  const saveToRedux = () => {
+    dispatch(updatePersonalDetails(personalDetails));
+  };
   const handleSave = () => {
     if (validateForm()) {
       console.log(personalDetails);
-      //save to redux logic
+      // saveToRedux()
+      //no need of saving to redux since on every onEndEditing ,it is saved to redux
       setSegmentedButtonValue('2');
     }
   };
@@ -83,6 +88,7 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
       {required && <Text style={screenStyles.errorText}> *</Text>}
     </Text>
   );
+
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -99,6 +105,7 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
           style={screenStyles.textInput}
           value={personalDetails.name}
           onChangeText={text => handlePersonalDetailsChange('name', text)}
+          onEndEditing={saveToRedux}
         />
         {errors.name && (
           <Text style={screenStyles.errorText}>{errors.name}</Text>
@@ -109,6 +116,7 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
           value={personalDetails.email}
           onChangeText={text => handlePersonalDetailsChange('email', text)}
           keyboardType="email-address"
+          onEndEditing={saveToRedux}
         />
         {errors.email && (
           <Text style={screenStyles.errorText}>{errors.email}</Text>
@@ -119,6 +127,7 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
           value={personalDetails.phone}
           onChangeText={text => handlePersonalDetailsChange('phone', text)}
           keyboardType="numeric"
+          onEndEditing={saveToRedux}
         />
         {errors.phone && (
           <Text style={screenStyles.errorText}>{errors.phone}</Text>
@@ -126,11 +135,9 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
         {renderTextInputLabel('Date Of Birth', false)}
         <MyTextInput
           style={[screenStyles.textInput]}
-          value={
-            personalDetails.dob
-              ? personalDetails.dob.toDateString()
-              : 'Please Pick a date'
-          }
+          label={personalDetails.dob
+            ? personalDetails.dob.toDateString()
+            : 'Please Pick a date'}
           disabled
           right={
             !personalDetails.dob ? (
@@ -149,6 +156,9 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
                 size={30}
                 onPress={() => {
                   handlePersonalDetailsChange('dob', undefined);
+                  dispatch(
+                    updatePersonalDetails({...personalDetails, dob: undefined}),
+                  );
                 }}
               />
             )
@@ -177,6 +187,7 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
         onConfirm={date => {
           setIsDatePickerOpen(false);
           handlePersonalDetailsChange('dob', date);
+          dispatch(updatePersonalDetails({...personalDetails, dob: date}));
         }}
         onCancel={() => {
           setIsDatePickerOpen(false);

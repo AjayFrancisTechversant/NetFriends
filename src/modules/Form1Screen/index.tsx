@@ -1,4 +1,4 @@
-import {Text, ScrollView, KeyboardAvoidingView} from 'react-native';
+import {Text, ScrollView, KeyboardAvoidingView, View} from 'react-native';
 import React, {useState} from 'react';
 import {SegmentedButtons} from 'react-native-paper';
 import {useScreenContext} from '../../Contexts/ScreenContext';
@@ -8,6 +8,7 @@ import Form1Page3 from '../../Components/Form1Page3';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import Form1Page4 from '../../Components/Form1Page4';
 import styles from './style';
+import MenuDrawerButton from '../../Components/MenuDrawerButton';
 
 const Form1Screen = () => {
   const [segmentedButtonValue, setSegmentedButtonValue] = useState('1');
@@ -42,6 +43,9 @@ const Form1Screen = () => {
       enabled={true}
       behavior="height">
       <ScrollView>
+        <View style={screenStyles.menuButton}>
+          <MenuDrawerButton color={ColorPalette.green}/>
+        </View>
         <Text style={[screenStyles.heading, screenStyles.bigBoldText]}>
           Form 1
         </Text>

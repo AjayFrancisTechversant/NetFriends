@@ -35,6 +35,7 @@ import CommentsScreen from '../../../../modules/CommentsScreen';
 import Crashlytics from '../../../../modules/Crashlytics';
 import LineSlider from '../../../../Components/LineSlider';
 import LoadersScreen from '../../../../modules/LoadersScreen';
+import Form1Screen from '../../../../modules/Form1Screen';
 
 const Drawer = createDrawerNavigator();
 
@@ -55,6 +56,15 @@ const HomeDrawerStack = () => {
         }}
         name="homeScreen"
         component={HomeScreen}
+      />
+      <Drawer.Screen
+        options={{title:"Form 1",
+          drawerIcon: () => (
+            <AntDesign name="form" color={ColorPalette.green} size={20} />
+          ),
+        }}
+        name="form1"
+        component={Form1Screen}
       />
       <Drawer.Screen
         options={{title:"Video Player",

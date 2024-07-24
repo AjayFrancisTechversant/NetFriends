@@ -8,13 +8,14 @@ const styles = (
   height: number,
 ) =>
   StyleSheet.create({
+    menuButton:{position:'absolute',left:height*0.01,top:height*0.01},
     canvas: {
       flex: 1,
       padding: height * 0.01,
       backgroundColor: ColorPalette.white,
     },
-    heading: {alignSelf: 'center'},
+    heading: {alignSelf: 'center',margin:height*0.015},
     bigBoldText: {fontSize: 20, fontWeight: 'bold'},
-    segmentedButtonsStyle: {margin: height * 0.005,},
+    segmentedButtonsStyle: {margin: height * 0.005},
   });
 export default styles;
