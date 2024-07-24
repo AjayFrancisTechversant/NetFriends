@@ -1,7 +1,7 @@
 import {Text, ScrollView, KeyboardAvoidingView} from 'react-native';
 import React, {useState} from 'react';
-import {useScreenContext} from '../../Contexts/ScreenContext';
 import {SegmentedButtons} from 'react-native-paper';
+import {useScreenContext} from '../../Contexts/ScreenContext';
 import Form1Page1 from '../../Components/Form1Page1';
 import Form1Page2 from '../../Components/Form1Page2';
 import Form1Page3 from '../../Components/Form1Page3';
