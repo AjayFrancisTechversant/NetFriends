@@ -136,7 +136,7 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
         <MyTextInput
           style={[screenStyles.textInput]}
           label={personalDetails.dob
-            ? personalDetails.dob.toDateString()
+            ? moment(personalDetails.dob).format('DD/MM/YY')
             : 'Please Pick a date'}
           disabled
           right={
@@ -183,7 +183,7 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
         mode="date"
         maximumDate={new Date()}
         open={isDatePickerOpen}
-        date={personalDetails.dob ? personalDetails.dob : new Date()}
+        date={new Date()}
         onConfirm={date => {
           setIsDatePickerOpen(false);
           handlePersonalDetailsChange('dob', date);
