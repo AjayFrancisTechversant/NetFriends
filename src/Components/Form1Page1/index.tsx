@@ -1,15 +1,14 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useCallback, useState} from 'react';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import MyTextInput from '../MyTextInput';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {SetStateType} from '../../Types/Types';
-import {IconButton, TextInput} from 'react-native-paper';
+import {TextInput} from 'react-native-paper';
 import {validEmail} from '../../RegExp/RegExp';
+import styles from './style';
 
 type PersonalDetailsType = {
   name: string | undefined;

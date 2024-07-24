@@ -2,10 +2,11 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useCallback, useState} from 'react';
 import {SetStateType} from '../../Types/Types';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './style';
 import MyTextInput from '../MyTextInput';
 import {Checkbox} from 'react-native-paper';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import styles from './style';
+
 type AddressDetailsType = {
   currentAddress: string | undefined;
   currentCity: string | undefined;
