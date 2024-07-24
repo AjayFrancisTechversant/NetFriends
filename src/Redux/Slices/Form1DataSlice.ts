@@ -20,7 +20,16 @@ const initialState: Form1DataSliceType = {
     age: undefined,
   },
   addressDetails: {
-    /* initial values for Component 2 */
+    currentAddress: undefined,
+    currentCity: undefined,
+    currentState: undefined,
+    currentCountry: undefined,
+    currentPincode: undefined,
+    permanentAddress: undefined,
+    permanentCity: undefined,
+    permanentState: undefined,
+    permanentCountry: undefined,
+    permanentPincode: undefined,
   },
   educationDetails: {
     /* initial values for Component 3 */

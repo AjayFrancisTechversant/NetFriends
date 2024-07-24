@@ -5,6 +5,8 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import MyTextInput from '../MyTextInput';
 import {Checkbox} from 'react-native-paper';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { updateAddressDetails } from '../../Redux/Slices/Form1DataSlice';
 import styles from './style';
 
 export type AddressDetailsType = {
@@ -26,21 +28,17 @@ type Form1Page2PropsType = {
 const Form1Page2: React.FC<Form1Page2PropsType> = ({
   setSegmentedButtonValue,
 }) => {
-  const [addressDetails, setAddressDetails] = useState<AddressDetailsType>({
-    currentAddress: undefined,
-    currentCity: undefined,
-    currentState: undefined,
-    currentCountry: undefined,
-    currentPincode: undefined,
-    permanentAddress: undefined,
-    permanentCity: undefined,
-    permanentState: undefined,
-    permanentCountry: undefined,
-    permanentPincode: undefined,
-  });
+  const dispatch=useAppDispatch()
+  const addressDetailsFromRedux= useAppSelector(state=>state.Form1Data.addressDetails)
+  const [addressDetails, setAddressDetails] = useState<AddressDetailsType>(
+    addressDetailsFromRedux
+  );
   const [errors, setErrors] = useState<Partial<AddressDetailsType>>({});
   const [SACAIsChecked, setSACAIsChecked] = useState(false);
 
+  const saveToRedux = () => {
+    dispatch(updateAddressDetails(addressDetails));
+  };
   const handleGoBack = () => {
     setSegmentedButtonValue('1');
   };
@@ -140,6 +138,7 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
           }
           multiline
           numberOfLines={4}
+          onEndEditing={saveToRedux}
         />
         {errors.currentAddress && (
           <Text style={screenStyles.errorText}>{errors.currentAddress}</Text>
@@ -149,6 +148,7 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
           style={screenStyles.textInput}
           value={addressDetails.currentCity}
           onChangeText={text => handleAddressDetailsChange('currentCity', text)}
+          onEndEditing={saveToRedux}
         />
          {errors.currentCity && (
           <Text style={screenStyles.errorText}>{errors.currentCity}</Text>
@@ -160,7 +160,8 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
           onChangeText={text =>
             handleAddressDetailsChange('currentState', text)
           }
-        />
+          onEndEditing={saveToRedux}
+/>
          {errors.currentState && (
           <Text style={screenStyles.errorText}>{errors.currentState}</Text>
         )}
@@ -171,7 +172,8 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
           onChangeText={text =>
             handleAddressDetailsChange('currentCountry', text)
           }
-        />
+          onEndEditing={saveToRedux}
+/>
          {errors.currentCountry && (
           <Text style={screenStyles.errorText}>{errors.currentCountry}</Text>
         )}
@@ -183,7 +185,8 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
           onChangeText={text =>
             handleAddressDetailsChange('currentPincode', text)
           }
-        />
+          onEndEditing={saveToRedux}
+/>
       </View>
       <Text style={screenStyles.subHeading}>Permanent Address:</Text>
       <View style={screenStyles.commonAddressDetailsCard}>
@@ -206,7 +209,8 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
           }
           multiline
           numberOfLines={4}
-        />
+          onEndEditing={saveToRedux}
+/>
          {errors.permanentAddress && (
           <Text style={screenStyles.errorText}>{errors.permanentAddress}</Text>
         )}
@@ -218,7 +222,8 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
           onChangeText={text =>
             handleAddressDetailsChange('permanentCity', text)
           }
-        />
+          onEndEditing={saveToRedux}
+/>
          {errors.permanentCity && (
           <Text style={screenStyles.errorText}>{errors.permanentCity}</Text>
         )}
@@ -230,7 +235,8 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
           onChangeText={text =>
             handleAddressDetailsChange('permanentState', text)
           }
-        />
+          onEndEditing={saveToRedux}
+/>
          {errors.permanentState && (
           <Text style={screenStyles.errorText}>{errors.permanentState}</Text>
         )}
@@ -242,7 +248,8 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
           onChangeText={text =>
             handleAddressDetailsChange('permanentCountry', text)
           }
-        />
+          onEndEditing={saveToRedux}
+/>
          {errors.permanentCountry && (
           <Text style={screenStyles.errorText}>{errors.permanentCountry}</Text>
         )}
@@ -255,7 +262,8 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
           onChangeText={text =>
             handleAddressDetailsChange('permanentPincode', text)
           }
-        />
+          onEndEditing={saveToRedux}
+/>
       </View>
       <View style={screenStyles.BackSaveButtonContainer}>
         <TouchableOpacity

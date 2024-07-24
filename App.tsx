@@ -67,11 +67,11 @@ const App: React.FC = () => {
                 webView: 'webview',
                 PDFReader: 'pdfreader',
                 ECharts: 'echarts',
-                giftedCharts: 'giftedcharts', //
+                giftedCharts: 'giftedcharts', 
                 booksFirestore: 'booksfirestore',
                 booksRealtimeDatabase: 'booksrealtimedatabase',
-                imageUploader: 'imageuploader', //
-                RNElements: 'rnelements', //
+                imageUploader: 'imageuploader', 
+                RNElements: 'rnelements', 
                 locator: 'locator',
                 crashlytics: 'crashlytics',
                 reanimatedCarousel: 'reanimatedcarousel',
