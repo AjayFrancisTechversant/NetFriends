@@ -8,9 +8,9 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {SetStateType} from '../../Types/Types';
 import {TextInput} from 'react-native-paper';
 import {validEmail} from '../../RegExp/RegExp';
-import styles from './style';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {updatePersonalDetails} from '../../Redux/Slices/Form1DataSlice';
+import styles from './style';
 
 export type PersonalDetailsType = {
   name: string | undefined;
@@ -37,7 +37,7 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const handlePersonalDetailsChange = useCallback(
-    (name: keyof PersonalDetailsType, value: string | Date | undefined) => {
+    (name: keyof PersonalDetailsType, value: string | Date |number| undefined) => {
       setPersonalDetails(prevDetails => {
         const updatedDetails = {...prevDetails, [name]: value};
         if (name === 'dob' ) {
@@ -184,10 +184,17 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
         maximumDate={new Date()}
         open={isDatePickerOpen}
         date={new Date()}
+        // onConfirm={date => {
+        //   setIsDatePickerOpen(false);
+        //   handlePersonalDetailsChange('dob', date);
+        //   dispatch(updatePersonalDetails({...personalDetails, dob: date}));
+        // }}
         onConfirm={date => {
           setIsDatePickerOpen(false);
+          const age = moment().diff(date, 'years');
           handlePersonalDetailsChange('dob', date);
-          dispatch(updatePersonalDetails({...personalDetails, dob: date}));
+          handlePersonalDetailsChange('age', age);
+          dispatch(updatePersonalDetails({...personalDetails, dob: date, age}));
         }}
         onCancel={() => {
           setIsDatePickerOpen(false);
