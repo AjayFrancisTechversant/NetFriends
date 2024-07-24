@@ -8,7 +8,7 @@ const initialState: LikeReduxStateType = {
   likedUsers: StaticVariables.EMPTY_ARRAY,
 };
 
-export const LikeSlice = createSlice({
+const LikeSlice = createSlice({
   name: 'Likes',
   initialState,
   reducers: {

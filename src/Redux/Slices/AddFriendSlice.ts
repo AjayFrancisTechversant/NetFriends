@@ -9,7 +9,7 @@ const initialState: AddFriendReduxStateType = {
   addedFriends: StaticVariables.EMPTY_ARRAY,
 };
 
-export const AddFriendSlice = createSlice({
+const AddFriendSlice = createSlice({
   name: 'AddFriend',
   initialState,
   reducers: {
