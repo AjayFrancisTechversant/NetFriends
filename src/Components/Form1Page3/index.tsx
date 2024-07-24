@@ -6,6 +6,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import {SetStateType} from '../../Types/Types';
 import MyTextInput from '../MyTextInput';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import styles from './style';
 
 export type EducationDetailsType = {
@@ -24,18 +25,13 @@ type Form1Page3PropsType = {
 const Form1Page3: React.FC<Form1Page3PropsType> = ({
   setSegmentedButtonValue,
 }) => {
+  const dispatch = useAppDispatch();
+  const educationDetailsFromRedux = useAppSelector(
+    state => state.Form1Data.educationDetails,
+  );
   const [educationDetails, setEducationDetails] = useState<
-  EducationDetailsType[]
-  >([
-    {
-      id: uuid.v4() as string,
-      institution: undefined,
-      degree: undefined,
-      fieldOfStudy: undefined,
-      yearOfCompletion: undefined,
-      isExtra: false,
-    },
-  ]);
+    EducationDetailsType[]
+  >(educationDetailsFromRedux);
   const [errors, setErrors] = useState<{
     [id: string]: Partial<EducationDetailsType>;
   }>({});

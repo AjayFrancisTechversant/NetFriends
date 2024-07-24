@@ -31,9 +31,16 @@ const initialState: Form1DataSliceType = {
     permanentCountry: undefined,
     permanentPincode: undefined,
   },
-  educationDetails: {
-    /* initial values for Component 3 */
-  },
+  educationDetails: [
+    {
+      id: uuid.v4() as string,
+      institution: undefined,
+      degree: undefined,
+      fieldOfStudy: undefined,
+      yearOfCompletion: undefined,
+      isExtra: false,
+    },
+  ],
   // component4: { /* initial values for Component 4 */ },
 };
 
@@ -49,7 +56,7 @@ const Form1DataSlice = createSlice({
     },
     updateEducationalDetails(
       state,
-      action: PayloadAction<EducationDetailsType>,
+      action: PayloadAction<EducationDetailsType[]>,
     ) {
       state.educationDetails = action.payload;
     },
