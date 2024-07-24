@@ -40,5 +40,9 @@ const styles = (
       margin: height * 0.02,
     },
     whiteText: {color: ColorPalette.white},
+    errorText: {
+      color: 'red',
+      fontSize: 12,
+    }
   });
 export default styles;

@@ -11,12 +11,12 @@ type AddressDetailsType = {
   currentCity: string | undefined;
   currentState: string | undefined;
   currentCountry: string | undefined;
-  currentPincode: string | undefined;
+  currentPincode?: string;
   permanentAddress: string | undefined;
   permanentCity: string | undefined;
   permanentState: string | undefined;
   permanentCountry: string | undefined;
-  permanentPincode: string | undefined;
+  permanentPincode?: string;
 };
 
 type Form1Page2PropsType = {
@@ -37,16 +37,18 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
     permanentCountry: undefined,
     permanentPincode: undefined,
   });
-
+  const [errors, setErrors] = useState<Partial<AddressDetailsType>>({});
   const [SACAIsChecked, setSACAIsChecked] = useState(false);
 
   const handleGoBack = () => {
     setSegmentedButtonValue('1');
   };
   const handleSave = () => {
-    //save to redux logic
-    console.log(addressDetails);
-    setSegmentedButtonValue('3');
+    if (validateForm()) {
+      //save to redux logic
+      console.log(addressDetails);
+      setSegmentedButtonValue('3');
+    }
   };
   const handleSACA = useCallback(() => {
     setSACAIsChecked(prevChecked => {
@@ -91,6 +93,32 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
     [SACAIsChecked],
   );
 
+  const renderTextInputLabel = (label: string, required: boolean) => (
+    <Text>
+      {label}
+      {required && <Text style={screenStyles.errorText}> *</Text>}
+    </Text>
+  );
+  const validateForm = () => {
+    const newErrors: Partial<AddressDetailsType> = {};
+    if (!addressDetails.currentAddress)
+      newErrors.currentAddress = 'Address is required';
+    if (!addressDetails.currentCity) newErrors.currentCity = 'City is required';
+    if (!addressDetails.currentState)
+      newErrors.currentState = 'State is required';
+    if (!addressDetails.currentCountry)
+      newErrors.currentCountry = 'Country is required';
+    if (!addressDetails.permanentAddress)
+      newErrors.permanentAddress = 'Address is required';
+    if (!addressDetails.permanentCity)
+      newErrors.permanentCity = 'City is required';
+    if (!addressDetails.permanentState)
+      newErrors.permanentState = 'State is required';
+    if (!addressDetails.permanentCountry)
+      newErrors.permanentCountry = 'Country is required';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -102,7 +130,7 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
     <View>
       <Text style={screenStyles.subHeading}>Current Address:</Text>
       <View style={screenStyles.commonAddressDetailsCard}>
-        <Text>Address</Text>
+        {renderTextInputLabel('Address', true)}
         <MyTextInput
           style={screenStyles.textInput}
           value={addressDetails.currentAddress}
@@ -112,13 +140,19 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
           multiline
           numberOfLines={4}
         />
-        <Text>City</Text>
+        {errors.currentAddress && (
+          <Text style={screenStyles.errorText}>{errors.currentAddress}</Text>
+        )}
+        {renderTextInputLabel('City', true)}
         <MyTextInput
           style={screenStyles.textInput}
           value={addressDetails.currentCity}
           onChangeText={text => handleAddressDetailsChange('currentCity', text)}
         />
-        <Text>State</Text>
+         {errors.currentCity && (
+          <Text style={screenStyles.errorText}>{errors.currentCity}</Text>
+        )}
+        {renderTextInputLabel('State', true)}
         <MyTextInput
           style={screenStyles.textInput}
           value={addressDetails.currentState}
@@ -126,7 +160,10 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
             handleAddressDetailsChange('currentState', text)
           }
         />
-        <Text>Country</Text>
+         {errors.currentState && (
+          <Text style={screenStyles.errorText}>{errors.currentState}</Text>
+        )}
+        {renderTextInputLabel('Country', true)}
         <MyTextInput
           style={screenStyles.textInput}
           value={addressDetails.currentCountry}
@@ -134,7 +171,10 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
             handleAddressDetailsChange('currentCountry', text)
           }
         />
-        <Text>Pincode</Text>
+         {errors.currentCountry && (
+          <Text style={screenStyles.errorText}>{errors.currentCountry}</Text>
+        )}
+        {renderTextInputLabel('Pincode', false)}
         <MyTextInput
           style={screenStyles.textInput}
           keyboardType="numeric"
@@ -144,7 +184,6 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
           }
         />
       </View>
-
       <Text style={screenStyles.subHeading}>Permanent Address:</Text>
       <View style={screenStyles.commonAddressDetailsCard}>
         <View style={screenStyles.SACAContainer}>
@@ -156,7 +195,7 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
           />
           <Text>Same as Current Address</Text>
         </View>
-        <Text>Address</Text>
+        {renderTextInputLabel('Address', true)}
         <MyTextInput
           style={screenStyles.textInput}
           disabled={SACAIsChecked}
@@ -167,7 +206,10 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
           multiline
           numberOfLines={4}
         />
-        <Text>City</Text>
+         {errors.permanentAddress && (
+          <Text style={screenStyles.errorText}>{errors.permanentAddress}</Text>
+        )}
+        {renderTextInputLabel('City', true)}
         <MyTextInput
           style={screenStyles.textInput}
           disabled={SACAIsChecked}
@@ -176,7 +218,10 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
             handleAddressDetailsChange('permanentCity', text)
           }
         />
-        <Text>State</Text>
+         {errors.permanentCity && (
+          <Text style={screenStyles.errorText}>{errors.permanentCity}</Text>
+        )}
+        {renderTextInputLabel('State', true)}
         <MyTextInput
           style={screenStyles.textInput}
           disabled={SACAIsChecked}
@@ -185,7 +230,10 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
             handleAddressDetailsChange('permanentState', text)
           }
         />
-        <Text>Country</Text>
+         {errors.permanentState && (
+          <Text style={screenStyles.errorText}>{errors.permanentState}</Text>
+        )}
+        {renderTextInputLabel('Country', true)}
         <MyTextInput
           style={screenStyles.textInput}
           disabled={SACAIsChecked}
@@ -194,7 +242,10 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
             handleAddressDetailsChange('permanentCountry', text)
           }
         />
-        <Text>Pincode</Text>
+         {errors.permanentCountry && (
+          <Text style={screenStyles.errorText}>{errors.permanentCountry}</Text>
+        )}
+        {renderTextInputLabel('Pincode', false)}
         <MyTextInput
           style={screenStyles.textInput}
           disabled={SACAIsChecked}
