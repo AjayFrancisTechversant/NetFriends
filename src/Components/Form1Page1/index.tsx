@@ -9,13 +9,14 @@ import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {SetStateType} from '../../Types/Types';
 import {IconButton, TextInput} from 'react-native-paper';
+import {validEmail} from '../../RegExp/RegExp';
 
 type PersonalDetailsType = {
   name: string | undefined;
   email: string | undefined;
   phone: string | undefined;
-  dob: Date | undefined;
-  age: number | null;
+  dob?: Date;
+  age?: number;
 };
 type Form1Page1PropsType = {
   setSegmentedButtonValue: SetStateType<string>;
@@ -29,12 +30,13 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
     email: undefined,
     phone: undefined,
     dob: undefined,
-    age: null,
+    age: undefined,
   });
+  const [errors, setErrors] = useState<Partial<PersonalDetailsType>>({});
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const handlePersonalDetailsChange = useCallback(
-    (name: keyof PersonalDetailsType, value: string | Date) => {
+    (name: keyof PersonalDetailsType, value: string | Date | undefined) => {
       setPersonalDetails(prevDetails => {
         const updatedDetails = {...prevDetails, [name]: value};
         if (name === 'dob') {
@@ -48,11 +50,40 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
   );
 
   const handleSave = () => {
-    console.log(personalDetails);
-    //save to redux logic
-    setSegmentedButtonValue('2');
+    if (validateForm()) {
+      console.log(personalDetails);
+      //save to redux logic
+      setSegmentedButtonValue('2');
+    }
   };
 
+  const validateForm = () => {
+    const newErrors: Partial<PersonalDetailsType> = {};
+    if (!personalDetails.name) newErrors.name = 'Name is required';
+    if (!personalDetails.email) {
+      newErrors.email = 'Email is required';
+    } else if (!validateEmail(personalDetails.email)) {
+      newErrors.email = 'Invalid email address';
+    }
+    if (!personalDetails.phone) {
+      newErrors.phone = 'Phone number is required';
+    } else if (personalDetails.phone.length < 10) {
+      newErrors.phone = 'Enter Valid Phone Number';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const validateEmail = (email: string | undefined): boolean => {
+    return email ? validEmail.test(email) : false;
+  };
+
+  const renderTextInputLabel = (label: string, required: boolean) => (
+    <Text>
+      {label}
+      {required && <Text style={screenStyles.errorText}> *</Text>}
+    </Text>
+  );
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -64,28 +95,36 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
     <View style={screenStyles.canvas}>
       <Text style={screenStyles.subHeading}>Personal Details:</Text>
       <View style={screenStyles.personalDetailsCard}>
-        <Text>Name</Text>
+        {renderTextInputLabel('Name', true)}
         <MyTextInput
           style={screenStyles.textInput}
           value={personalDetails.name}
           onChangeText={text => handlePersonalDetailsChange('name', text)}
         />
-        <Text>Email</Text>
+        {errors.name && (
+          <Text style={screenStyles.errorText}>{errors.name}</Text>
+        )}
+        {renderTextInputLabel('Email', true)}
         <MyTextInput
           style={screenStyles.textInput}
           value={personalDetails.email}
           onChangeText={text => handlePersonalDetailsChange('email', text)}
           keyboardType="email-address"
         />
-        <Text>Phone Number</Text>
+        {errors.email && (
+          <Text style={screenStyles.errorText}>{errors.email}</Text>
+        )}
+        {renderTextInputLabel('Phone Number', true)}
         <MyTextInput
           style={screenStyles.textInput}
           value={personalDetails.phone}
           onChangeText={text => handlePersonalDetailsChange('phone', text)}
           keyboardType="numeric"
         />
-        <Text>DOB</Text>
-
+        {errors.phone && (
+          <Text style={screenStyles.errorText}>{errors.phone}</Text>
+        )}
+        {renderTextInputLabel('Date Of Birth', false)}
         <MyTextInput
           style={[screenStyles.textInput]}
           value={
@@ -104,17 +143,29 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
               }}
             />
           }
-        />
-        <Text>Age</Text>
-        <MyTextInput
-          style={screenStyles.textInput}
-          value={
-            personalDetails.age
-              ? personalDetails.age.toString()
-              : 'Please Pick a valid Date'
+          left={
+            personalDetails.dob ? (
+              <TextInput.Icon
+                icon="close"
+                color={ColorPalette.red}
+                size={20}
+                onPress={() => {
+                  handlePersonalDetailsChange('dob', undefined);
+                }}
+              />
+            ) : null
           }
-          disabled
         />
+        {personalDetails.dob && (
+          <>
+            {renderTextInputLabel('Age', false)}
+            <MyTextInput
+              style={screenStyles.textInput}
+              value={personalDetails.age?.toString()}
+              disabled
+            />
+          </>
+        )}
       </View>
       <TouchableOpacity onPress={handleSave} style={screenStyles.saveButton}>
         <Text style={screenStyles.whiteText}>Save and Continue</Text>
