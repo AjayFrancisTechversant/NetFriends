@@ -1,13 +1,13 @@
 import {Text, ScrollView, KeyboardAvoidingView} from 'react-native';
 import React, {useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import styles from './style';
 import {SegmentedButtons} from 'react-native-paper';
 import Form1Page1 from '../../Components/Form1Page1';
 import Form1Page2 from '../../Components/Form1Page2';
 import Form1Page3 from '../../Components/Form1Page3';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import Form1Page4 from '../../Components/Form1Page4';
+import styles from './style';
 
 const Form1Screen = () => {
   const [segmentedButtonValue, setSegmentedButtonValue] = useState('1');
