@@ -14,7 +14,7 @@ type EducationDetailType = {
   degree: string | undefined;
   fieldOfStudy: string | undefined;
   yearOfCompletion: string | undefined;
-  isExtra?: boolean;
+  isExtra: boolean;
 };
 
 type Form1Page3PropsType = {
@@ -33,14 +33,26 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
       degree: undefined,
       fieldOfStudy: undefined,
       yearOfCompletion: undefined,
+      isExtra: false,
     },
   ]);
+  const [errors, setErrors] = useState<{
+    [id: string]: Partial<EducationDetailType>;
+  }>({});
 
   const handleEducationDetailsChange = useCallback(
     (index: number, name: keyof EducationDetailType, value: string) => {
       setEducationDetails(prevDetails => {
         const newDetails: any = [...prevDetails];
         newDetails[index][name] = value;
+        // Clear the specific field's error for this index
+        setErrors(prevErrors => ({
+          ...prevErrors,
+          [newDetails[index].id]: {
+            ...(prevErrors[newDetails[index].id] || {}),
+            [name]: undefined,
+          },
+        }));
         return newDetails;
       });
     },
@@ -65,13 +77,46 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
     setEducationDetails(prevDetails =>
       prevDetails.filter(detail => detail.id !== id),
     );
+    setErrors(prevErrors => {
+      const newErrors = {...prevErrors};
+      delete newErrors[id];
+      return newErrors;
+    });
   }, []);
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors: {[id: string]: Partial<EducationDetailType>} = {};
+
+    educationDetails.forEach(detail => {
+      const detailErrors: Partial<EducationDetailType> = {};
+      if (!detail.institution)
+        detailErrors.institution = 'Institution is required';
+      if (!detail.degree) detailErrors.degree = 'Degree is required';
+      if (!detail.fieldOfStudy)
+        detailErrors.fieldOfStudy = 'Field of study is required';
+      if (!detail.yearOfCompletion)
+        detailErrors.yearOfCompletion = 'Year of completion is required';
+
+      if (Object.keys(detailErrors).length) {
+        isValid = false;
+        newErrors[detail.id] = detailErrors;
+      }
+    });
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
   const handleGoBack = () => {
     setSegmentedButtonValue('2');
   };
+
   const handleSave = () => {
-    console.log(educationDetails);
-    setSegmentedButtonValue('4');
+    if (validateForm()) {
+      console.log(educationDetails);
+      setSegmentedButtonValue('4');
+    }
   };
 
   const screenContext = useScreenContext();
@@ -81,6 +126,13 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
     screenContext[screenContext.isPortrait ? 'windowHeight' : 'windowWidth'],
   );
 
+  const renderLabel = (label: string, required: boolean) => (
+    <Text>
+      {label}
+      {required && <Text style={screenStyles.errorText}> *</Text>}
+    </Text>
+  );
+
   return (
     <View>
       <Text style={screenStyles.subHeading}>Educational Details:</Text>
@@ -88,7 +140,9 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
         <View key={education.id} style={screenStyles.educationDetailsCard}>
           {education.isExtra && (
             <View style={screenStyles.AddiEduHeaderContainer}>
-              <Text style={screenStyles.subHeading}>Additional Education {index}</Text>
+              <Text style={screenStyles.subHeading}>
+                Additional Education {index}
+              </Text>
               <TouchableOpacity
                 onPress={() => removeEducationDetail(education.id)}
                 style={screenStyles.removeEducationButton}>
@@ -96,7 +150,7 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
               </TouchableOpacity>
             </View>
           )}
-          <Text>Institution</Text>
+          {renderLabel('Institution', true)}
           <MyTextInput
             style={screenStyles.textInput}
             value={education.institution}
@@ -104,7 +158,13 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
               handleEducationDetailsChange(index, 'institution', text)
             }
           />
-          <Text>Degree</Text>
+          {errors[education.id]?.institution && (
+            <Text style={screenStyles.errorText}>
+              {errors[education.id]?.institution}
+            </Text>
+          )}
+
+          {renderLabel('Degree', true)}
           <MyTextInput
             style={screenStyles.textInput}
             value={education.degree}
@@ -112,7 +172,13 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
               handleEducationDetailsChange(index, 'degree', text)
             }
           />
-          <Text>Field of Study</Text>
+          {errors[education.id]?.degree && (
+            <Text style={screenStyles.errorText}>
+              {errors[education.id]?.degree}
+            </Text>
+          )}
+
+          {renderLabel('Field of Study', true)}
           <MyTextInput
             style={screenStyles.textInput}
             value={education.fieldOfStudy}
@@ -120,7 +186,13 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
               handleEducationDetailsChange(index, 'fieldOfStudy', text)
             }
           />
-          <Text>Year of Completion</Text>
+          {errors[education.id]?.fieldOfStudy && (
+            <Text style={screenStyles.errorText}>
+              {errors[education.id]?.fieldOfStudy}
+            </Text>
+          )}
+
+          {renderLabel('Year of Completion', true)}
           <MyTextInput
             style={screenStyles.textInput}
             value={education.yearOfCompletion}
@@ -128,6 +200,11 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
               handleEducationDetailsChange(index, 'yearOfCompletion', text)
             }
           />
+          {errors[education.id]?.yearOfCompletion && (
+            <Text style={screenStyles.errorText}>
+              {errors[education.id]?.yearOfCompletion}
+            </Text>
+          )}
         </View>
       ))}
       <TouchableOpacity
