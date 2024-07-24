@@ -54,11 +54,26 @@ const Form1DataSlice = createSlice({
     updateAddressDetails(state, action: PayloadAction<AddressDetailsType>) {
       state.addressDetails = action.payload;
     },
-    updateEducationalDetails(
+    updateEducationDetails(
       state,
       action: PayloadAction<EducationDetailsType[]>,
     ) {
       state.educationDetails = action.payload;
+    },
+    addEducationDetails(state) {
+      state.educationDetails.push({
+        id: uuid.v4() as string,
+        institution: undefined,
+        degree: undefined,
+        fieldOfStudy: undefined,
+        yearOfCompletion: undefined,
+        isExtra: true,
+      });
+    },
+    removeEducationDetail(state, action: PayloadAction<string>) {
+      state.educationDetails = state.educationDetails.filter(
+        detail => detail.id !== action.payload,
+      );
     },
     // updateComponent4(state, action: PayloadAction<Component4State>) {
     //   state.component4 = action.payload;
@@ -69,7 +84,9 @@ const Form1DataSlice = createSlice({
 export const {
   updatePersonalDetails,
   updateAddressDetails,
-  updateEducationalDetails,
+  updateEducationDetails,
+  addEducationDetails,
+  removeEducationDetail,
 } = Form1DataSlice.actions;
 
 export default Form1DataSlice.reducer;
