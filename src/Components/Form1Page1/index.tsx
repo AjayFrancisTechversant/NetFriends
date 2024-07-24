@@ -8,7 +8,7 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {SetStateType} from '../../Types/Types';
-import { IconButton, TextInput } from 'react-native-paper';
+import {IconButton, TextInput} from 'react-native-paper';
 
 type PersonalDetailsType = {
   name: string | undefined;
@@ -96,21 +96,15 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
           disabled
           right={
             <TextInput.Icon
-            icon='calendar'
-            color={ColorPalette.green}
-            size={30}
-            onPress={()=>{setIsDatePickerOpen(true)}}
-          />
+              icon="calendar"
+              color={ColorPalette.green}
+              size={30}
+              onPress={() => {
+                setIsDatePickerOpen(true);
+              }}
+            />
           }
         />
-        {/* <TouchableOpacity
-            onPress={() => {
-              setIsDatePickerOpen(true);
-            }}
-            style={screenStyles.calenderButton}>
-            <EvilIcons name="calendar" color={ColorPalette.green} size={45} />
-          </TouchableOpacity> */}
-
         <Text>Age</Text>
         <MyTextInput
           style={screenStyles.textInput}
