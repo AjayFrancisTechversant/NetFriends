@@ -8,6 +8,7 @@ const styles = (
   height: number,
 ) =>
   StyleSheet.create({
+    canvas:{flex:1,},
     subHeading: {fontWeight: 'bold'},
     textInput: {marginBottom: height * 0.01},
     documentsDetailsCard: {
@@ -68,5 +69,6 @@ const styles = (
     signatureRemoveButtonContainer: {flexDirection: 'row',
       justifyContent:'space-between',
     },
+    backButtonOnPDFView:{position:'absolute',left:height*0.01,top:height*0.01,zIndex:1}
   });
 export default styles;

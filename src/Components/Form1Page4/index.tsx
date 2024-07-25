@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import DocumentPicker from 'react-native-document-picker';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Entypo from 'react-native-vector-icons/Entypo';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {SetStateType} from '../../Types/Types';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
@@ -10,6 +11,8 @@ import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {updateDocumentsDetails} from '../../Redux/Slices/Form1DataSlice';
 import {urlRegExp} from '../../RegExp/RegExp';
 import styles from './style';
+import Pdf from 'react-native-pdf';
+import {Portal} from 'react-native-paper';
 
 export type DocumentsDetailsType = {
   resume: string | null;
@@ -29,6 +32,7 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
     state => state.Form1Data.documentsDetails,
   );
   const [errors, setErrors] = useState<Partial<DocumentsDetailsType>>({});
+  const [isPdfOpen, setIsPdfOpen] = useState(false);
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -41,12 +45,12 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
   };
 
   const handleSave = () => {
-    
     if (validate()) {
       // save and finish logic
-      Alert.alert('Form Submitted')
+      Alert.alert('Form Submitted');
     }
   };
+
   const validate = () => {
     const newErrors: Partial<DocumentsDetailsType> = {};
     if (!documentsDetailsFromRedux.resume)
@@ -56,6 +60,7 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
   const handleDocumentPick = async (type: keyof DocumentsDetailsType) => {
     try {
       if (type == 'resume') {
@@ -98,7 +103,6 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
       }
     }
   };
-  console.log(documentsDetailsFromRedux);
 
   const HandleRemoveDocument = (type: keyof DocumentsDetailsType) => {
     const updatedDetails = {
@@ -107,141 +111,171 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
     };
     dispatch(updateDocumentsDetails(updatedDetails));
   };
+
   const renderLabel = (label: string, required: boolean) => (
     <Text>
       {label}
       {required && <Text style={screenStyles.errorText}> *</Text>}
     </Text>
   );
+
   const getFileNameFromUri = (uri: string): string => {
     const match = uri.match(urlRegExp);
     return match ? match[1] : 'unknown';
   };
+
   return (
     <View>
-      <Text style={screenStyles.subHeading}>Upload Documents</Text>
-      <View style={screenStyles.documentsDetailsCard}>
-        {renderLabel('Resume(.pdf)', true)}
-        <View style={screenStyles.eachDocCard}>
-          {!documentsDetailsFromRedux.resume ? (
-            <TouchableOpacity onPress={() => handleDocumentPick('resume')}>
-              <MaterialIcons
-                name="upload-file"
-                size={50}
-                color={ColorPalette.gray}
-              />
-            </TouchableOpacity>
-          ) : (
-            <>
-              <Text style={screenStyles.greenText}>
-                Uploaded
-                <AntDesign name="checkcircle" color={ColorPalette.green} />
-              </Text>
-              <View style={screenStyles.resumePreviewAndRemoveButtonContainer}>
-                <TouchableOpacity>
-                  <Text>
-                    {getFileNameFromUri(documentsDetailsFromRedux.resume)}
+      {!isPdfOpen ? (
+        <View>
+          <Text style={screenStyles.subHeading}>Upload Documents</Text>
+          <View style={screenStyles.documentsDetailsCard}>
+            {renderLabel('Resume(.pdf)', true)}
+            <View style={screenStyles.eachDocCard}>
+              {!documentsDetailsFromRedux.resume ? (
+                <TouchableOpacity onPress={() => handleDocumentPick('resume')}>
+                  <MaterialIcons
+                    name="upload-file"
+                    size={50}
+                    color={ColorPalette.gray}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <>
+                  <Text style={screenStyles.greenText}>
+                    Uploaded
+                    <AntDesign name="checkcircle" color={ColorPalette.green} />
                   </Text>
-                </TouchableOpacity>
+                  <View
+                    style={screenStyles.resumePreviewAndRemoveButtonContainer}>
+                    <TouchableOpacity onPress={() => setIsPdfOpen(true)}>
+                      <Text>
+                        {getFileNameFromUri(documentsDetailsFromRedux.resume)}
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => HandleRemoveDocument('resume')}>
+                      <AntDesign
+                        name="closecircle"
+                        color={ColorPalette.red}
+                        size={25}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </>
+              )}
+            </View>
+            {errors.resume && (
+              <Text style={screenStyles.errorText}>{errors.resume}</Text>
+            )}
+            {renderLabel('Signature', true)}
+            <View style={screenStyles.eachDocCard}>
+              {!documentsDetailsFromRedux.signature ? (
                 <TouchableOpacity
-                  onPress={() => HandleRemoveDocument('resume')}>
-                  <AntDesign
-                    name="closecircle"
-                    color={ColorPalette.red}
-                    size={25}
+                  onPress={() => handleDocumentPick('signature')}>
+                  <MaterialIcons
+                    name="upload-file"
+                    size={50}
+                    color={ColorPalette.gray}
                   />
                 </TouchableOpacity>
-              </View>
-            </>
-          )}
-        </View>
-        {errors.resume && (
-          <Text style={screenStyles.errorText}>{errors.resume}</Text>
-        )}
-        {renderLabel('Signature', true)}
-        <View style={screenStyles.eachDocCard}>
-          {!documentsDetailsFromRedux.signature ? (
-            <TouchableOpacity onPress={() => handleDocumentPick('signature')}>
-              <MaterialIcons
-                name="upload-file"
-                size={50}
-                color={ColorPalette.gray}
-              />
+              ) : (
+                <>
+                  <View style={screenStyles.signatureRemoveButtonContainer}>
+                    <Text style={screenStyles.greenText}>
+                      Uploaded
+                      <AntDesign
+                        name="checkcircle"
+                        color={ColorPalette.green}
+                      />
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => HandleRemoveDocument('signature')}>
+                      <AntDesign
+                        name="closecircle"
+                        color={ColorPalette.red}
+                        size={25}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <TouchableOpacity>
+                    <Image
+                      source={{uri: documentsDetailsFromRedux.signature}}
+                      style={screenStyles.imageThumbnailStyle}
+                    />
+                  </TouchableOpacity>
+                </>
+              )}
+            </View>
+            {errors.signature && (
+              <Text style={screenStyles.errorText}>{errors.signature}</Text>
+            )}
+            {renderLabel('Passport size Photo', false)}
+            <View style={screenStyles.eachDocCard}>
+              {!documentsDetailsFromRedux.profilePic ? (
+                <TouchableOpacity
+                  onPress={() => handleDocumentPick('profilePic')}>
+                  <MaterialIcons
+                    name="upload-file"
+                    size={50}
+                    color={ColorPalette.gray}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <>
+                  <View style={screenStyles.signatureRemoveButtonContainer}>
+                    <Text style={screenStyles.greenText}>
+                      Uploaded
+                      <AntDesign
+                        name="checkcircle"
+                        color={ColorPalette.green}
+                      />
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => HandleRemoveDocument('profilePic')}>
+                      <AntDesign
+                        name="closecircle"
+                        color={ColorPalette.red}
+                        size={25}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <TouchableOpacity>
+                    <Image
+                      source={{uri: documentsDetailsFromRedux.profilePic}}
+                      style={screenStyles.imageThumbnailStyle}
+                    />
+                  </TouchableOpacity>
+                </>
+              )}
+            </View>
+          </View>
+          <View style={screenStyles.BackSaveButtonContainer}>
+            <TouchableOpacity
+              onPress={handleGoBack}
+              style={screenStyles.goBackButton}>
+              <Text style={screenStyles.whiteText}>Go Back</Text>
             </TouchableOpacity>
-          ) : (
-            <>
-              <View style={screenStyles.signatureRemoveButtonContainer}>
-                <Text style={screenStyles.greenText}>
-                  Uploaded
-                  <AntDesign name="checkcircle" color={ColorPalette.green} />
-                </Text>
-                <TouchableOpacity
-                  onPress={() => HandleRemoveDocument('signature')}>
-                  <AntDesign
-                    name="closecircle"
-                    color={ColorPalette.red}
-                    size={25}
-                  />
-                </TouchableOpacity>
-              </View>
-              <TouchableOpacity>
-                <Image
-                  source={{uri: documentsDetailsFromRedux.signature}}
-                  style={screenStyles.imageThumbnailStyle}
-                />
-              </TouchableOpacity>
-            </>
-          )}
-        </View>
-        {errors.signature && (
-          <Text style={screenStyles.errorText}>{errors.signature}</Text>
-        )}
-        {renderLabel('Passport size Photo', false)}
-        <View style={screenStyles.eachDocCard}>
-          {!documentsDetailsFromRedux.profilePic ? (
-            <TouchableOpacity onPress={() => handleDocumentPick('profilePic')}>
-              <MaterialIcons
-                name="upload-file"
-                size={50}
-                color={ColorPalette.gray}
-              />
+            <TouchableOpacity
+              onPress={handleSave}
+              style={screenStyles.saveButton}>
+              <Text style={screenStyles.whiteText}>Save and Finish</Text>
             </TouchableOpacity>
-          ) : (
-            <>
-              <View style={screenStyles.signatureRemoveButtonContainer}>
-                <Text style={screenStyles.greenText}>
-                  Uploaded
-                  <AntDesign name="checkcircle" color={ColorPalette.green} />
-                </Text>
-                <TouchableOpacity
-                  onPress={() => HandleRemoveDocument('profilePic')}>
-                  <AntDesign
-                    name="closecircle"
-                    color={ColorPalette.red}
-                    size={25}
-                  />
-                </TouchableOpacity>
-              </View>
-              <TouchableOpacity>
-                <Image
-                  source={{uri: documentsDetailsFromRedux.profilePic}}
-                  style={screenStyles.imageThumbnailStyle}
-                />
-              </TouchableOpacity>
-            </>
-          )}
+          </View>
         </View>
-      </View>
-      <View style={screenStyles.BackSaveButtonContainer}>
-        <TouchableOpacity
-          onPress={handleGoBack}
-          style={screenStyles.goBackButton}>
-          <Text style={screenStyles.whiteText}>Go Back</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleSave} style={screenStyles.saveButton}>
-          <Text style={screenStyles.whiteText}>Save and Finish</Text>
-        </TouchableOpacity>
-      </View>
+      ) : (
+        <Portal >
+         <View style={screenStyles.canvas}>
+            <TouchableOpacity style={screenStyles.backButtonOnPDFView} onPress={() => setIsPdfOpen(false)}>
+              <Entypo name="chevron-left" size={30} />
+            </TouchableOpacity>
+            <Pdf
+              source={{uri: documentsDetailsFromRedux.resume}}
+              style={{flex: 1}}
+            />
+         </View>
+        </Portal>
+      )}
     </View>
   );
 };
