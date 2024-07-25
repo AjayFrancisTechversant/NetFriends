@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity, Alert, Image} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import DocumentPicker from 'react-native-document-picker';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -28,7 +28,7 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
   const documentsDetailsFromRedux = useAppSelector(
     state => state.Form1Data.documentsDetails,
   );
-
+  const [errors, setErrors] = useState<Partial<DocumentsDetailsType>>({});
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -41,9 +41,21 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
   };
 
   const handleSave = () => {
-    // save and finish logic
+    
+    if (validate()) {
+      // save and finish logic
+      Alert.alert('Form Submitted')
+    }
   };
-
+  const validate = () => {
+    const newErrors: Partial<DocumentsDetailsType> = {};
+    if (!documentsDetailsFromRedux.resume)
+      newErrors.resume = 'Please upload resume';
+    if (!documentsDetailsFromRedux.signature)
+      newErrors.signature = 'Please upload signature';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
   const handleDocumentPick = async (type: keyof DocumentsDetailsType) => {
     try {
       if (type == 'resume') {
@@ -143,6 +155,9 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
             </>
           )}
         </View>
+        {errors.resume && (
+          <Text style={screenStyles.errorText}>{errors.resume}</Text>
+        )}
         {renderLabel('Signature', true)}
         <View style={screenStyles.eachDocCard}>
           {!documentsDetailsFromRedux.signature ? (
@@ -178,6 +193,9 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
             </>
           )}
         </View>
+        {errors.signature && (
+          <Text style={screenStyles.errorText}>{errors.signature}</Text>
+        )}
         {renderLabel('Passport size Photo', false)}
         <View style={screenStyles.eachDocCard}>
           {!documentsDetailsFromRedux.profilePic ? (
@@ -190,7 +208,7 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
             </TouchableOpacity>
           ) : (
             <>
-               <View style={screenStyles.signatureRemoveButtonContainer}>
+              <View style={screenStyles.signatureRemoveButtonContainer}>
                 <Text style={screenStyles.greenText}>
                   Uploaded
                   <AntDesign name="checkcircle" color={ColorPalette.green} />
