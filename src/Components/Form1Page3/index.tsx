@@ -35,12 +35,14 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
   const educationDetailsFromRedux = useAppSelector(
     state => state.Form1Data.educationDetails,
   );
-
+  const [errors, setErrors] = useState<{
+    [id: string]: Partial<EducationDetailsType>;
+  }>({});
   const handleEducationDetailsChange = useCallback(
     (index: number, name: keyof EducationDetailsType, value: string) => {
       const updatedDetails = [...educationDetailsFromRedux];
-      updatedDetails[index] = { ...updatedDetails[index], [name]: value };
-      dispatch(updateEducationDetails(updatedDetails));      
+      updatedDetails[index] = {...updatedDetails[index], [name]: value};
+      dispatch(updateEducationDetails(updatedDetails));
     },
     [dispatch, educationDetailsFromRedux],
   );
@@ -55,18 +57,40 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
     },
     [dispatch],
   );
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors: {[id: string]: Partial<EducationDetailsType>} = {};
 
+    educationDetailsFromRedux.forEach(detail => {
+      const detailErrors: Partial<EducationDetailsType> = {};
+      if (!detail.institution)
+        detailErrors.institution = 'Institution is required';
+      if (!detail.degree) detailErrors.degree = 'Degree is required';
+      if (!detail.fieldOfStudy)
+        detailErrors.fieldOfStudy = 'Field of study is required';
+      if (!detail.yearOfCompletion)
+        detailErrors.yearOfCompletion = 'Year of completion is required';
+
+      if (Object.keys(detailErrors).length) {
+        isValid = false;
+        newErrors[detail.id] = detailErrors;
+      }
+    });
+
+    setErrors(newErrors);
+    return isValid;
+  };
   const handleGoBack = () => {
     setSegmentedButtonValue('2');
   };
 
   const handleSave = () => {
-    // if (!validateForm()) {
-    //   dispatch(unlockPage(4));
-    //   setSegmentedButtonValue('4');
-    // } else {
-    //   dispatch(lockPagesFrom(4));
-    // }
+    if (validateForm()) {
+      dispatch(unlockPage(4));
+      setSegmentedButtonValue('4');
+    } else {
+      dispatch(lockPagesFrom(4));
+    }
   };
 
   const screenContext = useScreenContext();
@@ -87,56 +111,74 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
     <View>
       <Text style={screenStyles.subHeading}>Educational Details:</Text>
       {educationDetailsFromRedux.map((education, index) => (
-          <View key={education.id} style={screenStyles.educationDetailsCard}>
-            {education.isExtra && (
-              <View style={screenStyles.AddiEduHeaderContainer}>
-                <Text style={screenStyles.subHeading}>
-                  Additional Education {index}
-                </Text>
-                <TouchableOpacity
-                  onPress={() => handleRemoveEducationDetail(education.id)}
-                  style={screenStyles.removeEducationButton}>
-                  <Ionicons name="close" size={20} color={ColorPalette.red} />
-                </TouchableOpacity>
-              </View>
-            )}
-            {renderLabel('Institution', true)}
-            <MyTextInput
-              style={screenStyles.textInput}
-              value={education.institution}
-              onChangeText={text =>
-                handleEducationDetailsChange(index, 'institution', text)
-              }
-            />
-          
-            {renderLabel('Degree', true)}
-            <MyTextInput
-              style={screenStyles.textInput}
-              value={education.degree}
-              onChangeText={text =>
-                handleEducationDetailsChange(index, 'degree', text)
-              }
-            />
-            {renderLabel('Field of Study', true)}
-            <MyTextInput
-              style={screenStyles.textInput}
-              value={education.fieldOfStudy}
-              onChangeText={text =>
-                handleEducationDetailsChange(index, 'fieldOfStudy', text)
-              }
-            />
-        
-            {renderLabel('Year of Completion', true)}
-            <MyTextInput
-              style={screenStyles.textInput}
-              value={education.yearOfCompletion}
-              onChangeText={text =>
-                handleEducationDetailsChange(index, 'yearOfCompletion', text)
-              }
-            />
-         
-          </View>
-        ))}
+        <View key={education.id} style={screenStyles.educationDetailsCard}>
+          {education.isExtra && (
+            <View style={screenStyles.AddiEduHeaderContainer}>
+              <Text style={screenStyles.subHeading}>
+                Additional Education {index}
+              </Text>
+              <TouchableOpacity
+                onPress={() => handleRemoveEducationDetail(education.id)}
+                style={screenStyles.removeEducationButton}>
+                <Ionicons name="close" size={20} color={ColorPalette.red} />
+              </TouchableOpacity>
+            </View>
+          )}
+          {renderLabel('Institution', true)}
+          <MyTextInput
+            style={screenStyles.textInput}
+            value={education.institution}
+            onChangeText={text =>
+              handleEducationDetailsChange(index, 'institution', text)
+            }
+          />
+          {errors[education.id]?.institution && (
+            <Text style={screenStyles.errorText}>
+              {errors[education.id]?.institution}
+            </Text>
+          )}
+          {renderLabel('Degree', true)}
+          <MyTextInput
+            style={screenStyles.textInput}
+            value={education.degree}
+            onChangeText={text =>
+              handleEducationDetailsChange(index, 'degree', text)
+            }
+          />
+          {errors[education.id]?.degree && (
+            <Text style={screenStyles.errorText}>
+              {errors[education.id]?.degree}
+            </Text>
+          )}
+
+          {renderLabel('Field of Study', true)}
+          <MyTextInput
+            style={screenStyles.textInput}
+            value={education.fieldOfStudy}
+            onChangeText={text =>
+              handleEducationDetailsChange(index, 'fieldOfStudy', text)
+            }
+          />
+          {errors[education.id]?.fieldOfStudy && (
+            <Text style={screenStyles.errorText}>
+              {errors[education.id]?.fieldOfStudy}
+            </Text>
+          )}
+          {renderLabel('Year of Completion', true)}
+          <MyTextInput
+            style={screenStyles.textInput}
+            value={education.yearOfCompletion}
+            onChangeText={text =>
+              handleEducationDetailsChange(index, 'yearOfCompletion', text)
+            }
+          />
+          {errors[education.id]?.yearOfCompletion && (
+            <Text style={screenStyles.errorText}>
+              {errors[education.id]?.yearOfCompletion}
+            </Text>
+          )}
+        </View>
+      ))}
       <TouchableOpacity
         onPress={handleAddEducationDetail}
         style={screenStyles.addEducationButton}>
