@@ -9,7 +9,7 @@ import {SetStateType} from '../../Types/Types';
 import {TextInput} from 'react-native-paper';
 import {validEmail} from '../../RegExp/RegExp';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
-import {updatePersonalDetails} from '../../Redux/Slices/Form1DataSlice';
+import {lockPagesFrom, unlockPage, updatePersonalDetails} from '../../Redux/Slices/Form1DataSlice';
 import styles from './style';
 
 export type PersonalDetailsType = {
@@ -54,10 +54,10 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
   };
   const handleSave = () => {
     if (validateForm()) {
-      console.log(personalDetails);
-      // saveToRedux()
-      //no need of saving to redux since on every onEndEditing ,it is saved to redux
+      dispatch(unlockPage(2))
       setSegmentedButtonValue('2');
+    }else{
+      dispatch(lockPagesFrom(2))
     }
   };
 

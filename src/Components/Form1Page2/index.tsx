@@ -6,7 +6,7 @@ import MyTextInput from '../MyTextInput';
 import {Checkbox} from 'react-native-paper';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { updateAddressDetails } from '../../Redux/Slices/Form1DataSlice';
+import { lockPagesFrom, unlockPage, updateAddressDetails } from '../../Redux/Slices/Form1DataSlice';
 import styles from './style';
 
 export type AddressDetailsType = {
@@ -45,8 +45,10 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
   const handleSave = () => {
     if (validateForm()) {
       //save to redux logic
-      console.log(addressDetails);
+      dispatch(unlockPage(3))
       setSegmentedButtonValue('3');
+    }else{
+      dispatch(lockPagesFrom(3))
     }
   };
   const handleSACA = useCallback(() => {

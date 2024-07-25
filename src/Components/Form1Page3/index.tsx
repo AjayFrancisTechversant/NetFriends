@@ -7,7 +7,7 @@ import {SetStateType} from '../../Types/Types';
 import MyTextInput from '../MyTextInput';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
-import { addEducationDetails, removeEducationDetail } from '../../Redux/Slices/Form1DataSlice';
+import { addEducationDetails, removeEducationDetail, unlockPage } from '../../Redux/Slices/Form1DataSlice';
 import styles from './style';
 
 export type EducationDetailsType = {
@@ -102,8 +102,9 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
   };
 
   const handleSave = () => {
-    if (validateForm()) {
-      console.log(educationDetails);
+    if (!validateForm()) {
+      dispatch(unlockPage(4))
+
       setSegmentedButtonValue('4');
     }
   };

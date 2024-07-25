@@ -4,12 +4,14 @@ import {PersonalDetailsType} from '../../Components/Form1Page1';
 import {AddressDetailsType} from '../../Components/Form1Page2';
 import {EducationDetailsType} from '../../Components/Form1Page3';
 import {DocumentsDetailsType} from '../../Components/Form1Page4';
+import {PageUnlockDetailsType} from '../../modules/Form1Screen';
 
 type Form1DataSliceType = {
   personalDetails: PersonalDetailsType;
   addressDetails: AddressDetailsType;
   educationDetails: EducationDetailsType[];
   documentsDetails: DocumentsDetailsType;
+  pageUnlockDetails: PageUnlockDetailsType;
 };
 
 const initialState: Form1DataSliceType = {
@@ -46,6 +48,12 @@ const initialState: Form1DataSliceType = {
     resume: null,
     profilePic: null,
     signature: null,
+  },
+  pageUnlockDetails: {
+    1: 'unlocked',
+    2: 'locked',
+    3: 'locked',
+    4: 'locked',
   },
 };
 
@@ -86,6 +94,18 @@ const Form1DataSlice = createSlice({
     updateDocumentsDetails(state, action: PayloadAction<DocumentsDetailsType>) {
       state.documentsDetails = action.payload;
     },
+    unlockPage(state, action: PayloadAction<keyof PageUnlockDetailsType>) {
+      state.pageUnlockDetails[action.payload] = 'unlocked';
+    },
+    lockPagesFrom(state, action: PayloadAction<keyof PageUnlockDetailsType>) {
+      const page = action.payload;
+      const pageNumbers = Object.keys(state.pageUnlockDetails).map(Number);
+      pageNumbers.forEach((pageNumber) => {
+        if (pageNumber >= page) {
+          state.pageUnlockDetails.pageNumber = 'locked';
+        }
+      });
+    },
   },
 });
 
@@ -95,7 +115,9 @@ export const {
   updateEducationDetails,
   addEducationDetails,
   removeEducationDetail,
-  updateDocumentsDetails
+  updateDocumentsDetails,
+  unlockPage,
+  lockPagesFrom,
 } = Form1DataSlice.actions;
 
 export default Form1DataSlice.reducer;
