@@ -1,6 +1,8 @@
 import {View, Text, TouchableOpacity, Alert, Image} from 'react-native';
 import React, {useState} from 'react';
 import DocumentPicker from 'react-native-document-picker';
+import Pdf from 'react-native-pdf';
+import {Portal} from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -11,8 +13,6 @@ import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {updateDocumentsDetails} from '../../Redux/Slices/Form1DataSlice';
 import {urlRegExp} from '../../RegExp/RegExp';
 import styles from './style';
-import Pdf from 'react-native-pdf';
-import {Portal} from 'react-native-paper';
 
 export type DocumentsDetailsType = {
   resume: string | null;
