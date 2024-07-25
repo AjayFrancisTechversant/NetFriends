@@ -3,12 +3,13 @@ import uuid from 'react-native-uuid';
 import {PersonalDetailsType} from '../../Components/Form1Page1';
 import {AddressDetailsType} from '../../Components/Form1Page2';
 import {EducationDetailsType} from '../../Components/Form1Page3';
+import {DocumentsDetailsType} from '../../Components/Form1Page4';
 
 type Form1DataSliceType = {
   personalDetails: PersonalDetailsType;
   addressDetails: AddressDetailsType;
   educationDetails: EducationDetailsType[];
-  // component4: Component4State;
+  documentsDetails: DocumentsDetailsType;
 };
 
 const initialState: Form1DataSliceType = {
@@ -41,7 +42,11 @@ const initialState: Form1DataSliceType = {
       isExtra: false,
     },
   ],
-  // component4: { /* initial values for Component 4 */ },
+  documentsDetails: {
+    resume: null,
+    profilePic: null,
+    signature: null,
+  },
 };
 
 const Form1DataSlice = createSlice({
@@ -78,9 +83,9 @@ const Form1DataSlice = createSlice({
         detail => detail.id !== action.payload,
       );
     },
-    // updateComponent4(state, action: PayloadAction<Component4State>) {
-    //   state.component4 = action.payload;
-    // },
+    updateDocumentsDetails(state, action: PayloadAction<DocumentsDetailsType>) {
+      state.documentsDetails = action.payload;
+    },
   },
 });
 
@@ -90,6 +95,7 @@ export const {
   updateEducationDetails,
   addEducationDetails,
   removeEducationDetail,
+  updateDocumentsDetails
 } = Form1DataSlice.actions;
 
 export default Form1DataSlice.reducer;

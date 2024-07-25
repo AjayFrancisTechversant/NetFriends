@@ -43,9 +43,10 @@ const Form1Screen = () => {
       enabled={true}
       behavior="height">
       <ScrollView>
-        <View style={screenStyles.menuButton}>
+        {/* uncomment this */}
+        {/* <View style={screenStyles.menuButton}>
           <MenuDrawerButton color={ColorPalette.green}/>
-        </View>
+        </View> */}
         <Text style={[screenStyles.heading, screenStyles.bigBoldText]}>
           Form 1
         </Text>
