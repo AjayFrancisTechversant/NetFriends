@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity} from 'react-native';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import uuid from 'react-native-uuid';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useScreenContext} from '../../Contexts/ScreenContext';
@@ -7,6 +7,7 @@ import {SetStateType} from '../../Types/Types';
 import MyTextInput from '../MyTextInput';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
+import { addEducationDetails, removeEducationDetail } from '../../Redux/Slices/Form1DataSlice';
 import styles from './style';
 
 export type EducationDetailsType = {
@@ -35,7 +36,11 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
   const [errors, setErrors] = useState<{
     [id: string]: Partial<EducationDetailsType>;
   }>({});
-
+  
+ useEffect(() => {
+   setEducationDetails(educationDetailsFromRedux)
+ }, [educationDetailsFromRedux])
+ 
   const handleEducationDetailsChange = useCallback(
     (index: number, name: keyof EducationDetailsType, value: string) => {
       setEducationDetails(prevDetails => {
@@ -55,30 +60,18 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
     [],
   );
 
-  const addEducationDetail = useCallback(() => {
-    setEducationDetails(prevDetails => [
-      ...prevDetails,
-      {
-        id: uuid.v4() as string,
-        institution: undefined,
-        degree: undefined,
-        fieldOfStudy: undefined,
-        yearOfCompletion: undefined,
-        isExtra: true,
-      },
-    ]);
-  }, []);
+  const handleAddEducationDetail = useCallback(() => {
+   dispatch(addEducationDetails())
+  }, [dispatch]);
 
-  const removeEducationDetail = useCallback((id: string) => {
-    setEducationDetails(prevDetails =>
-      prevDetails.filter(detail => detail.id !== id),
-    );
-    setErrors(prevErrors => {
-      const newErrors = {...prevErrors};
-      delete newErrors[id];
-      return newErrors;
-    });
-  }, []);
+  const handleRemoveEducationDetail = useCallback((id: string) => {
+   dispatch(removeEducationDetail(id))
+    // setErrors(prevErrors => {
+    //   const newErrors = {...prevErrors};
+    //   delete newErrors[id];
+    //   return newErrors;
+    // });
+  }, [dispatch]);
 
   const validateForm = () => {
     let isValid = true;
@@ -132,7 +125,7 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
   return (
     <View>
       <Text style={screenStyles.subHeading}>Educational Details:</Text>
-      {educationDetails.map((education, index) => (
+      {educationDetails.length&&educationDetails.map((education, index) => (
         <View key={education.id} style={screenStyles.educationDetailsCard}>
           {education.isExtra && (
             <View style={screenStyles.AddiEduHeaderContainer}>
@@ -140,7 +133,7 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
                 Additional Education {index}
               </Text>
               <TouchableOpacity
-                onPress={() => removeEducationDetail(education.id)}
+                onPress={() => handleRemoveEducationDetail(education.id)}
                 style={screenStyles.removeEducationButton}>
                 <Ionicons name="close" size={20} color={ColorPalette.red} />
               </TouchableOpacity>
@@ -202,9 +195,10 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
             </Text>
           )}
         </View>
-      ))}
+      ))
+      }
       <TouchableOpacity
-        onPress={addEducationDetail}
+        onPress={handleAddEducationDetail}
         style={screenStyles.addEducationButton}>
         <Text style={screenStyles.whiteText}>+ Add More</Text>
       </TouchableOpacity>
