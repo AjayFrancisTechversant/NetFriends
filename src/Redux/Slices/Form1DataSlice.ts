@@ -102,7 +102,7 @@ const Form1DataSlice = createSlice({
       const pageNumbers = Object.keys(state.pageUnlockDetails).map(Number);
       pageNumbers.forEach((pageNumber) => {
         if (pageNumber >= page) {
-          state.pageUnlockDetails.pageNumber = 'locked';
+          state.pageUnlockDetails[pageNumber] = 'locked';
         }
       });
     },

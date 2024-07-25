@@ -198,12 +198,10 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
                       />
                     </TouchableOpacity>
                   </View>
-                  <TouchableOpacity>
-                    <Image
-                      source={{uri: documentsDetailsFromRedux.signature}}
-                      style={screenStyles.imageThumbnailStyle}
-                    />
-                  </TouchableOpacity>
+                  <Image
+                    source={{uri: documentsDetailsFromRedux.signature}}
+                    style={screenStyles.imageThumbnailStyle}
+                  />
                 </>
               )}
             </View>
@@ -240,12 +238,10 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
                       />
                     </TouchableOpacity>
                   </View>
-                  <TouchableOpacity>
-                    <Image
-                      source={{uri: documentsDetailsFromRedux.profilePic}}
-                      style={screenStyles.imageThumbnailStyle}
-                    />
-                  </TouchableOpacity>
+                  <Image
+                    source={{uri: documentsDetailsFromRedux.profilePic}}
+                    style={screenStyles.imageThumbnailStyle}
+                  />
                 </>
               )}
             </View>
@@ -264,16 +260,22 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
           </View>
         </View>
       ) : (
-        <Portal >
-         <View style={screenStyles.canvas}>
-            <TouchableOpacity style={screenStyles.backButtonOnPDFView} onPress={() => setIsPdfOpen(false)}>
+        <Portal>
+          <View style={screenStyles.canvas}>
+            <TouchableOpacity
+              style={screenStyles.backButtonOnPDFView}
+              onPress={() => setIsPdfOpen(false)}>
               <Entypo name="chevron-left" size={30} />
             </TouchableOpacity>
             <Pdf
-              source={{uri: documentsDetailsFromRedux.resume}}
+              source={{
+                uri: documentsDetailsFromRedux.resume
+                  ? documentsDetailsFromRedux.resume
+                  : undefined,
+              }}
               style={{flex: 1}}
             />
-         </View>
+          </View>
         </Portal>
       )}
     </View>
