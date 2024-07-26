@@ -56,9 +56,11 @@ const styles = (
       height: height * 0.2,
       width: height * 0.2,
     },
-    drawOrUploadSignaturewholeContainer: {flexDirection: 'row',gap:20,alignItems:'center',marginBottom:height*0.01},
-    drawOrUploadSignatureCommonContainer: {
+    drawOrUploadSignaturewholeContainer: {
+      flexDirection: 'row',
+      gap: 20,
       alignItems: 'center',
+      marginBottom: height * 0.01,
     },
     greenText: {color: ColorPalette.green, marginBottom: height * 0.01},
     resumePreviewAndRemoveButtonContainer: {
@@ -80,5 +82,6 @@ const styles = (
       top: height * 0.01,
       zIndex: 1,
     },
+    alignSelfcenter:{alignSelf:'center'}
   });
 export default styles;

@@ -15,8 +15,8 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {updateDocumentsDetails} from '../../Redux/Slices/Form1DataSlice';
 import {urlRegExp} from '../../RegExp/RegExp';
-import styles from './style';
 import SignatureDraw from '../SignatureDraw';
+import styles from './style';
 
 export type DocumentsDetailsType = {
   resume: string | null;
@@ -158,17 +158,19 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
           <Text style={screenStyles.subHeading}>Upload Documents</Text>
           <View style={screenStyles.documentsDetailsCard}>
             {renderLabel('Resume(.pdf)', true)}
-            <View style={screenStyles.eachDocCard}>
               {!documentsDetailsFromRedux.resume ? (
-                <TouchableOpacity onPress={() => handleDocumentPick('resume')}>
+                <TouchableOpacity
+                style={screenStyles.eachDocCard}
+                onPress={() => handleDocumentPick('resume')}>
                   <MaterialIcons
                     name="upload-file"
                     size={50}
                     color={ColorPalette.gray}
                   />
+                  <Text>Upload</Text>
                 </TouchableOpacity>
               ) : (
-                <>
+                <View style={screenStyles.eachDocCard}>
                   <Text style={screenStyles.greenText}>
                     Uploaded
                     <AntDesign name="checkcircle" color={ColorPalette.green} />
@@ -189,42 +191,35 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
                       />
                     </TouchableOpacity>
                   </View>
-                </>
+                </View>
               )}
-            </View>
             {errors.resume && (
               <Text style={screenStyles.errorText}>{errors.resume}</Text>
             )}
             {renderLabel('Signature', true)}
             {!documentsDetailsFromRedux.signature ? (
               <View style={screenStyles.drawOrUploadSignaturewholeContainer}>
-                <View style={screenStyles.drawOrUploadSignatureCommonContainer}>
-                  <View style={screenStyles.eachDocCard}>
-                    <TouchableOpacity
-                      onPress={() => setIsSignatureDrawing(true)}>
-                      <FontAwesome5
-                        name="signature"
-                        size={50}
-                        color={ColorPalette.gray}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                  <Text>Draw</Text>
-                </View>
+                <TouchableOpacity
+                  style={screenStyles.eachDocCard}
+                  onPress={() => setIsSignatureDrawing(true)}>
+                  <FontAwesome5
+                    name="signature"
+                    size={50}
+                    color={ColorPalette.gray}
+                  />
+                  <Text style={screenStyles.alignSelfcenter}>Draw</Text>
+                </TouchableOpacity>
                 <Text>Or</Text>
-                <View style={screenStyles.drawOrUploadSignatureCommonContainer}>
-                  <View style={screenStyles.eachDocCard}>
-                    <TouchableOpacity
-                      onPress={() => handleDocumentPick('signature')}>
-                      <FontAwesome6
-                        name="upload"
-                        size={50}
-                        color={ColorPalette.gray}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                  <Text>Upload</Text>
-                </View>
+                <TouchableOpacity
+                  style={screenStyles.eachDocCard}
+                  onPress={() => handleDocumentPick('signature')}>
+                  <FontAwesome6
+                    name="upload"
+                    size={50}
+                    color={ColorPalette.gray}
+                  />
+                  <Text style={screenStyles.alignSelfcenter}>Upload</Text>
+                </TouchableOpacity>
               </View>
             ) : (
               <View style={screenStyles.eachDocCard}>
@@ -252,42 +247,39 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
               <Text style={screenStyles.errorText}>{errors.signature}</Text>
             )}
             {renderLabel('Passport size Photo', false)}
-            <View style={screenStyles.eachDocCard}>
-              {!documentsDetailsFromRedux.profilePic ? (
-                <TouchableOpacity
-                  onPress={() => handleDocumentPick('profilePic')}>
-                  <FontAwesome
-                    name="user-circle"
-                    size={50}
-                    color={ColorPalette.gray}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <>
-                  <View style={screenStyles.signatureRemoveButtonContainer}>
-                    <Text style={screenStyles.greenText}>
-                      Uploaded
-                      <AntDesign
-                        name="checkcircle"
-                        color={ColorPalette.green}
-                      />
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() => HandleRemoveDocument('profilePic')}>
-                      <AntDesign
-                        name="closecircle"
-                        color={ColorPalette.red}
-                        size={25}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                  <Image
-                    source={{uri: documentsDetailsFromRedux.profilePic}}
-                    style={screenStyles.imageThumbnailStyle}
-                  />
-                </>
-              )}
-            </View>
+            {!documentsDetailsFromRedux.profilePic ? (
+              <TouchableOpacity
+                style={screenStyles.eachDocCard}
+                onPress={() => handleDocumentPick('profilePic')}>
+                <FontAwesome
+                  name="user-circle"
+                  size={50}
+                  color={ColorPalette.gray}
+                />
+                <Text>Upload</Text>
+              </TouchableOpacity>
+            ) : (
+              <View style={screenStyles.eachDocCard}>
+                <View style={screenStyles.signatureRemoveButtonContainer}>
+                  <Text style={screenStyles.greenText}>
+                    Uploaded
+                    <AntDesign name="checkcircle" color={ColorPalette.green} />
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => HandleRemoveDocument('profilePic')}>
+                    <AntDesign
+                      name="closecircle"
+                      color={ColorPalette.red}
+                      size={25}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <Image
+                  source={{uri: documentsDetailsFromRedux.profilePic}}
+                  style={screenStyles.imageThumbnailStyle}
+                />
+              </View>
+            )}
           </View>
           <View style={screenStyles.BackSaveButtonContainer}>
             <TouchableOpacity
