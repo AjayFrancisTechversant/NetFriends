@@ -8,7 +8,7 @@ const styles = (
   height: number,
 ) =>
   StyleSheet.create({
-    canvas:{flex:1,},
+    canvas: {flex: 1},
     subHeading: {fontWeight: 'bold'},
     textInput: {marginBottom: height * 0.01},
     documentsDetailsCard: {
@@ -56,7 +56,11 @@ const styles = (
       height: height * 0.2,
       width: height * 0.2,
     },
-    greenText: {color: ColorPalette.green,marginBottom:height*0.01},
+    drawOrUploadSignaturewholeContainer: {flexDirection: 'row',gap:20,alignItems:'center',marginBottom:height*0.01},
+    drawOrUploadSignatureCommonContainer: {
+      alignItems: 'center',
+    },
+    greenText: {color: ColorPalette.green, marginBottom: height * 0.01},
     resumePreviewAndRemoveButtonContainer: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -66,9 +70,15 @@ const styles = (
       borderRadius: 5,
       gap: height * 0.02,
     },
-    signatureRemoveButtonContainer: {flexDirection: 'row',
-      justifyContent:'space-between',
+    signatureRemoveButtonContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
     },
-    backButtonOnPDFView:{position:'absolute',left:height*0.01,top:height*0.01,zIndex:1}
+    backButtonOnPDFView: {
+      position: 'absolute',
+      left: height * 0.01,
+      top: height * 0.01,
+      zIndex: 1,
+    },
   });
 export default styles;

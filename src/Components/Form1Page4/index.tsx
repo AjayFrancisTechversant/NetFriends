@@ -7,6 +7,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {SetStateType} from '../../Types/Types';
@@ -171,42 +172,58 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
               <Text style={screenStyles.errorText}>{errors.resume}</Text>
             )}
             {renderLabel('Signature', true)}
-            <View style={screenStyles.eachDocCard}>
-              {!documentsDetailsFromRedux.signature ? (
-                <TouchableOpacity
-                  onPress={() => handleDocumentPick('signature')}>
-                  <FontAwesome5
-                    name="signature"
-                    size={50}
-                    color={ColorPalette.gray}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <>
-                  <View style={screenStyles.signatureRemoveButtonContainer}>
-                    <Text style={screenStyles.greenText}>
-                      Uploaded
-                      <AntDesign
-                        name="checkcircle"
-                        color={ColorPalette.green}
-                      />
-                    </Text>
+            {!documentsDetailsFromRedux.signature ? (
+              <View style={screenStyles.drawOrUploadSignaturewholeContainer}>
+                <View style={screenStyles.drawOrUploadSignatureCommonContainer}>
+                  <View style={screenStyles.eachDocCard}>
                     <TouchableOpacity
-                      onPress={() => HandleRemoveDocument('signature')}>
-                      <AntDesign
-                        name="closecircle"
-                        color={ColorPalette.red}
-                        size={25}
+                      onPress={() => {}}>
+                      <FontAwesome5
+                        name="signature"
+                        size={50}
+                        color={ColorPalette.gray}
                       />
                     </TouchableOpacity>
                   </View>
-                  <Image
-                    source={{uri: documentsDetailsFromRedux.signature}}
-                    style={screenStyles.imageThumbnailStyle}
-                  />
-                </>
-              )}
-            </View>
+                  <Text>Draw</Text>
+                </View>
+                <Text>Or</Text>
+                <View style={screenStyles.drawOrUploadSignatureCommonContainer}>
+                  <View style={screenStyles.eachDocCard}>
+                    <TouchableOpacity
+                      onPress={() => handleDocumentPick('signature')}>
+                      <FontAwesome6
+                        name="upload"
+                        size={50}
+                        color={ColorPalette.gray}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <Text>Upload</Text>
+                </View>
+              </View>
+            ) : (
+              <View style={screenStyles.eachDocCard}>
+                <View style={screenStyles.signatureRemoveButtonContainer}>
+                  <Text style={screenStyles.greenText}>
+                    Uploaded
+                    <AntDesign name="checkcircle" color={ColorPalette.green} />
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => HandleRemoveDocument('signature')}>
+                    <AntDesign
+                      name="closecircle"
+                      color={ColorPalette.red}
+                      size={25}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <Image
+                  source={{uri: documentsDetailsFromRedux.signature}}
+                  style={screenStyles.imageThumbnailStyle}
+                />
+              </View>
+            )}
             {errors.signature && (
               <Text style={screenStyles.errorText}>{errors.signature}</Text>
             )}
