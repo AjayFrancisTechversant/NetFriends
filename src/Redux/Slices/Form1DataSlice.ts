@@ -12,6 +12,7 @@ type Form1DataSliceType = {
   educationDetails: EducationDetailsType[];
   documentsDetails: DocumentsDetailsType;
   pageUnlockDetails: PageUnlockDetailsType;
+  isSubmitted: boolean;
 };
 
 const initialState: Form1DataSliceType = {
@@ -55,6 +56,7 @@ const initialState: Form1DataSliceType = {
     3: 'locked',
     4: 'locked',
   },
+  isSubmitted: false,
 };
 
 const Form1DataSlice = createSlice({
@@ -100,11 +102,17 @@ const Form1DataSlice = createSlice({
     lockPagesFrom(state, action: PayloadAction<keyof PageUnlockDetailsType>) {
       const page = action.payload;
       const pageNumbers = Object.keys(state.pageUnlockDetails).map(Number);
-      pageNumbers.forEach((pageNumber) => {
+      pageNumbers.forEach(pageNumber => {
         if (pageNumber >= page) {
           state.pageUnlockDetails[pageNumber] = 'locked';
         }
       });
+    },
+    submitForm1(state) {
+      state.isSubmitted = true;
+    },
+    unsubmitForm1(state) {
+      state.isSubmitted = false;
     },
   },
 });
@@ -118,6 +126,8 @@ export const {
   updateDocumentsDetails,
   unlockPage,
   lockPagesFrom,
+  submitForm1,
+  unsubmitForm1,
 } = Form1DataSlice.actions;
 
 export default Form1DataSlice.reducer;

@@ -13,11 +13,14 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import {SetStateType} from '../../Types/Types';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
-import {updateDocumentsDetails} from '../../Redux/Slices/Form1DataSlice';
+import {
+  submitForm1,
+  updateDocumentsDetails,
+} from '../../Redux/Slices/Form1DataSlice';
 import {urlRegExp} from '../../RegExp/RegExp';
 import SignatureDraw from '../SignatureDraw';
-import styles from './style';
 import validate from '../../Validation/Validation';
+import styles from './style';
 
 export type DocumentsDetailsType = {
   resume: string | null;
@@ -53,7 +56,16 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
   const handleSave = () => {
     if (validateForm()) {
       // save and finish logic
-      Alert.alert('Form Submitted');
+      Alert.alert(
+        'Success',
+        'Your Application has been submitted Successfully',
+        [
+          {
+            text: 'Ok',
+            onPress: () => handleSubmit(),
+          },
+        ],
+      );
     }
   };
 
@@ -129,7 +141,9 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
     const match = uri.match(urlRegExp);
     return match ? match[1] : 'unknown';
   };
-
+  const handleSubmit = () => {
+    dispatch(submitForm1());
+  };
   return (
     <View>
       {isPdfOpen ? (
@@ -159,41 +173,41 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
           <Text style={screenStyles.subHeading}>Upload Documents</Text>
           <View style={screenStyles.documentsDetailsCard}>
             {renderLabel('Resume(.pdf)', true)}
-              {!documentsDetailsFromRedux.resume ? (
-                <TouchableOpacity
+            {!documentsDetailsFromRedux.resume ? (
+              <TouchableOpacity
                 style={screenStyles.eachDocCard}
                 onPress={() => handleDocumentPick('resume')}>
-                  <MaterialIcons
-                    name="upload-file"
-                    size={50}
-                    color={ColorPalette.gray}
-                  />
-                  <Text>Upload</Text>
-                </TouchableOpacity>
-              ) : (
-                <View style={screenStyles.eachDocCard}>
-                  <Text style={screenStyles.greenText}>
-                    Uploaded
-                    <AntDesign name="checkcircle" color={ColorPalette.green} />
-                  </Text>
-                  <View
-                    style={screenStyles.resumePreviewAndRemoveButtonContainer}>
-                    <TouchableOpacity onPress={() => setIsPdfOpen(true)}>
-                      <Text>
-                        {getFileNameFromUri(documentsDetailsFromRedux.resume)}
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => HandleRemoveDocument('resume')}>
-                      <AntDesign
-                        name="closecircle"
-                        color={ColorPalette.red}
-                        size={25}
-                      />
-                    </TouchableOpacity>
-                  </View>
+                <MaterialIcons
+                  name="upload-file"
+                  size={50}
+                  color={ColorPalette.gray}
+                />
+                <Text>Upload</Text>
+              </TouchableOpacity>
+            ) : (
+              <View style={screenStyles.eachDocCard}>
+                <Text style={screenStyles.greenText}>
+                  Uploaded
+                  <AntDesign name="checkcircle" color={ColorPalette.green} />
+                </Text>
+                <View
+                  style={screenStyles.resumePreviewAndRemoveButtonContainer}>
+                  <TouchableOpacity onPress={() => setIsPdfOpen(true)}>
+                    <Text>
+                      {getFileNameFromUri(documentsDetailsFromRedux.resume)}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => HandleRemoveDocument('resume')}>
+                    <AntDesign
+                      name="closecircle"
+                      color={ColorPalette.red}
+                      size={25}
+                    />
+                  </TouchableOpacity>
                 </View>
-              )}
+              </View>
+            )}
             {errors.resume && (
               <Text style={screenStyles.errorText}>{errors.resume}</Text>
             )}

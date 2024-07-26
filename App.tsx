@@ -146,8 +146,8 @@ const Main: React.FC = () => {
         <PersistGate loading={null} persistor={persistor}>
           <GestureHandlerRootView style={{flex: 1}}>
             <PaperProvider>
-              <App />
-              {/* <Form1Screen/> */}
+              {/* <App /> */}
+              <Form1Screen/>
             </PaperProvider>
           </GestureHandlerRootView>
         </PersistGate>

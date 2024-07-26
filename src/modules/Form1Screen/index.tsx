@@ -1,14 +1,15 @@
-import { Text, ScrollView, KeyboardAvoidingView, View } from 'react-native';
-import React, { useState } from 'react';
-import { SegmentedButtons } from 'react-native-paper';
-import { useScreenContext } from '../../Contexts/ScreenContext';
+import {Text, ScrollView, KeyboardAvoidingView, View} from 'react-native';
+import React, {useState} from 'react';
+import {SegmentedButtons} from 'react-native-paper';
+import {useScreenContext} from '../../Contexts/ScreenContext';
 import Form1Page1 from '../../Components/Form1Page1';
 import Form1Page2 from '../../Components/Form1Page2';
 import Form1Page3 from '../../Components/Form1Page3';
 import Form1Page4 from '../../Components/Form1Page4';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
-import { useAppSelector } from '../../hooks/hooks';
+import {useAppSelector} from '../../hooks/hooks';
+import Form1Preview from '../../Components/Form1Preview';
 import styles from './style';
 
 export type PageUnlockDetailsType = {
@@ -23,7 +24,7 @@ const Form1Screen = () => {
   const pageUnlockDetailsFromRedux = useAppSelector(
     state => state.Form1Data.pageUnlockDetails,
   );
-
+  const isForm1Submitted = useAppSelector(state => state.Form1Data.isSubmitted);
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -55,45 +56,53 @@ const Form1Screen = () => {
   ];
 
   return (
-    <KeyboardAvoidingView
-      style={screenStyles.canvas}
-      enabled={true}
-      behavior="height"
-    >
-      <ScrollView>
-        <View style={screenStyles.menuButton}>
-          <MenuDrawerButton color={ColorPalette.green} />
-        </View>
-        <Text style={[screenStyles.heading, screenStyles.bigBoldText]}>
-          Form 1
-        </Text>
-        <SegmentedButtons
-          density="small"
-          theme={{
-            colors: {
-              secondaryContainer: ColorPalette.lightGreen,
-              outline: ColorPalette.green,
-            },
-          }}
-          style={screenStyles.segmentedButtonsStyle}
-          value={segmentedButtonValue}
-          onValueChange={setSegmentedButtonValue}
-          buttons={segmentedButtons}
-        />
-        {segmentedButtonValue === '1' && (
-          <Form1Page1 setSegmentedButtonValue={setSegmentedButtonValue} />
-        )}
-        {segmentedButtonValue === '2' && (
-          <Form1Page2 setSegmentedButtonValue={setSegmentedButtonValue} />
-        )}
-        {segmentedButtonValue === '3' && (
-          <Form1Page3 setSegmentedButtonValue={setSegmentedButtonValue} />
-        )}
-        {segmentedButtonValue === '4' && (
-          <Form1Page4 setSegmentedButtonValue={setSegmentedButtonValue} />
-        )}
-      </ScrollView>
-    </KeyboardAvoidingView>
+    <>
+      <KeyboardAvoidingView
+        style={screenStyles.canvas}
+        enabled={true}
+        behavior="height">
+        <ScrollView>
+          {/* <View style={screenStyles.menuButton}>
+            <MenuDrawerButton color={ColorPalette.green} />
+          </View> */}
+          <Text style={[screenStyles.heading, screenStyles.bigBoldText]}>
+            Form 1
+          </Text>
+          {!isForm1Submitted ? (
+            <>
+              <SegmentedButtons
+                density="small"
+                theme={{
+                  colors: {
+                    secondaryContainer: ColorPalette.lightGreen,
+                    outline: ColorPalette.green,
+                  },
+                }}
+                style={screenStyles.segmentedButtonsStyle}
+                value={segmentedButtonValue}
+                onValueChange={setSegmentedButtonValue}
+                buttons={segmentedButtons}
+              />
+              {segmentedButtonValue === '1' && (
+                <Form1Page1 setSegmentedButtonValue={setSegmentedButtonValue} />
+              )}
+              {segmentedButtonValue === '2' && (
+                <Form1Page2 setSegmentedButtonValue={setSegmentedButtonValue} />
+              )}
+              {segmentedButtonValue === '3' && (
+                <Form1Page3 setSegmentedButtonValue={setSegmentedButtonValue} />
+              )}
+              {segmentedButtonValue === '4' && (
+                <Form1Page4 setSegmentedButtonValue={setSegmentedButtonValue} />
+              )}
+            </>
+          ) : (
+            <Text>Your Application has been Submitted Successfully</Text>
+            // Button to preview or edit or download
+          )}
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </>
   );
 };
 
