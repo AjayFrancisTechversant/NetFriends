@@ -16,6 +16,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {updateDocumentsDetails} from '../../Redux/Slices/Form1DataSlice';
 import {urlRegExp} from '../../RegExp/RegExp';
 import styles from './style';
+import SignatureDraw from '../SignatureDraw';
 
 export type DocumentsDetailsType = {
   resume: string | null;
@@ -34,6 +35,7 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
   const documentsDetailsFromRedux = useAppSelector(
     state => state.Form1Data.documentsDetails,
   );
+  const [isSignatureDrawing, setIsSignatureDrawing] = useState(false);
   const [errors, setErrors] = useState<Partial<DocumentsDetailsType>>({});
   const [isPdfOpen, setIsPdfOpen] = useState(false);
   const screenContext = useScreenContext();
@@ -129,7 +131,27 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
 
   return (
     <View>
-      {!isPdfOpen ? (
+      {isPdfOpen ? (
+        <Portal>
+          <View style={screenStyles.canvas}>
+            <TouchableOpacity
+              style={screenStyles.backButtonOnPDFView}
+              onPress={() => setIsPdfOpen(false)}>
+              <Entypo name="chevron-left" size={30} />
+            </TouchableOpacity>
+            <Pdf
+              source={{
+                uri: documentsDetailsFromRedux.resume
+                  ? documentsDetailsFromRedux.resume
+                  : undefined,
+              }}
+              style={{flex: 1}}
+            />
+          </View>
+        </Portal>
+      ) : isSignatureDrawing ? (
+        <SignatureDraw setIsSignatureDrawing={setIsSignatureDrawing} />
+      ) : (
         <View>
           <Text style={screenStyles.subHeading}>Upload Documents</Text>
           <View style={screenStyles.documentsDetailsCard}>
@@ -176,8 +198,7 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
               <View style={screenStyles.drawOrUploadSignaturewholeContainer}>
                 <View style={screenStyles.drawOrUploadSignatureCommonContainer}>
                   <View style={screenStyles.eachDocCard}>
-                    <TouchableOpacity
-                      onPress={() => {}}>
+                    <TouchableOpacity onPress={() => setIsSignatureDrawing(true)}>
                       <FontAwesome5
                         name="signature"
                         size={50}
@@ -278,24 +299,6 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
             </TouchableOpacity>
           </View>
         </View>
-      ) : (
-        <Portal>
-          <View style={screenStyles.canvas}>
-            <TouchableOpacity
-              style={screenStyles.backButtonOnPDFView}
-              onPress={() => setIsPdfOpen(false)}>
-              <Entypo name="chevron-left" size={30} />
-            </TouchableOpacity>
-            <Pdf
-              source={{
-                uri: documentsDetailsFromRedux.resume
-                  ? documentsDetailsFromRedux.resume
-                  : undefined,
-              }}
-              style={{flex: 1}}
-            />
-          </View>
-        </Portal>
       )}
     </View>
   );

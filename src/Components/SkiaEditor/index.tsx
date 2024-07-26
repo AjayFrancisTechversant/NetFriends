@@ -32,8 +32,8 @@ import ColorPicker, {
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import StaticVariables from '../../Preferences/StaticVariables';
-import styles from './style';
 import {SetStateType} from '../../Types/Types';
+import styles from './style';
 
 type SkiaEditorPropsType = {
   setIsEditing: SetStateType<boolean>;
