@@ -7,7 +7,6 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {SetStateType} from '../../Types/Types';
 import {TextInput} from 'react-native-paper';
-import {validEmail} from '../../RegExp/RegExp';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {
   lockPagesFrom,
@@ -186,11 +185,6 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
         maximumDate={new Date()}
         open={isDatePickerOpen}
         date={new Date()}
-        // onConfirm={date => {
-        //   setIsDatePickerOpen(false);
-        //   handlePersonalDetailsChange('dob', date);
-        //   dispatch(updatePersonalDetails({...personalDetails, dob: date}));
-        // }}
         onConfirm={date => {
           setIsDatePickerOpen(false);
           const age = moment().diff(date, 'years');
