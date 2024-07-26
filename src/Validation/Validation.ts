@@ -4,7 +4,7 @@ import {validEmail, validPassword} from '../RegExp/RegExp';
 export type ValidationType = 'email' | 'phone' | 'password' | 'required';
 
 const validate = (
-  value: string | undefined,
+  value: string | undefined|null,
   validationType?: ValidationType,
 ): string | boolean => {
   if (value) {

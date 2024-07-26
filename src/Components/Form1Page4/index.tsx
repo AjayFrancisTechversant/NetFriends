@@ -17,6 +17,7 @@ import {updateDocumentsDetails} from '../../Redux/Slices/Form1DataSlice';
 import {urlRegExp} from '../../RegExp/RegExp';
 import SignatureDraw from '../SignatureDraw';
 import styles from './style';
+import validate from '../../Validation/Validation';
 
 export type DocumentsDetailsType = {
   resume: string | null;
@@ -50,18 +51,18 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
   };
 
   const handleSave = () => {
-    if (validate()) {
+    if (validateForm()) {
       // save and finish logic
       Alert.alert('Form Submitted');
     }
   };
 
-  const validate = () => {
+  const validateForm = () => {
     const newErrors: Partial<DocumentsDetailsType> = {};
-    if (!documentsDetailsFromRedux.resume)
-      newErrors.resume = 'Please upload resume';
-    if (!documentsDetailsFromRedux.signature)
-      newErrors.signature = 'Please upload signature';
+    if (!validate(documentsDetailsFromRedux.resume))
+      newErrors.resume = 'Please upload resume!';
+    if (!validate(documentsDetailsFromRedux.signature))
+      newErrors.signature = 'Please upload signature!';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
