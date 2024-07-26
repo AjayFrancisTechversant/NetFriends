@@ -8,6 +8,7 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { lockPagesFrom, unlockPage, updateAddressDetails } from '../../Redux/Slices/Form1DataSlice';
 import styles from './style';
+import validate from '../../Validation/Validation';
 
 export type AddressDetailsType = {
   currentAddress: string | undefined;
@@ -102,21 +103,21 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
   );
   const validateForm = () => {
     const newErrors: Partial<AddressDetailsType> = {};
-    if (!addressDetails.currentAddress)
-      newErrors.currentAddress = 'Address is required';
-    if (!addressDetails.currentCity) newErrors.currentCity = 'City is required';
-    if (!addressDetails.currentState)
-      newErrors.currentState = 'State is required';
-    if (!addressDetails.currentCountry)
-      newErrors.currentCountry = 'Country is required';
-    if (!addressDetails.permanentAddress)
-      newErrors.permanentAddress = 'Address is required';
-    if (!addressDetails.permanentCity)
-      newErrors.permanentCity = 'City is required';
-    if (!addressDetails.permanentState)
-      newErrors.permanentState = 'State is required';
-    if (!addressDetails.permanentCountry)
-      newErrors.permanentCountry = 'Country is required';
+    if (!validate(addressDetails.currentAddress))
+      newErrors.currentAddress = 'Required!';
+    if (!validate(addressDetails.currentCity)) newErrors.currentCity = 'Required';
+    if (!validate(addressDetails.currentState))
+      newErrors.currentState = 'Required!';
+    if (!validate(addressDetails.currentCountry))
+      newErrors.currentCountry = 'Required!';
+    if (!validate(addressDetails.permanentAddress))
+      newErrors.permanentAddress = 'Required!';
+    if (!validate(addressDetails.permanentCity))
+      newErrors.permanentCity = 'Required!';
+    if (!validate(addressDetails.permanentState))
+      newErrors.permanentState = 'Required!';
+    if (!validate(addressDetails.permanentCountry))
+      newErrors.permanentCountry = 'Required!';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
