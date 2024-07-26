@@ -27,15 +27,14 @@ const styles = (screenContext:ScreenContextType, width:number, height:number) =>
       borderColor:ColorPalette.gray
     },
     canvasSkia: {flex: 1},
-    toolsContainer: {
+    clearButton: {
       flexDirection:screenContext.isPortrait? 'row':'column',
       gap: width * 0.03,
-      borderWidth: 1,
       borderRadius: 10,
       margin: height * 0.02,
       alignSelf: 'center',
       padding: height * 0.01,
-      borderColor: ColorPalette.gray,
+      backgroundColor:ColorPalette.red
     },
     modalFullScreenBackground: {
       flex: 1,
@@ -67,6 +66,7 @@ const styles = (screenContext:ScreenContextType, width:number, height:number) =>
       alignSelf: 'center',
       margin: height * 0.02,
     },
+    whiteText:{color:ColorPalette.white},
     OKText: {color: ColorPalette.white},
   });
 export default styles;

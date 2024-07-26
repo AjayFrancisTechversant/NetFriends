@@ -150,7 +150,9 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
           </View>
         </Portal>
       ) : isSignatureDrawing ? (
-        <SignatureDraw setIsSignatureDrawing={setIsSignatureDrawing} />
+        <Portal>
+          <SignatureDraw setIsSignatureDrawing={setIsSignatureDrawing} />
+        </Portal>
       ) : (
         <View>
           <Text style={screenStyles.subHeading}>Upload Documents</Text>
@@ -198,7 +200,8 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
               <View style={screenStyles.drawOrUploadSignaturewholeContainer}>
                 <View style={screenStyles.drawOrUploadSignatureCommonContainer}>
                   <View style={screenStyles.eachDocCard}>
-                    <TouchableOpacity onPress={() => setIsSignatureDrawing(true)}>
+                    <TouchableOpacity
+                      onPress={() => setIsSignatureDrawing(true)}>
                       <FontAwesome5
                         name="signature"
                         size={50}

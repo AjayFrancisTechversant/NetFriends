@@ -1,6 +1,4 @@
 import {
-  ActivityIndicator,
-  Modal,
   Text,
   TouchableOpacity,
   View,
@@ -8,23 +6,13 @@ import {
 import React, {useState, useCallback, useRef} from 'react';
 import {
   Canvas,
-  Group,
-  Image,
   Path,
   useCanvasRef,
 } from '@shopify/react-native-skia';
 import {runOnJS} from 'react-native-reanimated';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
-import ColorPicker, {
-  Preview,
-  HueSlider,
-  Swatches,
-  returnedResults,
-} from 'reanimated-color-picker';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import StaticVariables from '../../Preferences/StaticVariables';
@@ -46,26 +34,8 @@ const SignatureDraw: React.FC<SignatureDrawPropsType> = ({
   );
   const [paths, setPaths] = useState(StaticVariables.EMPTY_ARRAY);
   const pathsRef = useRef(paths);
-  const [isDrawing, setIsDrawing] = useState(false);
-  const [isUploadLoading, setIsUploadLoading] = useState(false);
   const canvasRef = useCanvasRef();
-  const [showColorPickerModal, setShowColorPickerModal] = useState(false);
   const [penColor, setPenColor] = useState(ColorPalette.black);
-  const swatchColors = [
-    ColorPalette.white,
-    ColorPalette.black,
-    ColorPalette.blue,
-    ColorPalette.yellow,
-    ColorPalette.orange,
-    ColorPalette.green,
-    ColorPalette.red,
-    ColorPalette.gold,
-    ColorPalette.gray,
-  ];
-
-  const onSelectColor = ({hex}: returnedResults) => {
-    setPenColor(hex);
-  };
 
   const addNewPath = useCallback(
     (x: number, y: number) => {
@@ -90,20 +60,8 @@ const SignatureDraw: React.FC<SignatureDrawPropsType> = ({
     });
   }, []);
 
-  const clearLastPath = useCallback(() => {
-    setPaths(prevPaths => {
-      const newPaths = prevPaths.slice(0, -1);
-      pathsRef.current = newPaths;
-      return newPaths;
-    });
-  }, []);
-
-  const handleCancelDrawing = () => {
+  const handleClearDrawing = () => {
     setPaths(StaticVariables.EMPTY_ARRAY);
-    setIsDrawing(false);
-  };
-  const handleFinishDrawing = () => {
-    setIsDrawing(false);
   };
 
   const gestureDraw = Gesture.Pan()
@@ -126,90 +84,35 @@ const SignatureDraw: React.FC<SignatureDrawPropsType> = ({
           <AntDesign name="left" size={30} color={ColorPalette.green} />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleSave}>
-          {isUploadLoading ? (
-            <ActivityIndicator color={ColorPalette.green} size={30} />
-          ) : (
-            <Entypo name="save" size={30} color={ColorPalette.green} />
-          )}
+          <MaterialCommunityIcons
+            name="check"
+            size={30}
+            color={ColorPalette.green}
+          />
         </TouchableOpacity>
       </View>
       <View style={screenStyles.canvasAndToolsContainer}>
         <View style={[screenStyles.canvasSkiaContainer]}>
           <GestureDetector gesture={gestureDraw}>
             <Canvas ref={canvasRef} style={screenStyles.canvasSkia}>
-                {paths.map((p, index) => (
-                  <Path
-                    key={index}
-                    path={p.segments.join(' ')}
-                    strokeWidth={3}
-                    style="stroke"
-                    color={p.color}
-                  />
-                ))}
+              {paths.map((p, index) => (
+                <Path
+                  key={index}
+                  path={p.segments.join(' ')}
+                  strokeWidth={3}
+                  style="stroke"
+                  color={p.color}
+                />
+              ))}
             </Canvas>
           </GestureDetector>
         </View>
-        <View style={screenStyles.toolsContainer}>
           <TouchableOpacity
-            onPress={() => {
-              setShowColorPickerModal(true);
-            }}>
-            <MaterialCommunityIcons
-              name="format-color-fill"
-              size={30}
-              color={ColorPalette.green}
-            />
+            style={screenStyles.clearButton}
+            onPress={handleClearDrawing}>
+          <Text style={screenStyles.whiteText}>Clear</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={clearLastPath}>
-            <MaterialCommunityIcons
-              name="undo"
-              size={30}
-              color={ColorPalette.green}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleCancelDrawing}>
-            <MaterialCommunityIcons
-              name="close"
-              size={30}
-              color={ColorPalette.green}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleFinishDrawing}>
-            <MaterialCommunityIcons
-              name="check"
-              size={30}
-              color={ColorPalette.green}
-            />
-          </TouchableOpacity>
-        </View>
       </View>
-      <Modal
-        onRequestClose={() => setShowColorPickerModal(false)}
-        transparent
-        visible={showColorPickerModal}
-        animationType="fade">
-        <View style={screenStyles.modalFullScreenBackground}>
-          <View style={screenStyles.modalView}>
-            <ColorPicker value={penColor} onComplete={onSelectColor}>
-              <Preview
-                hideText
-                hideInitialColor
-                style={screenStyles.colorPreviewStyle}
-              />
-              <HueSlider style={screenStyles.colorSliderStyle} adaptSpectrum />
-              <Swatches
-                colors={swatchColors}
-                swatchStyle={screenStyles.swatchStyle}
-              />
-            </ColorPicker>
-            <TouchableOpacity
-              style={screenStyles.ModalOKButton}
-              onPress={() => setShowColorPickerModal(false)}>
-              <Text style={screenStyles.OKText}>OK</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 };
