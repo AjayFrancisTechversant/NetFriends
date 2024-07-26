@@ -13,6 +13,7 @@ import {
   unlockPage,
   updateEducationDetails,
 } from '../../Redux/Slices/Form1DataSlice';
+import validate from '../../Validation/Validation';
 import styles from './style';
 
 export type EducationDetailsType = {
@@ -63,20 +64,18 @@ const Form1Page3: React.FC<Form1Page3PropsType> = ({
 
     educationDetailsFromRedux.forEach(detail => {
       const detailErrors: Partial<EducationDetailsType> = {};
-      if (!detail.institution)
-        detailErrors.institution = 'Institution is required';
-      if (!detail.degree) detailErrors.degree = 'Degree is required';
-      if (!detail.fieldOfStudy)
-        detailErrors.fieldOfStudy = 'Field of study is required';
-      if (!detail.yearOfCompletion)
-        detailErrors.yearOfCompletion = 'Year of completion is required';
-
+      if (!validate(detail.institution))
+        detailErrors.institution = 'Required!';
+      if (!validate(detail.degree)) detailErrors.degree = 'Required!';
+      if (!validate(detail.fieldOfStudy))
+        detailErrors.fieldOfStudy = 'Required!';
+      if (!validate(detail.yearOfCompletion))
+        detailErrors.yearOfCompletion = 'Required!';
       if (Object.keys(detailErrors).length) {
         isValid = false;
         newErrors[detail.id] = detailErrors;
       }
     });
-
     setErrors(newErrors);
     return isValid;
   };
