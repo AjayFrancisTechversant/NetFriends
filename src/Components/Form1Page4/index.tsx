@@ -4,7 +4,9 @@ import DocumentPicker from 'react-native-document-picker';
 import Pdf from 'react-native-pdf';
 import {Portal} from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {SetStateType} from '../../Types/Types';
@@ -173,8 +175,8 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
               {!documentsDetailsFromRedux.signature ? (
                 <TouchableOpacity
                   onPress={() => handleDocumentPick('signature')}>
-                  <MaterialIcons
-                    name="upload-file"
+                  <FontAwesome5
+                    name="signature"
                     size={50}
                     color={ColorPalette.gray}
                   />
@@ -213,8 +215,8 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
               {!documentsDetailsFromRedux.profilePic ? (
                 <TouchableOpacity
                   onPress={() => handleDocumentPick('profilePic')}>
-                  <MaterialIcons
-                    name="upload-file"
+                  <FontAwesome
+                    name="user-circle"
                     size={50}
                     color={ColorPalette.gray}
                   />
