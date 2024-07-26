@@ -9,7 +9,11 @@ import {SetStateType} from '../../Types/Types';
 import {TextInput} from 'react-native-paper';
 import {validEmail} from '../../RegExp/RegExp';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
-import {lockPagesFrom, unlockPage, updatePersonalDetails} from '../../Redux/Slices/Form1DataSlice';
+import {
+  lockPagesFrom,
+  unlockPage,
+  updatePersonalDetails,
+} from '../../Redux/Slices/Form1DataSlice';
 import styles from './style';
 
 export type PersonalDetailsType = {
@@ -37,10 +41,13 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const handlePersonalDetailsChange = useCallback(
-    (name: keyof PersonalDetailsType, value: string | Date |number| undefined) => {
+    (
+      name: keyof PersonalDetailsType,
+      value: string | Date | number | undefined,
+    ) => {
       setPersonalDetails(prevDetails => {
         const updatedDetails = {...prevDetails, [name]: value};
-        if (name === 'dob' ) {
+        if (name === 'dob') {
           const age = moment().diff(value as Date, 'years');
           return {...updatedDetails, age};
         }
@@ -54,10 +61,10 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
   };
   const handleSave = () => {
     if (validateForm()) {
-      dispatch(unlockPage(2))
+      dispatch(unlockPage(2));
       setSegmentedButtonValue('2');
-    }else{
-      dispatch(lockPagesFrom(2))
+    } else {
+      dispatch(lockPagesFrom(2));
     }
   };
 
@@ -135,9 +142,11 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
         {renderTextInputLabel('Date Of Birth', false)}
         <MyTextInput
           style={[screenStyles.textInput]}
-          label={personalDetails.dob
-            ? moment(personalDetails.dob).format('DD/MM/YY')
-            : 'Please Pick a date'}
+          label={
+            personalDetails.dob
+              ? moment(personalDetails.dob).format('DD/MM/YY')
+              : 'Please Pick a date'
+          }
           disabled
           right={
             !personalDetails.dob ? (
