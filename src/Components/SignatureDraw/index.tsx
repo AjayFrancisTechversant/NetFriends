@@ -35,17 +35,16 @@ const SignatureDraw: React.FC<SignatureDrawPropsType> = ({
   const [paths, setPaths] = useState(StaticVariables.EMPTY_ARRAY);
   const pathsRef = useRef(paths);
   const canvasRef = useCanvasRef();
-  const [penColor, setPenColor] = useState(ColorPalette.black);
 
   const addNewPath = useCallback(
     (x: number, y: number) => {
       setPaths(prevPaths => {
-        const newPath = {segments: [`M ${x} ${y}`], color: penColor};
+        const newPath = {segments: [`M ${x} ${y}`]};
         pathsRef.current = [...prevPaths, newPath];
         return pathsRef.current;
       });
     },
-    [penColor],
+    [],
   );
 
   const updatePath = useCallback((x: number, y: number) => {
