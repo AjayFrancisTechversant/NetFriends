@@ -14,6 +14,7 @@ import {
   unlockPage,
   updatePersonalDetails,
 } from '../../Redux/Slices/Form1DataSlice';
+import validate from '../../Validation/Validation';
 import styles from './style';
 
 export type PersonalDetailsType = {
@@ -70,23 +71,15 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
 
   const validateForm = () => {
     const newErrors: Partial<PersonalDetailsType> = {};
-    if (!personalDetails.name) newErrors.name = 'Name is required';
-    if (!personalDetails.email) {
-      newErrors.email = 'Email is required';
-    } else if (!validateEmail(personalDetails.email)) {
-      newErrors.email = 'Invalid email address';
-    }
-    if (!personalDetails.phone) {
-      newErrors.phone = 'Phone number is required';
-    } else if (personalDetails.phone.length < 10) {
-      newErrors.phone = 'Enter Valid Phone Number';
+    if (!validate(personalDetails.name)) newErrors.name = 'Required!';
+    if (!validate(personalDetails.email, 'email')) {
+      newErrors.email = 'Invalid!';
+    } 
+    if (!validate(personalDetails.phone,'phone')) {
+      newErrors.phone = 'Invalid!';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  };
-
-  const validateEmail = (email: string | undefined): boolean => {
-    return email ? validEmail.test(email) : false;
   };
 
   const renderTextInputLabel = (label: string, required: boolean) => (
