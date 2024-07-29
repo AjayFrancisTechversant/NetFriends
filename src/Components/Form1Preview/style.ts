@@ -14,6 +14,7 @@ const styles = (
       justifyContent: 'space-between',
       margin: height * 0.02,
     },
+    heading:{fontSize:20,fontWeight:'bold'},
     downloadButton: {
       backgroundColor: ColorPalette.blue,
       padding: height * 0.01,

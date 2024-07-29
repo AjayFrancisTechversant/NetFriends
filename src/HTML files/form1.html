@@ -1,74 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Details</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form 1</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            color: #333;
-        }
-        h1 {
-            color: #4CAF50;
-        }
-        .section {
-            margin-bottom: 20px;
-        }
-        .section h2 {
-            color: #555;
-        }
-        .section p {
-            margin: 5px 0;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        color: #978d8d;
+      }
+      h1 {
+        text-align: center;
+      }
+      .section {
+        margin-bottom: 20px;
+      }
+      .section h2 {
+        color: #555;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0;
+      }
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+      .table th,
+      .table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+      .table th {
+        background-color: #f4f4f4;
+        text-align: left;
+      }
+      .table td {
+        text-align: left;
+      }
+      #profilePicContainer {
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 2px solid #ddd;
+        margin-bottom: 20px;
+        /* Space between heading and profile picture */
+      }
+      #profilePic {
+        width: 100%;
+        height: auto;
+      }
     </style>
-</head>
-<body>
-    <h1>User Details</h1>
-    
+  </head>
+  <body>
+    <h1>Form 1</h1>
+
     <div class="section">
-        <h2>Personal Details</h2>
-        <p><strong>Name:</strong> <span id="personalName"></span></p>
-        <p><strong>Email:</strong> <span id="personalEmail"></span></p>
-        <p><strong>Phone:</strong> <span id="personalPhone"></span></p>
-        <p><strong>Date of Birth:</strong> <span id="personalDob"></span></p>
-        <p><strong>Age:</strong> <span id="personalAge"></span></p>
+      <h2>
+        Personal Details
+        <div id="profilePicContainer">
+          <img id="profilePic" src="" alt="Profile Picture" />
+        </div>
+      </h2>
+      <table class="table">
+        <tr>
+          <th>Name</th>
+          <td id="personalName"></td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td id="personalEmail"></td>
+        </tr>
+        <tr>
+          <th>Phone</th>
+          <td id="personalPhone"></td>
+        </tr>
+        <tr>
+          <th>Date of Birth</th>
+          <td id="personalDob"></td>
+        </tr>
+        <tr>
+          <th>Age</th>
+          <td id="personalAge"></td>
+        </tr>
+      </table>
     </div>
-    
+
     <div class="section">
-        <h2>Address Details</h2>
-        <p><strong>Current Address:</strong> <span id="addressCurrentAddress"></span></p>
-        <p><strong>Current City:</strong> <span id="addressCurrentCity"></span></p>
-        <p><strong>Current State:</strong> <span id="addressCurrentState"></span></p>
-        <p><strong>Current Country:</strong> <span id="addressCurrentCountry"></span></p>
-        <p><strong>Current Pincode:</strong> <span id="addressCurrentPincode"></span></p>
-        <p><strong>Permanent Address:</strong> <span id="addressPermanentAddress"></span></p>
-        <p><strong>Permanent City:</strong> <span id="addressPermanentCity"></span></p>
-        <p><strong>Permanent State:</strong> <span id="addressPermanentState"></span></p>
-        <p><strong>Permanent Country:</strong> <span id="addressPermanentCountry"></span></p>
-        <p><strong>Permanent Pincode:</strong> <span id="addressPermanentPincode"></span></p>
+      <h2>Address Details</h2>
+      <h4>Current</h4>
+      <table class="table">
+        <tr>
+          <th>Address</th>
+          <td id="addressCurrentAddress"></td>
+        </tr>
+        <tr>
+          <th>City</th>
+          <td id="addressCurrentCity"></td>
+        </tr>
+        <tr>
+          <th>State</th>
+          <td id="addressCurrentState"></td>
+        </tr>
+        <tr>
+          <th>Country</th>
+          <td id="addressCurrentCountry"></td>
+        </tr>
+        <tr>
+          <th>Pincode</th>
+          <td id="addressCurrentPincode"></td>
+        </tr>
+      </table>
+      <h4>Permanent</h4>
+      <table class="table">
+        <tr>
+          <th>Address</th>
+          <td id="addressPermanentAddress"></td>
+        </tr>
+        <tr>
+          <th>City</th>
+          <td id="addressPermanentCity"></td>
+        </tr>
+        <tr>
+          <th>State</th>
+          <td id="addressPermanentState"></td>
+        </tr>
+        <tr>
+          <th>Country</th>
+          <td id="addressPermanentCountry"></td>
+        </tr>
+        <tr>
+          <th>Pincode</th>
+          <td id="addressPermanentPincode"></td>
+        </tr>
+      </table>
     </div>
-    
+
     <div class="section">
-        <h2>Education Details</h2>
-        <ul id="educationList"></ul>
+      <h2>Education Details</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Institution</th>
+            <th>Degree</th>
+            <th>Field of Study</th>
+            <th>Year</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>blah</td>
+            <td>blah</td>
+            <td>blah</td>
+            <td>blah</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>blah</td>
+            <td>blah</td>
+            <td>blah</td>
+            <td>blah</td>
+          </tr>
+        </tbody>
+        <tbody id="educationList">
+          <!-- Education details will be populated here -->
+        </tbody>
+      </table>
     </div>
-    
+
     <div class="section">
-        <h2>Documents Details</h2>
-        <p><strong>Resume:</strong> <span id="documentsResume"></span></p>
-        <p><strong>Profile Picture:</strong> <span id="documentsProfilePic"></span></p>
-        <p><strong>Signature:</strong> <span id="documentsSignature"></span></p>
-    </div>
-    
-    <div class="section">
-        <h2>Page Unlock Details</h2>
-        <ul id="pageUnlockList"></ul>
+      <h2>Documents Details</h2>
+      <table class="table">
+        <tr>
+          <th>Resume</th>
+          <td id="documentsResume">Uploaded</td>
+        </tr>
+        <tr>
+          <th>Signature</th>
+          <td id="documentsSignature">
+            <img src="" alt="signature" />
+          </td>
+        </tr>
+      </table>
     </div>
 
     <script>
-        // This script will be replaced by your React Native WebView content
+      // This script will be replaced by your React Native WebView content
     </script>
-</body>
+  </body>
 </html>

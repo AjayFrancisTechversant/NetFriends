@@ -14,6 +14,7 @@ import {SetStateType} from '../../Types/Types';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {
+  lockPagesFrom,
   submitForm1,
   updateDocumentsDetails,
 } from '../../Redux/Slices/Form1DataSlice';
@@ -64,6 +65,7 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
             text: 'Ok',
             onPress: () => {
               setSegmentedButtonValue('1');
+              dispatch(lockPagesFrom(2))
               handleSubmit();
             },
           },

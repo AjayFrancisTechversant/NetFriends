@@ -2658,6 +2658,11 @@
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.12.tgz"
   integrity sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==
 
+"@types/react-native-html-to-pdf@^0.8.3":
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/@types/react-native-html-to-pdf/-/react-native-html-to-pdf-0.8.3.tgz#0e41b666c711b114957e42f7a7c665fb2fea8045"
+  integrity sha512-KjyR1F9KhcmX8p9y/8WYMiaK4DV/cYBUO1XHEzD9dDVZBkY9ujbdMLYO7ZvmAffNT2Q484Qvg+t6szgVcnN22g==
+
 "@types/react-native-vector-icons@^6.4.10":
   version "6.4.18"
   resolved "https://registry.yarnpkg.com/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.18.tgz#18671c617b9d0958747bc959903470dde91a8c79"
