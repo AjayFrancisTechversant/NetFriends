@@ -114,7 +114,7 @@ const Form1DataSlice = createSlice({
     unsubmitForm1(state) {
       state.isSubmitted = false;
     },
-    clearAllForm1Data(state) {
+    clearAllForm1Data() {
       return initialState;
     },
   },
