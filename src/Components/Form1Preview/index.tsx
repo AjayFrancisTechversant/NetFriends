@@ -1,19 +1,19 @@
 import React from 'react';
 import {WebView} from 'react-native-webview';
-import {TouchableOpacity, View} from 'react-native';
+import {Modal, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {Text} from 'react-native-paper';
 import {useAppSelector} from '../../hooks/hooks';
-import {SetStateType} from '../../Types/Types';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import styles from './style';
-import {Text} from 'react-native-paper';
+import {SetStateType} from '../../Types/Types';
+import ColorPalette from '../../Assets/Themes/ColorPalette';
 
 type Form1PreviewPropsType = {
-  setIsFormSubmitted: SetStateType<boolean>;
+  setIsPreviewing: SetStateType<boolean>;
 };
-const Form1Preview: React.FC<Form1PreviewPropsType> = ({
-  setIsFormSubmitted,
-}) => {
+
+const Form1Preview: React.FC<Form1PreviewPropsType> = ({setIsPreviewing}) => {
   const Form1DataFromRedux = useAppSelector(state => state.Form1Data);
 
   const generateHtmlContent = () => {
@@ -162,17 +162,24 @@ const Form1Preview: React.FC<Form1PreviewPropsType> = ({
   );
 
   return (
-    <View style={screenStyles.canvas}>
+    <Modal style={screenStyles.canvas}>
       <View style={screenStyles.headerContents}>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => setIsPreviewing(false)}>
           <AntDesign name="left" size={30} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}}>
-          <Text>Download Pdf</Text>
+        <TouchableOpacity
+          style={screenStyles.downloadButton}
+          onPress={() => {}}>
+          <AntDesign name="download" size={20} color={ColorPalette.white} />
         </TouchableOpacity>
       </View>
-      <WebView originWhitelist={['*']} source={{html: generateHtmlContent()}} />
-    </View>
+      <View style={screenStyles.webViewContainer}>
+        <WebView
+          originWhitelist={['*']}
+          source={{html: generateHtmlContent()}}
+        />
+      </View>
+    </Modal>
   );
 };
 
