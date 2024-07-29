@@ -18,7 +18,7 @@ import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import Form1Preview from '../../Components/Form1Preview';
 import styles from './style';
-import {unsubmitForm1} from '../../Redux/Slices/Form1DataSlice';
+import {lockPagesFrom, unsubmitForm1} from '../../Redux/Slices/Form1DataSlice';
 
 export type PageUnlockDetailsType = {
   1: 'locked' | 'unlocked';
@@ -35,6 +35,9 @@ const Form1Screen = () => {
   );
   const isForm1Submitted = useAppSelector(state => state.Form1Data.isSubmitted);
   const [isPreviewing, setIsPreviewing] = useState(false);
+  const handleSegmentedButtonPress=(page:any)=>{
+    dispatch(lockPagesFrom(page+1))
+  }
   const screenContext = useScreenContext();
   const screenStyles = styles(
     screenContext,
@@ -47,21 +50,25 @@ const Form1Screen = () => {
       value: '1',
       label: 'Personal',
       disabled: pageUnlockDetailsFromRedux[1] === 'locked',
+      onPress:()=>handleSegmentedButtonPress(1)
     },
     {
       value: '2',
       label: 'Address',
       disabled: pageUnlockDetailsFromRedux[2] === 'locked',
+      onPress:()=>handleSegmentedButtonPress(2)
     },
     {
       value: '3',
       label: 'Education',
       disabled: pageUnlockDetailsFromRedux[3] === 'locked',
+      onPress:()=>handleSegmentedButtonPress(3)
     },
     {
       value: '4',
       label: 'Documents',
       disabled: pageUnlockDetailsFromRedux[4] === 'locked',
+      onPress:()=>handleSegmentedButtonPress(4)
     },
   ];
   const handleEditForm = () => {
