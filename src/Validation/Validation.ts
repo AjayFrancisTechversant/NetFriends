@@ -4,23 +4,28 @@ import {validEmail, validPassword} from '../RegExp/RegExp';
 export type ValidationType = 'email' | 'phone' | 'password' | 'required';
 
 const validate = (
-  value: string | undefined|null,
+  value: string | undefined | null,
   validationType?: ValidationType,
 ): string | boolean => {
-  if (value) {
-    if (validationType === 'email') {
+  if (!value) return false;
+
+  switch (validationType) {
+    case 'email':
       return validEmail.test(value) ? true : false;
-    } else if (validationType === 'password') {
+
+    case 'password':
       return validPassword.test(value) ? true : false;
-    } else if (validationType === 'phone') {
+
+    case 'phone':
       return value.length >= 10 ? true : false;
-    } else if (validationType === 'required') {
+
+    case 'required':
       return value.trim() !== '' ? true : false;
-    } else {
+
+    default:
       // Default case for unknown validationType
       return value.trim() !== '' ? true : false;
-    }
-  } else return false;
+  }
 };
 
 export default validate;
