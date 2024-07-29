@@ -147,7 +147,6 @@ const Main: React.FC = () => {
           <GestureHandlerRootView style={{flex: 1}}>
             <PaperProvider>
               <App />
-              {/* <Form1Screen/> */}
             </PaperProvider>
           </GestureHandlerRootView>
         </PersistGate>

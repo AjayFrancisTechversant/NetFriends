@@ -5,10 +5,14 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import MyTextInput from '../MyTextInput';
 import {Checkbox} from 'react-native-paper';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { lockPagesFrom, unlockPage, updateAddressDetails } from '../../Redux/Slices/Form1DataSlice';
-import styles from './style';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
+import {
+  lockPagesFrom,
+  unlockPage,
+  updateAddressDetails,
+} from '../../Redux/Slices/Form1DataSlice';
 import validate from '../../Validation/Validation';
+import styles from './style';
 
 export type AddressDetailsType = {
   currentAddress: string | undefined;
@@ -29,72 +33,52 @@ type Form1Page2PropsType = {
 const Form1Page2: React.FC<Form1Page2PropsType> = ({
   setSegmentedButtonValue,
 }) => {
-  const dispatch=useAppDispatch()
-  const addressDetailsFromRedux= useAppSelector(state=>state.Form1Data.addressDetails)
-  const [addressDetails, setAddressDetails] = useState<AddressDetailsType>(
-    addressDetailsFromRedux
+  const dispatch = useAppDispatch();
+  const addressDetailsFromRedux = useAppSelector(
+    state => state.Form1Data.addressDetails,
   );
   const [errors, setErrors] = useState<Partial<AddressDetailsType>>({});
   const [SACAIsChecked, setSACAIsChecked] = useState(false);
 
-  const saveToRedux = () => {
-    dispatch(updateAddressDetails(addressDetails));
-  };
   const handleGoBack = () => {
     setSegmentedButtonValue('1');
   };
   const handleSave = () => {
     if (validateForm()) {
-      //save to redux logic
-      dispatch(unlockPage(3))
+      dispatch(unlockPage(3));
       setSegmentedButtonValue('3');
-    }else{
-      dispatch(lockPagesFrom(3))
+    } else {
+      dispatch(lockPagesFrom(3));
     }
   };
   const handleSACA = useCallback(() => {
     setSACAIsChecked(prevChecked => {
       const newChecked = !prevChecked;
       if (newChecked) {
-        setAddressDetails(prevDetails => ({
-          ...prevDetails,
-          permanentAddress: prevDetails.currentAddress,
-          permanentCity: prevDetails.currentCity,
-          permanentCountry: prevDetails.currentCountry,
-          permanentPincode: prevDetails.currentPincode,
-          permanentState: prevDetails.currentState,
-        }));
-      } else {
-        setAddressDetails(prevDetails => ({
-          ...prevDetails,
-          permanentAddress: undefined,
-          permanentCity: undefined,
-          permanentState: undefined,
-          permanentCountry: undefined,
-          permanentPincode: undefined,
-        }));
-      }
+        dispatch(
+          updateAddressDetails({
+            ...addressDetailsFromRedux,
+            permanentAddress: addressDetailsFromRedux.currentAddress,
+            permanentCity: addressDetailsFromRedux.currentCity,
+            permanentCountry: addressDetailsFromRedux.currentCountry,
+            permanentPincode: addressDetailsFromRedux.currentPincode,
+            permanentState: addressDetailsFromRedux.currentState,
+          }),
+        );
+      } 
       return newChecked;
     });
-  }, []);
+  }, [addressDetailsFromRedux, dispatch]);
 
   const handleAddressDetailsChange = useCallback(
     (name: keyof AddressDetailsType, value: string) => {
-      setAddressDetails(prevDetails => {
-        const newDetails = {...prevDetails, [name]: value};
-        if (SACAIsChecked && name.startsWith('current')) {
-          const permanentKey = name.replace(
-            'current',
-            'permanent',
-          ) as keyof AddressDetailsType;
-          newDetails[permanentKey] = value;
-        }
-        return newDetails;
-      });
+      setSACAIsChecked(false)
+      dispatch(updateAddressDetails({...addressDetailsFromRedux, [name]: value }
+      ));
     },
-    [SACAIsChecked],
+    [dispatch,addressDetailsFromRedux],
   );
-
+  
   const renderTextInputLabel = (label: string, required: boolean) => (
     <Text>
       {label}
@@ -103,20 +87,21 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
   );
   const validateForm = () => {
     const newErrors: Partial<AddressDetailsType> = {};
-    if (!validate(addressDetails.currentAddress))
+    if (!validate(addressDetailsFromRedux.currentAddress))
       newErrors.currentAddress = 'Required!';
-    if (!validate(addressDetails.currentCity)) newErrors.currentCity = 'Required';
-    if (!validate(addressDetails.currentState))
+    if (!validate(addressDetailsFromRedux.currentCity))
+      newErrors.currentCity = 'Required';
+    if (!validate(addressDetailsFromRedux.currentState))
       newErrors.currentState = 'Required!';
-    if (!validate(addressDetails.currentCountry))
+    if (!validate(addressDetailsFromRedux.currentCountry))
       newErrors.currentCountry = 'Required!';
-    if (!validate(addressDetails.permanentAddress))
+    if (!validate(addressDetailsFromRedux.permanentAddress))
       newErrors.permanentAddress = 'Required!';
-    if (!validate(addressDetails.permanentCity))
+    if (!validate(addressDetailsFromRedux.permanentCity))
       newErrors.permanentCity = 'Required!';
-    if (!validate(addressDetails.permanentState))
+    if (!validate(addressDetailsFromRedux.permanentState))
       newErrors.permanentState = 'Required!';
-    if (!validate(addressDetails.permanentCountry))
+    if (!validate(addressDetailsFromRedux.permanentCountry))
       newErrors.permanentCountry = 'Required!';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -135,13 +120,12 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
         {renderTextInputLabel('Address', true)}
         <MyTextInput
           style={screenStyles.textInput}
-          value={addressDetails.currentAddress}
+          value={addressDetailsFromRedux.currentAddress}
           onChangeText={text =>
             handleAddressDetailsChange('currentAddress', text)
           }
           multiline
           numberOfLines={4}
-          onEndEditing={saveToRedux}
         />
         {errors.currentAddress && (
           <Text style={screenStyles.errorText}>{errors.currentAddress}</Text>
@@ -149,47 +133,43 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
         {renderTextInputLabel('City', true)}
         <MyTextInput
           style={screenStyles.textInput}
-          value={addressDetails.currentCity}
+          value={addressDetailsFromRedux.currentCity}
           onChangeText={text => handleAddressDetailsChange('currentCity', text)}
-          onEndEditing={saveToRedux}
         />
-         {errors.currentCity && (
+        {errors.currentCity && (
           <Text style={screenStyles.errorText}>{errors.currentCity}</Text>
         )}
         {renderTextInputLabel('State', true)}
         <MyTextInput
           style={screenStyles.textInput}
-          value={addressDetails.currentState}
+          value={addressDetailsFromRedux.currentState}
           onChangeText={text =>
             handleAddressDetailsChange('currentState', text)
           }
-          onEndEditing={saveToRedux}
-/>
-         {errors.currentState && (
+        />
+        {errors.currentState && (
           <Text style={screenStyles.errorText}>{errors.currentState}</Text>
         )}
         {renderTextInputLabel('Country', true)}
         <MyTextInput
           style={screenStyles.textInput}
-          value={addressDetails.currentCountry}
+          value={addressDetailsFromRedux.currentCountry}
           onChangeText={text =>
             handleAddressDetailsChange('currentCountry', text)
           }
-          onEndEditing={saveToRedux}
-/>
-         {errors.currentCountry && (
+        />
+        {errors.currentCountry && (
           <Text style={screenStyles.errorText}>{errors.currentCountry}</Text>
         )}
         {renderTextInputLabel('Pincode', false)}
         <MyTextInput
           style={screenStyles.textInput}
           keyboardType="numeric"
-          value={addressDetails.currentPincode}
+          value={addressDetailsFromRedux.currentPincode}
           onChangeText={text =>
             handleAddressDetailsChange('currentPincode', text)
           }
-          onEndEditing={saveToRedux}
-/>
+        />
       </View>
       <Text style={screenStyles.subHeading}>Permanent Address:</Text>
       <View style={screenStyles.commonAddressDetailsCard}>
@@ -206,54 +186,50 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
         <MyTextInput
           style={screenStyles.textInput}
           disabled={SACAIsChecked}
-          value={addressDetails.permanentAddress}
+          value={addressDetailsFromRedux.permanentAddress}
           onChangeText={text =>
             handleAddressDetailsChange('permanentAddress', text)
           }
           multiline
           numberOfLines={4}
-          onEndEditing={saveToRedux}
-/>
-         {errors.permanentAddress && (
+        />
+        {errors.permanentAddress && (
           <Text style={screenStyles.errorText}>{errors.permanentAddress}</Text>
         )}
         {renderTextInputLabel('City', true)}
         <MyTextInput
           style={screenStyles.textInput}
           disabled={SACAIsChecked}
-          value={addressDetails.permanentCity}
+          value={addressDetailsFromRedux.permanentCity}
           onChangeText={text =>
             handleAddressDetailsChange('permanentCity', text)
           }
-          onEndEditing={saveToRedux}
-/>
-         {errors.permanentCity && (
+        />
+        {errors.permanentCity && (
           <Text style={screenStyles.errorText}>{errors.permanentCity}</Text>
         )}
         {renderTextInputLabel('State', true)}
         <MyTextInput
           style={screenStyles.textInput}
           disabled={SACAIsChecked}
-          value={addressDetails.permanentState}
+          value={addressDetailsFromRedux.permanentState}
           onChangeText={text =>
             handleAddressDetailsChange('permanentState', text)
           }
-          onEndEditing={saveToRedux}
-/>
-         {errors.permanentState && (
+        />
+        {errors.permanentState && (
           <Text style={screenStyles.errorText}>{errors.permanentState}</Text>
         )}
         {renderTextInputLabel('Country', true)}
         <MyTextInput
           style={screenStyles.textInput}
           disabled={SACAIsChecked}
-          value={addressDetails.permanentCountry}
+          value={addressDetailsFromRedux.permanentCountry}
           onChangeText={text =>
             handleAddressDetailsChange('permanentCountry', text)
           }
-          onEndEditing={saveToRedux}
-/>
-         {errors.permanentCountry && (
+        />
+        {errors.permanentCountry && (
           <Text style={screenStyles.errorText}>{errors.permanentCountry}</Text>
         )}
         {renderTextInputLabel('Pincode', false)}
@@ -261,12 +237,11 @@ const Form1Page2: React.FC<Form1Page2PropsType> = ({
           style={screenStyles.textInput}
           disabled={SACAIsChecked}
           keyboardType="numeric"
-          value={addressDetails.permanentPincode}
+          value={addressDetailsFromRedux.permanentPincode}
           onChangeText={text =>
             handleAddressDetailsChange('permanentPincode', text)
           }
-          onEndEditing={saveToRedux}
-/>
+        />
       </View>
       <View style={screenStyles.BackSaveButtonContainer}>
         <TouchableOpacity

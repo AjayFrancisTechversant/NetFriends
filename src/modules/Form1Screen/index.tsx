@@ -18,8 +18,8 @@ import ColorPalette from '../../Assets/Themes/ColorPalette';
 import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import Form1Preview from '../../Components/Form1Preview';
-import styles from './style';
 import {clearAllForm1Data, lockPagesFrom, unsubmitForm1} from '../../Redux/Slices/Form1DataSlice';
+import styles from './style';
 
 export type PageUnlockDetailsType = {
   1: 'locked' | 'unlocked';
@@ -82,9 +82,9 @@ const Form1Screen = () => {
       enabled={true}
       behavior="height">
       <ScrollView>
-        {/* <View style={screenStyles.menuButton}>
+        <View style={screenStyles.menuButton}>
             <MenuDrawerButton color={ColorPalette.green} />
-          </View> */}
+          </View>
         <Text style={[screenStyles.heading, screenStyles.bigBoldText]}>
           Form 1
         </Text>
