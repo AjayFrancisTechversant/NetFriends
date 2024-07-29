@@ -8,6 +8,7 @@ import {
 import React, {useState} from 'react';
 import {SegmentedButtons} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import Form1Page1 from '../../Components/Form1Page1';
 import Form1Page2 from '../../Components/Form1Page2';
@@ -18,7 +19,7 @@ import MenuDrawerButton from '../../Components/MenuDrawerButton';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import Form1Preview from '../../Components/Form1Preview';
 import styles from './style';
-import {lockPagesFrom, unsubmitForm1} from '../../Redux/Slices/Form1DataSlice';
+import {clearAllForm1Data, lockPagesFrom, unsubmitForm1} from '../../Redux/Slices/Form1DataSlice';
 
 export type PageUnlockDetailsType = {
   1: 'locked' | 'unlocked';
@@ -124,14 +125,21 @@ const Form1Screen = () => {
               onPress={() => setIsPreviewing(true)}
               style={screenStyles.submitedFormCardButton}>
               <View style={screenStyles.submitedFormCardSubContainer}>
-                <AntDesign name="filetext1" size={30} />
+                <AntDesign name="filetext1" size={40} />
                 <Text>Form1</Text>
               </View>
-              <TouchableOpacity
-                onPress={handleEditForm}
-                style={screenStyles.editFormButton}>
-                <Text>Edit</Text>
-              </TouchableOpacity>
+             <View style={screenStyles.submitedFormCardSubContainer}>
+                <TouchableOpacity
+                  onPress={handleEditForm}
+                  style={screenStyles.editFormButton}>
+                  <AntDesign name='edit' size={30} color={ColorPalette.yellow}/>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={()=>{dispatch(clearAllForm1Data())}}
+                  style={screenStyles.deleteFormButton}>
+                <MaterialCommunityIcons name='delete' size={30} color={ColorPalette.red}/>
+                </TouchableOpacity>
+             </View>
             </TouchableOpacity>
           </>
         )}

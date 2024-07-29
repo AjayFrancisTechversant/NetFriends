@@ -54,7 +54,7 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
   };
 
   const handleSave = () => {
-    if (validateForm()) {
+    if (!validateForm()) {
       // save and finish logic
       Alert.alert(
         'Success',
@@ -62,7 +62,10 @@ const Form1Page4: React.FC<Form1Page4PropsType> = ({
         [
           {
             text: 'Ok',
-            onPress: () => handleSubmit(),
+            onPress: () => {
+              setSegmentedButtonValue('1');
+              handleSubmit();
+            },
           },
         ],
       );

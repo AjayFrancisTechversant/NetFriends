@@ -114,6 +114,9 @@ const Form1DataSlice = createSlice({
     unsubmitForm1(state) {
       state.isSubmitted = false;
     },
+    clearAllForm1Data(state) {
+      return initialState;
+    },
   },
 });
 
@@ -128,6 +131,7 @@ export const {
   lockPagesFrom,
   submitForm1,
   unsubmitForm1,
+  clearAllForm1Data,
 } = Form1DataSlice.actions;
 
 export default Form1DataSlice.reducer;

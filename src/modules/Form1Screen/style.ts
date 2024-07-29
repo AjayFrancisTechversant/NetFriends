@@ -22,17 +22,30 @@ const styles = (
       margin: height * 0.01,
       borderRadius: 10,
       justifyContent: 'space-between',
-      flexDirection:'row',
-      backgroundColor:ColorPalette.lightGray
+      flexDirection: 'row',
+      backgroundColor: ColorPalette.lightGray,
     },
     submitedFormCardSubContainer: {
       flexDirection: 'row',
       alignItems: 'center',
       gap: height * 0.01,
     },
-    submittedText:{margin:height*0.01},
-    editFormButton:{
-      backgroundColor:ColorPalette.yellow,justifyContent:'center',padding:height*0.02,borderRadius:10
-    }
+    submittedText: {margin: height * 0.01},
+    deleteFormButton: {
+      backgroundColor: ColorPalette.white,
+      justifyContent: 'center',
+      padding: height * 0.01,
+      borderRadius: 10,
+    },
+    editFormButton: {
+      backgroundColor: ColorPalette.white,
+      justifyContent: 'center',
+      padding: height * 0.01,
+      borderRadius: 10,
+    },
+    whiteText:{
+      color:ColorPalette.white
+    },
+    
   });
 export default styles;
