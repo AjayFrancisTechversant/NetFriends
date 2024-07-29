@@ -34,9 +34,7 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
   const personalDetailsFromRedux = useAppSelector(
     state => state.Form1Data.personalDetails,
   );
-  const [personalDetails, setPersonalDetails] = useState<PersonalDetailsType>(
-    personalDetailsFromRedux,
-  );
+
   const [errors, setErrors] = useState<Partial<PersonalDetailsType>>({});
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
@@ -45,20 +43,19 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
       name: keyof PersonalDetailsType,
       value: string | Date | number | undefined,
     ) => {
-      setPersonalDetails(prevDetails => {
-        const updatedDetails = {...prevDetails, [name]: value};
-        if (name === 'dob') {
-          const age = moment().diff(value as Date, 'years');
-          return {...updatedDetails, age};
-        }
-        return updatedDetails;
-      });
+      const updatedDetails = {...personalDetailsFromRedux, [name]: value};
+      if (name === 'dob') {
+        const age = moment().diff(value as Date, 'years');
+        dispatch(updatePersonalDetails({...updatedDetails, age}));
+      } else {
+        dispatch(updatePersonalDetails(updatedDetails));
+      }
     },
-    [],
+    [dispatch, personalDetailsFromRedux],
   );
-  const saveToRedux = () => {
-    dispatch(updatePersonalDetails(personalDetails));
-  };
+
+console.log(personalDetailsFromRedux);
+
   const handleSave = () => {
     if (validateForm()) {
       dispatch(unlockPage(2));
@@ -70,11 +67,11 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
 
   const validateForm = () => {
     const newErrors: Partial<PersonalDetailsType> = {};
-    if (!validate(personalDetails.name)) newErrors.name = 'Required!';
-    if (!validate(personalDetails.email, 'email')) {
+    if (!validate(personalDetailsFromRedux.name)) newErrors.name = 'Required!';
+    if (!validate(personalDetailsFromRedux.email, 'email')) {
       newErrors.email = 'Invalid!';
     } 
-    if (!validate(personalDetails.phone,'phone')) {
+    if (!validate(personalDetailsFromRedux.phone,'phone')) {
       newErrors.phone = 'Invalid!';
     }
     setErrors(newErrors);
@@ -102,9 +99,8 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
         {renderTextInputLabel('Name', true)}
         <MyTextInput
           style={screenStyles.textInput}
-          value={personalDetails.name}
+          value={personalDetailsFromRedux.name}
           onChangeText={text => handlePersonalDetailsChange('name', text)}
-          onEndEditing={saveToRedux}
         />
         {errors.name && (
           <Text style={screenStyles.errorText}>{errors.name}</Text>
@@ -112,10 +108,9 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
         {renderTextInputLabel('Email', true)}
         <MyTextInput
           style={screenStyles.textInput}
-          value={personalDetails.email}
+          value={personalDetailsFromRedux.email}
           onChangeText={text => handlePersonalDetailsChange('email', text)}
           keyboardType="email-address"
-          onEndEditing={saveToRedux}
         />
         {errors.email && (
           <Text style={screenStyles.errorText}>{errors.email}</Text>
@@ -123,10 +118,9 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
         {renderTextInputLabel('Phone Number', true)}
         <MyTextInput
           style={screenStyles.textInput}
-          value={personalDetails.phone}
+          value={personalDetailsFromRedux.phone}
           onChangeText={text => handlePersonalDetailsChange('phone', text)}
           keyboardType="numeric"
-          onEndEditing={saveToRedux}
         />
         {errors.phone && (
           <Text style={screenStyles.errorText}>{errors.phone}</Text>
@@ -135,13 +129,13 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
         <MyTextInput
           style={[screenStyles.textInput]}
           label={
-            personalDetails.dob
-              ? moment(personalDetails.dob).format('DD/MM/YY')
+            personalDetailsFromRedux.dob
+              ? moment(personalDetailsFromRedux.dob).format('DD/MM/YY')
               : 'Please Pick a date'
           }
           disabled
           right={
-            !personalDetails.dob ? (
+            !personalDetailsFromRedux.dob ? (
               <TextInput.Icon
                 icon="calendar"
                 color={ColorPalette.green}
@@ -158,19 +152,19 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
                 onPress={() => {
                   handlePersonalDetailsChange('dob', undefined);
                   dispatch(
-                    updatePersonalDetails({...personalDetails, dob: undefined,age:undefined}),
+                    updatePersonalDetails({...personalDetailsFromRedux, dob: undefined,age:undefined}),
                   );
                 }}
               />
             )
           }
         />
-        {personalDetails.dob && (
+        {personalDetailsFromRedux.dob && (
           <>
             {renderTextInputLabel('Age', false)}
             <MyTextInput
               style={screenStyles.textInput}
-              value={personalDetails.age?.toString()}
+              value={personalDetailsFromRedux.age?.toString()}
               disabled
             />
           </>
@@ -190,7 +184,7 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
           const age = moment().diff(date, 'years');
           handlePersonalDetailsChange('dob', date);
           handlePersonalDetailsChange('age', age);
-          dispatch(updatePersonalDetails({...personalDetails, dob: date, age}));
+          dispatch(updatePersonalDetails({...personalDetailsFromRedux, dob: date, age}));
         }}
         onCancel={() => {
           setIsDatePickerOpen(false);
