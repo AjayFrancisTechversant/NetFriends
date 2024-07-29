@@ -158,7 +158,7 @@ const Form1Page1: React.FC<Form1Page1PropsType> = ({
                 onPress={() => {
                   handlePersonalDetailsChange('dob', undefined);
                   dispatch(
-                    updatePersonalDetails({...personalDetails, dob: undefined}),
+                    updatePersonalDetails({...personalDetails, dob: undefined,age:undefined}),
                   );
                 }}
               />

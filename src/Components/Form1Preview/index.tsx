@@ -1,5 +1,4 @@
 import React from 'react';
-import RNFS from 'react-native-fs'
 import {WebView} from 'react-native-webview';
 import {Alert, Modal, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -249,14 +248,11 @@ const Form1Preview: React.FC<Form1PreviewPropsType> = ({setIsPreviewing}) => {
     let options = {
       html: generateHtmlContent(),
       fileName: 'form1',
-      directory: RNFS.DownloadDirectoryPath,
+      directory: 'Documents',
     };
-
-    let file = await RNHTMLtoPDF.convert(options)
-    console.log(file);
-    Alert.alert(file.filePath);
+    await RNHTMLtoPDF.convert(options)
+    Alert.alert('File saved');
   }
-
 
   const screenContext = useScreenContext();
   const screenStyles = styles(
