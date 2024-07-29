@@ -36,6 +36,7 @@ import Crashlytics from '../../../../modules/Crashlytics';
 import LineSlider from '../../../../Components/LineSlider';
 import LoadersScreen from '../../../../modules/LoadersScreen';
 import Form1Screen from '../../../../modules/Form1Screen';
+import ElementDropdown from '../../../../modules/ElementDropdown';
 
 const Drawer = createDrawerNavigator();
 
@@ -101,6 +102,15 @@ const HomeDrawerStack = () => {
         }}
         name="RNPaper"
         component={RNPaper}
+      />
+      <Drawer.Screen
+        options={{title:"Element Dropdown",
+          drawerIcon: () => (
+            <MaterialCommunityIcons name="form-dropdown" color={ColorPalette.green} size={20} />
+          ),
+        }}
+        name="elementDropdown"
+        component={ElementDropdown}
       />
       <Drawer.Screen
         options={{title:"ClipBoard",

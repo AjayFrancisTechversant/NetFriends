@@ -54,6 +54,7 @@ const App: React.FC = () => {
                 comments: 'comments',
                 spotify: 'spotify',
                 RNPaper: 'rnpaper',
+                elementDropdown:'elementdropdown',
                 clipBoard: 'clipboard',
                 customLineSlider: 'lineslider',
                 loadersScreen: 'loadersscreen',
