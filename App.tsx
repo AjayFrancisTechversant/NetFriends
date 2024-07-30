@@ -19,6 +19,7 @@ import HomeTabStack from './src/Services/Navigation/Stacks/HomeTabStack';
 import {ScreenContextProvider} from './src/Contexts/ScreenContext';
 import SplashScreen from './src/Components/SplashScreen';
 import Form1Screen from './src/modules/Form1Screen'
+import ElementDropdown from './src/modules/ElementDropdown';
 
 // Request permissions for notifications
 PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);

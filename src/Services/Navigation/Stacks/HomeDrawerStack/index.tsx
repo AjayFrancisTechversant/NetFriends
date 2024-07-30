@@ -104,7 +104,7 @@ const HomeDrawerStack = () => {
         component={RNPaper}
       />
       <Drawer.Screen
-        options={{title:"Element Dropdown",
+        options={{title:"Country/States API",
           drawerIcon: () => (
             <MaterialCommunityIcons name="form-dropdown" color={ColorPalette.green} size={20} />
           ),
