@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, LayoutAnimation} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import {Dropdown, MultiSelect} from 'react-native-element-dropdown';
@@ -79,6 +79,7 @@ const ElementDropdown = () => {
         placeholder={'Select Country'}
         searchPlaceholder="Search..."
         onChange={item => {
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
           setCountryId(item.id);
           fetchStates(item.id);
         }}
