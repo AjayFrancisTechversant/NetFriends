@@ -1,7 +1,7 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {useScreenContext} from '../../Contexts/ScreenContext';
-import {Dropdown} from 'react-native-element-dropdown';
+import {Dropdown, MultiSelect} from 'react-native-element-dropdown';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -16,7 +16,7 @@ const ElementDropdown = () => {
   const [statesList, setStatesList] = useState(StaticVariables.EMPTY_ARRAY);
   const [CountryId, setCountryId] = useState<string | null>(null);
   const [stateId, setStateId] = useState<string | null>(null);
-
+  const [selected, setSelected] = useState(StaticVariables.EMPTY_ARRAY);
   const fetchCountries = async () => {
     try {
       let response = await axios.get(
@@ -120,6 +120,28 @@ const ElementDropdown = () => {
           />
         </>
       )}
+      <Text style={screenStyles.subheading}>Multiselect example</Text>
+      <MultiSelect
+        style={screenStyles.dropdown}
+        inputSearchStyle={screenStyles.inputSearchStyle}
+        selectedTextStyle={screenStyles.selectedTextStyle}
+        iconStyle={screenStyles.iconStyle}
+        search
+      activeColor={ColorPalette.green}
+        data={countryList}
+        labelField="name"
+        valueField="id"
+        placeholder="Select item"
+        searchPlaceholder="Search..."
+        value={selected}
+        onChange={item => {
+          setSelected(item);
+        }}
+        renderLeftIcon={() => (
+          <AntDesign color="black" name="Safety" size={20} />
+        )}
+        selectedStyle={screenStyles.selectedStyle}
+      />
     </View>
   );
 };

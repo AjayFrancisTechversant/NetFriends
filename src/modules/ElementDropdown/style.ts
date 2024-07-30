@@ -32,7 +32,13 @@ const styles = (
       shadowRadius: 1.41,
       elevation: 2,
     },
-    closeButton:{backgroundColor:ColorPalette.lightGray,justifyContent:'center',alignItems:'center',borderRadius:100,padding:height*0.01},
+    closeButton: {
+      backgroundColor: ColorPalette.lightGray,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 100,
+      padding: height * 0.01,
+    },
     icon: {
       marginRight: 5,
     },
@@ -51,9 +57,12 @@ const styles = (
       justifyContent: 'space-between',
       alignItems: 'center',
     },
-    stateDropdowntextItem:{
+    stateDropdowntextItem: {
       flex: 1,
       fontSize: 16,
-    }
+    },selectedTextStyle:{color:ColorPalette.green},
+    selectedStyle: {
+      borderRadius: 12,
+    },
   });
 export default styles;
