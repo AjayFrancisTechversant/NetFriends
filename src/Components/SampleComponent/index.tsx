@@ -1,95 +1,105 @@
-import {View, Text, TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import BackgroundService from 'react-native-background-actions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  LayoutAnimation,
+  UIManager,
+  Platform,
+  ScrollView,
+} from 'react-native';
 
-const Sam = () => {
-  const [timeLeft, setTimeLeft] = useState<number | null>(null);
+// Enable LayoutAnimation on Android
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
-  useEffect(() => {
-    checkBackgroundService();
-    }, []);
-    const checkBackgroundService = async () => {
-      const isRunning = await BackgroundService.isRunning();
-      if (isRunning) {
-        resumeTimer();
-      }
-    };
-    
-  const sleep = (time: number) =>
-    new Promise<void>(resolve => setTimeout(() => resolve(), time));
+interface Item {
+  id: number;
+  title: string;
+  content: string;
+}
 
-  const veryIntensiveTask = async (taskDataArguments: any) => {
-    const {delay} = taskDataArguments;
-    await new Promise(async resolve => {
-      for (let i = 20; i >= 0; i--) {
-        setTimeLeft( i );
-        saveToAsyncStorage(i);
-        await BackgroundService.updateNotification({taskDesc: `${i}`});
-        await sleep(delay);
-      }
-      await BackgroundService.stop();
-      await sleep(delay);
-    });
-  };
+const items: Item[] = [
+  { id: 1, title: 'Item 1', content: 'This is the content for Item 1.' },
+  { id: 2, title: 'Item 2', content: 'This is the content for Item 2.' },
+  { id: 3, title: 'Item 3', content: 'This is the content for Item 3.' },
+];
 
-  const options = {
-    taskName: 'Example',
-    taskTitle: 'ExampleTask title',
-    taskDesc: 'ExampleTask description',
-    taskIcon: {
-      name: 'ic_launcher',
-      type: 'mipmap',
-    },
-    color: '#ff00ff',
-    linkingURI: 'myapp://loadersscreen', // See Deep Linking for more info
-    parameters: {
-      delay: 1000,
-    },
-  };
+const AnimatedList: React.FC = () => {
+  const [expandedItem, setExpandedItem] = useState<number | null>(null);
 
-  const handlePress = async () => {
-    await BackgroundService.stop();
-    await BackgroundService.start(veryIntensiveTask, options);
-  };
-
-  const resumeTimer = async () => {
-    setInterval(async () => {
-      await loadFromAsyncStorage();
-    }, 1000);
-  };
-  console.log(timeLeft);
-  
-  const saveToAsyncStorage = async (timeLeft: number) => {
-    try {
-      await AsyncStorage.setItem('RunTimeBeforeKilling', timeLeft.toString());
-    } catch (error) {
-      console.error('Error saving data into Async:', error);
-    }
-  };
-
-  const loadFromAsyncStorage = async () => {
-    try {
-      const stringValue = await AsyncStorage.getItem('RunTimeBeforeKilling');
-      if (stringValue !== null) {
-        const remainingTime = parseInt(stringValue, 10);
-        setTimeLeft(remainingTime);
-      }
-    } catch (error) {
-      console.error('Error loading data from Async:', error);
-    }
+  const toggleExpand = (id: number) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setExpandedItem(expandedItem === id ? null : id);
   };
 
   return (
-    <View>
-      <TouchableOpacity
-        style={{margin: 20, backgroundColor: 'yellow'}}
-        onPress={handlePress}>
-        <Text>Start Background action</Text>
-      </TouchableOpacity>
-      <Text>{timeLeft}</Text>
-    </View>
+    <ScrollView contentContainerStyle={styles.container}>
+      {items.map(item => (
+        <View key={item.id} style={styles.itemContainer}>
+          <TouchableOpacity
+            style={styles.header}
+            onPress={() => toggleExpand(item.id)}
+          >
+            <Text style={styles.headerText}>{item.title}</Text>
+          </TouchableOpacity>
+          <View
+            style={[
+              styles.contentContainer,
+              expandedItem === item.id ? styles.expanded : styles.collapsed,
+            ]}
+          >
+            <Text style={styles.contentText}>{item.content}</Text>
+          </View>
+        </View>
+      ))}
+    </ScrollView>
   );
 };
 
-export default Sam;
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+  },
+  itemContainer: {
+    marginBottom: 10,
+    borderRadius: 8,
+    overflow: 'hidden',
+    backgroundColor: '#fff',
+    elevation: 2, // For Android shadow
+    shadowColor: '#000', // For iOS shadow
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  header: {
+    padding: 15,
+    backgroundColor: '#007bff',
+  },
+  headerText: {
+    color: '#fff',
+    fontSize: 18,
+  },
+  contentContainer: {
+    overflow: 'hidden',
+    backgroundColor: '#f1f1f1',
+  },
+  expanded: {
+    height: 'auto',
+    padding: 15,
+  },
+  collapsed: {
+    height: 0,
+    padding: 0,
+  },
+  contentText: {
+    fontSize: 16,
+  },
+});
+
+export default AnimatedList;
