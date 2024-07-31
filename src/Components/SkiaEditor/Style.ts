@@ -68,5 +68,6 @@ const styles = (screenContext:ScreenContextType, width:number, height:number) =>
       margin: height * 0.02,
     },
     OKText: {color: ColorPalette.white},
+    watermarkToggleButton:{}
   });
 export default styles;

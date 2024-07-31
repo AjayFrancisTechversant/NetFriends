@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState, useCallback, useRef} from 'react';
+import React, {useState, useCallback, useRef, useEffect} from 'react';
 import {
   Canvas,
   Group,
@@ -34,7 +34,10 @@ import {useScreenContext} from '../../Contexts/ScreenContext';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
 import StaticVariables from '../../Preferences/StaticVariables';
 import {SetStateType} from '../../Types/Types';
+import CanvasWatermarkComponent from '../CanvasWatermarkComponent';
 import styles from './style';
+import GetLocation, {Location} from 'react-native-get-location';
+import axios from 'axios';
 
 type SkiaEditorPropsType = {
   setIsEditing: SetStateType<boolean>;
@@ -52,6 +55,9 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
   const pathsRef = useRef(paths);
   const [isDrawing, setIsDrawing] = useState(false);
   const [isUploadLoading, setIsUploadLoading] = useState(false);
+  const [isWatermarkEnabled, setIsWatermarkEnabled] = useState(false);
+  const [region, setRegion] = useState(StaticVariables.EMPTY_STRING);
+  const [isLocationFetchLoading, setIsLocationFetchedLoading] = useState(true);
   const canvasRef = useCanvasRef();
   const [showColorPickerModal, setShowColorPickerModal] = useState(false);
   const [penColor, setPenColor] = useState(ColorPalette.black);
@@ -67,6 +73,9 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
     ColorPalette.gold,
     ColorPalette.gray,
   ];
+  useEffect(() => {
+    findCurrentRegion();
+  }, []);
 
   const onSelectColor = ({hex}: returnedResults) => {
     setPenColor(hex);
@@ -99,7 +108,8 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
     setIsDrawing(true);
   };
   const handleRotate = () => {
-    setRotateValue(prevRotateValue => prevRotateValue + 90);  };
+    setRotateValue(prevRotateValue => prevRotateValue + 90);
+  };
   const clearLastPath = useCallback(() => {
     setPaths(prevPaths => {
       const newPaths = prevPaths.slice(0, -1);
@@ -157,6 +167,42 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
   const handleSave = async () => {
     await uploadToCloud();
   };
+  const handleWatermarkButton = () => {
+    setIsWatermarkEnabled(!isWatermarkEnabled);
+  };
+  const findCurrentRegion = async () => {
+    const loc = await findCurrentLocation();
+    if (loc) {
+      fetchRegion(loc);
+    }
+  };
+
+  const findCurrentLocation = async () => {
+    try {
+      const loc = await GetLocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 60000,
+      });
+      return loc;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchRegion = async (loc: Location) => {
+    try {
+      const response = await axios.get(
+        `https://api.opencagedata.com/geocode/v1/json?q=${loc.latitude}%2C${loc.longitude}&key=dea3c45cdb0e4a4ea8c1ee183cbe55d6`,
+      );
+      setRegion(
+        response.data.results[0].components.city +
+          ', ' +
+          response.data.results[0].components.state,
+      );
+      setIsLocationFetchedLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <View style={screenStyles.canvas}>
@@ -176,7 +222,12 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
         <View style={[screenStyles.canvasSkiaContainer]}>
           {isDrawing ? (
             <GestureDetector gesture={gestureDraw}>
-              <Canvas ref={canvasRef} style={[screenStyles.canvasSkia,{transform:[{rotate:`${rotateValue}deg`}]}]}>
+              <Canvas
+                ref={canvasRef}
+                style={[
+                  screenStyles.canvasSkia,
+                  {transform: [{rotate: `${rotateValue}deg`}]},
+                ]}>
                 <Group>
                   {image && (
                     <Image
@@ -209,7 +260,12 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
               </Canvas>
             </GestureDetector>
           ) : (
-            <Canvas ref={canvasRef} style={[screenStyles.canvasSkia,{transform:[{rotate:`${rotateValue}deg`}]}]}>
+            <Canvas
+              ref={canvasRef}
+              style={[
+                screenStyles.canvasSkia,
+                {transform: [{rotate: `${rotateValue}deg`}]},
+              ]}>
               <Group>
                 {image && (
                   <Image
@@ -238,6 +294,9 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
                     color={p.color}
                   />
                 ))}
+                {isWatermarkEnabled && (
+                  <CanvasWatermarkComponent region={region} canvasHeight={screenContext.windowWidth*0.85} canvasWidth={screenContext.windowWidth*0.85}/>
+                )}
               </Group>
             </Canvas>
           )}
@@ -289,6 +348,22 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
                   color={ColorPalette.green}
                 />
               </TouchableOpacity>
+              {/* /////////////////////////////////// */}
+              {!isLocationFetchLoading ? (
+                <TouchableOpacity onPress={handleWatermarkButton}>
+                  <MaterialCommunityIcons
+                    name="watermark"
+                    size={30}
+                    color={
+                      isWatermarkEnabled
+                        ? ColorPalette.green
+                        : ColorPalette.gray
+                    }
+                  />
+                </TouchableOpacity>
+              ) : (
+                <ActivityIndicator />
+              )}
             </>
           )}
         </View>
