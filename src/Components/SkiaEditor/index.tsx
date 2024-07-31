@@ -211,7 +211,10 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
           <AntDesign name="left" size={30} color={ColorPalette.green} />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleSave}>
-          {isUploadLoading ? (
+          {isDrawing?null
+          :
+          
+          isUploadLoading ? (
             <ActivityIndicator color={ColorPalette.green} size={30} />
           ) : (
             <Entypo name="save" size={30} color={ColorPalette.green} />
@@ -260,13 +263,13 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
               </Canvas>
             </GestureDetector>
           ) : (
-            <Canvas
-              ref={canvasRef}
-              style={[
-                screenStyles.canvasSkia,
-                {transform: [{rotate: `${rotateValue}deg`}]},
-              ]}>
-              <Group>
+            <Canvas ref={canvasRef} style={[screenStyles.canvasSkia]}>
+              <Group
+                origin={{
+                  x: (screenContext.windowWidth * 0.85) / 2,
+                  y: (screenContext.windowWidth * 0.85) / 2,
+                }}
+                transform={[{rotate: (rotateValue * Math.PI) / 180}]}>
                 {image && (
                   <Image
                     image={image}
@@ -294,10 +297,14 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
                     color={p.color}
                   />
                 ))}
-                {isWatermarkEnabled && (
-                  <CanvasWatermarkComponent region={region} canvasHeight={screenContext.windowWidth*0.85} canvasWidth={screenContext.windowWidth*0.85}/>
-                )}
               </Group>
+                {isWatermarkEnabled && (
+                  <CanvasWatermarkComponent
+                    region={region}
+                    canvasHeight={screenContext.windowWidth * 0.85}
+                    canvasWidth={screenContext.windowWidth * 0.85}
+                  />
+                )}
             </Canvas>
           )}
         </View>
