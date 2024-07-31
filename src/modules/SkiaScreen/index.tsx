@@ -57,9 +57,9 @@ const SkiaScreen: React.FC = () => {
       ) : (
         <View>
           <Text style={screenStyles.heading}>Skia Editor</Text>
-          <View style={screenStyles.menuButton}>
+          {/* <View style={screenStyles.menuButton}>
             <MenuDrawerButton color={ColorPalette.green} />
-          </View>
+          </View> */}
           <View style={screenStyles.plusButtonAndMyProjectsButtonContainer}>
             <View style={screenStyles.plusButtonImageContainer}>
               <TouchableOpacity onPress={handleOpenButton}>

@@ -18,6 +18,7 @@ import {
 import {runOnJS} from 'react-native-reanimated';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -54,6 +55,7 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
   const canvasRef = useCanvasRef();
   const [showColorPickerModal, setShowColorPickerModal] = useState(false);
   const [penColor, setPenColor] = useState(ColorPalette.black);
+  const [rotateValue, setRotateValue] = useState(0);
   const swatchColors = [
     ColorPalette.white,
     ColorPalette.black,
@@ -96,6 +98,8 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
   const handlePenButton = () => {
     setIsDrawing(true);
   };
+  const handleRotate = () => {
+    setRotateValue(prevRotateValue => prevRotateValue + 90);  };
   const clearLastPath = useCallback(() => {
     setPaths(prevPaths => {
       const newPaths = prevPaths.slice(0, -1);
@@ -172,7 +176,7 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
         <View style={[screenStyles.canvasSkiaContainer]}>
           {isDrawing ? (
             <GestureDetector gesture={gestureDraw}>
-              <Canvas ref={canvasRef} style={screenStyles.canvasSkia}>
+              <Canvas ref={canvasRef} style={[screenStyles.canvasSkia,{transform:[{rotate:`${rotateValue}deg`}]}]}>
                 <Group>
                   {image && (
                     <Image
@@ -205,7 +209,7 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
               </Canvas>
             </GestureDetector>
           ) : (
-            <Canvas ref={canvasRef} style={screenStyles.canvasSkia}>
+            <Canvas ref={canvasRef} style={[screenStyles.canvasSkia,{transform:[{rotate:`${rotateValue}deg`}]}]}>
               <Group>
                 {image && (
                   <Image
@@ -277,6 +281,13 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
             <>
               <TouchableOpacity onPress={handlePenButton}>
                 <FontAwesome5 name="pen" size={30} color={ColorPalette.green} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleRotate}>
+                <FontAwesome
+                  name="rotate-right"
+                  size={30}
+                  color={ColorPalette.green}
+                />
               </TouchableOpacity>
             </>
           )}
