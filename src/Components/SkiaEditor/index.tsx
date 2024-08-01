@@ -355,7 +355,6 @@ const SkiaEditor: React.FC<SkiaEditorPropsType> = ({setIsEditing, image}) => {
                   color={ColorPalette.green}
                 />
               </TouchableOpacity>
-              {/* /////////////////////////////////// */}
               {!isLocationFetchLoading ? (
                 <TouchableOpacity onPress={handleWatermarkButton}>
                   <MaterialCommunityIcons
