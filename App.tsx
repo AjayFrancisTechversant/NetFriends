@@ -20,7 +20,6 @@ import {ScreenContextProvider} from './src/Contexts/ScreenContext';
 import SplashScreen from './src/Components/SplashScreen';
 
 
-
 // Request permissions for notifications
 PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
 
@@ -50,12 +49,14 @@ const App: React.FC = () => {
             homeDrawerStack: {
               screens: {
                 homeScreen: 'home',
-                form1:'form1',
+                form1: 'form1',
                 videoPlayer: 'videoplayer',
                 comments: 'comments',
                 spotify: 'spotify',
                 RNPaper: 'rnpaper',
-                elementDropdown:'elementdropdown',
+                RNLocalize: 'rnlocalize',
+                RNAnimatable:'rnanimatable',
+                elementDropdown: 'elementdropdown',
                 clipBoard: 'clipboard',
                 customLineSlider: 'lineslider',
                 loadersScreen: 'loadersscreen',
@@ -69,11 +70,11 @@ const App: React.FC = () => {
                 webView: 'webview',
                 PDFReader: 'pdfreader',
                 ECharts: 'echarts',
-                giftedCharts: 'giftedcharts', 
+                giftedCharts: 'giftedcharts',
                 booksFirestore: 'booksfirestore',
                 booksRealtimeDatabase: 'booksrealtimedatabase',
-                imageUploader: 'imageuploader', 
-                RNElements: 'rnelements', 
+                imageUploader: 'imageuploader',
+                RNElements: 'rnelements',
                 locator: 'locator',
                 crashlytics: 'crashlytics',
                 reanimatedCarousel: 'reanimatedcarousel',

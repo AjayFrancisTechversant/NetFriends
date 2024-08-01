@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import OfflineDBFetch from '../../../../modules/OfflineDBFetch';
@@ -37,6 +38,8 @@ import LineSlider from '../../../../Components/LineSlider';
 import LoadersScreen from '../../../../modules/LoadersScreen';
 import Form1Screen from '../../../../modules/Form1Screen';
 import ElementDropdown from '../../../../modules/ElementDropdown';
+import RNLocalize from '../../../../modules/RNLocalize';
+import RNAnimatable from '../../../../modules/RNAnimatable';
 
 const Drawer = createDrawerNavigator();
 
@@ -102,6 +105,24 @@ const HomeDrawerStack = () => {
         }}
         name="RNPaper"
         component={RNPaper}
+      />
+      <Drawer.Screen
+        options={{title:"RN Localize",
+          drawerIcon: () => (
+            <FontAwesome name="globe" color={ColorPalette.green} size={20} />
+          ),
+        }}
+        name="RNLocalize"
+        component={RNLocalize}
+      />
+      <Drawer.Screen
+        options={{title:"RN Animatable",
+          drawerIcon: () => (
+            <MaterialIcons name="animation" color={ColorPalette.green} size={20} />
+          ),
+        }}
+        name="RNAnimatable"
+        component={RNAnimatable}
       />
       <Drawer.Screen
         options={{title:"Country/States API",
