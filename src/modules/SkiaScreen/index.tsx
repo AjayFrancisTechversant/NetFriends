@@ -1,5 +1,6 @@
 import {View, Text, Alert} from 'react-native';
 import React, {useState} from 'react';
+import auth from '@react-native-firebase/auth';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ImagePicker, {Image} from 'react-native-image-crop-picker';
@@ -21,6 +22,8 @@ const SkiaScreen: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isMyProjectsOpen, setIsMyProjectsOpen] = useState(false);
   const [image, setImage] = useState<SkImage | null>(null);
+
+
 
   const handleOpenButton = async () => {
     await openImageFromGallery();
@@ -57,9 +60,9 @@ const SkiaScreen: React.FC = () => {
       ) : (
         <View>
           <Text style={screenStyles.heading}>Skia Editor</Text>
-          {/* <View style={screenStyles.menuButton}>
+          <View style={screenStyles.menuButton}>
             <MenuDrawerButton color={ColorPalette.green} />
-          </View> */}
+          </View>
           <View style={screenStyles.plusButtonAndMyProjectsButtonContainer}>
             <View style={screenStyles.plusButtonImageContainer}>
               <TouchableOpacity onPress={handleOpenButton}>

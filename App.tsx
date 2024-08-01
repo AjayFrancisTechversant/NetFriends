@@ -18,8 +18,7 @@ import {persistor, store} from './src/Redux/Store/Store';
 import HomeTabStack from './src/Services/Navigation/Stacks/HomeTabStack';
 import {ScreenContextProvider} from './src/Contexts/ScreenContext';
 import SplashScreen from './src/Components/SplashScreen';
-import SkiaEditor from './src/Components/SkiaEditor';
-import SkiaScreen from './src/modules/SkiaScreen';
+
 
 
 // Request permissions for notifications
@@ -149,8 +148,7 @@ const Main: React.FC = () => {
         <PersistGate loading={null} persistor={persistor}>
           <GestureHandlerRootView style={{flex: 1}}>
             <PaperProvider>
-              {/* <App /> */}
-              <SkiaScreen/>
+              <App />
             </PaperProvider>
           </GestureHandlerRootView>
         </PersistGate>
