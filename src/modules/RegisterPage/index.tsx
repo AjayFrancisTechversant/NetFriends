@@ -6,8 +6,8 @@ import auth from '@react-native-firebase/auth';
 import {useScreenContext} from '../../Contexts/ScreenContext';
 import StaticVariables from '../../Preferences/StaticVariables';
 import ColorPalette from '../../Assets/Themes/ColorPalette';
-import styles from './style';
 import {useNavigation} from '@react-navigation/native';
+import styles from './style';
 
 const RegisterPage: React.FC = () => {
   const navigation = useNavigation();
