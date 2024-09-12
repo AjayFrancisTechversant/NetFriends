@@ -40,12 +40,14 @@ import Form1Screen from '../../../../modules/Form1Screen';
 import ElementDropdown from '../../../../modules/ElementDropdown';
 import RNLocalize from '../../../../modules/RNLocalize';
 import RNAnimatable from '../../../../modules/RNAnimatable';
+import BottomSheetScreen from '../../../../modules/BottomSheetScreen';
 
 const Drawer = createDrawerNavigator();
 
 const HomeDrawerStack = () => {
   return (
     <Drawer.Navigator
+    initialRouteName='BottomSheetScreen'
       screenOptions={{
         drawerPosition: 'left',
         headerShown: false,
@@ -69,6 +71,15 @@ const HomeDrawerStack = () => {
         }}
         name="form1"
         component={Form1Screen}
+      />
+      <Drawer.Screen
+        options={{title:"Bottom Sheet",
+          drawerIcon: () => (
+            <MaterialCommunityIcons name="dock-bottom" color={ColorPalette.green} size={20} />
+          ),
+        }}
+        name="BottomSheetScreen"
+        component={BottomSheetScreen}
       />
       <Drawer.Screen
         options={{title:"Video Player",
